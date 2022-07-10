@@ -1,0 +1,29 @@
+{
+  "name": "subaton-timer-bot",
+  "version": "0.1.0",
+  "description": "Subaton / Euroton donation timer bot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable",
+    "release": "standard-version"
+  },
+  "author": "daZepelin",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.18",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1",
+    "pinst": "^3.0.0"
+  }
+}
