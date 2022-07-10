@@ -1,6 +1,6 @@
 // Set the date we're counting down to
 var countDownDate = new Date();
-var paused = false
+var paused = false;
 
 const timerSocket = io();
 
@@ -13,9 +13,8 @@ var x = setInterval(function () {
     // Get today's date and time
     var now = new Date().getTime();
 
-    console.log('paused', paused)
     if (paused && paused == 'true') {
-        countDownDate = new Date(countDownDate.getTime() + 1000)
+        countDownDate = new Date(countDownDate.getTime() + 1000);
     }
     // Find the distance between now and the count down date
     var distance = countDownDate.getTime() - now;
@@ -27,22 +26,29 @@ var x = setInterval(function () {
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     // Output the result in an element with id="demo"
-    document.getElementById('demo').innerHTML = (days > 0 ? days + 'd ' : '') + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+    document.getElementById('demo').innerHTML =
+        (days > 0 ? days + 'd ' : '') + hours + 'h ' + minutes + 'm ' + seconds + 's ';
 
     // If the count down is over, write some text
     if (distance < 0) {
         // clearInterval(x);
         document.getElementById('demo').innerHTML = 'PABAIGA';
     }
-
 }, 1000);
 
 timerSocket.on('refreshTimer', (e) => {
     var now = new Date().getTime();
     countDownDate = new Date(now + parseInt(e.time) * 1000);
-})
+});
 
 timerSocket.on('setPaused', (e) => {
+    paused = e;
+});
+
+timerSocket.on('open', (e) => {
+    console.log('open', e)
+    // paused = e;
+});
 
 timerSocket.on('setColors', (e) => {
     console.log(e);

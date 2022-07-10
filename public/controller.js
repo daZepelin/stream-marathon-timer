@@ -3,26 +3,19 @@ const jwt = '';
 
 // STREAMLABS
 const socketToken = '';
-const streamlabs = io(`https://sockets.streamlabs.com?token=${socketToken}`, { transports: ['websocket'] });
-const TIME_MULTIPLIER = 2.0;
+var timeMultiplier = 2.0;
 var countDownDate = new Date();
 var paused = false;
 
-$.get('http://localhost:3000/getTimer', function (data) {
-    console.log(data);
-    countDownDate = new Date(countDownDate.getTime() + parseInt(data) * 1000);
-});
-
-//Perform Action on event
-streamlabs.on('event', (eventData) => {
-    if (eventData.type === 'donation') {
-        console.log(eventData.message[0].amount);
-        countDownDate = new Date(countDownDate.getTime() + eventData.message[0].amount * TIME_MULTIPLIER * 60000);
-
-        var now = new Date().getTime();
-
-        var distance = countDownDate.getTime() - now;
-        $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+$.get('http://localhost:3000/getCache', function (data) {
+    var cache = JSON.parse(data);
+    countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
+    $('#auth-token-input').val(cache.authToken)
+    $(`input[value="${cache.donatePlatform}"]`).prop('checked', true)
+    if (cache.donatePlatform == 'SE') {
+        initElements(cache.authToken)
+    } else if (cache.donatePlatform == 'SL') {
+        initLabs(cache.authToken)
     }
 });
 
@@ -69,6 +62,22 @@ $('#add-timer-form').submit((e) => {
     console.log(inputVal);
 });
 
+$('#authentification-form').submit((e) => {
+    e.preventDefault();
+    var donatePlatform = $('input[name="donate-platform"]:checked').val();
+    const authToken = $('#auth-token-input').val();
+    $.post('http://localhost:3000/setCache', { authToken: authToken, donatePlatform: donatePlatform });
+
+    closeElements();
+    closeLabs();
+
+    if (donatePlatform == 'SE') {
+        initElements(authToken);
+    } else if (donatePlatform == 'SL') {
+        initLabs(authToken);
+    }
+});
+
 // Update the count down every 1 second
 var x = setInterval(function () {
     // Get today's date and time
@@ -102,62 +111,4 @@ setInterval(() => {
     $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
 }, 10000);
 
-// timerSocket.on('setPaused', (e) => {
-//     console.log(e)
-//     paused = e
-
-// })
-
-// AccessToken is grabbed from OAuth2 authentication of the account.
-// const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjJjOWM4OGFlOGNkNWUyYWZmNDgwZGE4Iiwicm9sZSI6Im93bmVyIiwiY2hhbm5lbCI6IjYyYzljODhhZThjZDVlMzVjZTQ4MGRhOSIsInByb3ZpZGVyIjoieW91dHViZSIsImF1dGhUb2tlbiI6IlhWdldld0J4Q0xBX0Q3bzVNUXVVLTFNMk9UaFRZelMwLS1ubzRmWlF4UHNtYmF6USIsImlhdCI6MTY1NzM5MTI0MiwiaXNzIjoiU3RyZWFtRWxlbWVudHMifQ.WU7wzvvXogdSFuWdDoLk_P8O3wU4vftwq3hmfIpBSHg";
-// JWT is available here: https://streamelements.com/dashboard/account/channels
-
-const socket = io('https://realtime.streamelements.com', {
-    transports: ['websocket'],
-});
-// Socket connected
-socket.on('connect', onConnect);
-// Socket got disconnected
-socket.on('disconnect', onDisconnect);
-// Socket is authenticated
-socket.on('authenticated', onAuthenticated);
-socket.on('unauthorized', console.error);
-socket.on('event:test', (data) => {
-    console.log(data);
-    if (data.listener == 'tip-latest' || data.listener == 'superchat-latest') handleStreamElementsTip(data.event);
-    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
-});
-socket.on('event', (data) => {
-    console.log('event', data);
-    if (data.type == 'tip' || data.type == 'superchat') handleStreamElementsTip(data.data);
-    // Structure as on https://github.com/StreamElements/widgets/blob/master/CustomCode.md#on-event
-});
-
-const handleStreamElementsTip = (event) => {
-    console.log('handleStreamElementsTip', event);
-    console.log(event.currency, 69);
-    if (event.currency == 'USD' || event.currency == 'EUR' || event.currency == 'GBP') {
-        countDownDate = new Date(countDownDate.getTime() + event.amount * TIME_MULTIPLIER * 60000);
-
-        var now = new Date().getTime();
-
-        var distance = countDownDate.getTime() - now;
-        $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
-    }
-};
-
-function onConnect() {
-    console.log('Successfully connected to the websocket');
-    // socket.emit('authenticate', {method: 'oauth2', token: accessToken});
-    socket.emit('authenticate', { method: 'jwt', token: jwt });
-}
-
-function onDisconnect() {
-    console.log('Disconnected from websocket');
-    // Reconnect
-}
-
-function onAuthenticated(data) {
-    const { channelId } = data;
-    console.log(`Successfully connected to channel ${channelId}`);
-}
+console.log('elements', elements);

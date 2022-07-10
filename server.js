@@ -17,6 +17,28 @@ app.get('/getTimer', (req, res) => {
     });
 });
 
+app.get('/getCache', (req, res) => {
+    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
+        if (err) throw err;
+        let cache = JSON.parse(data);
+        res.end(JSON.stringify(cache));
+    });
+});
+
+app.post('/setCache', (req, res) => {
+    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
+        if (err) throw err;
+        var cache = JSON.parse(data);
+        cache = {...cache, ...req.body}
+        fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
+            if (err) {
+                console.log(err)
+            }
+            res.sendStatus(200);
+        })
+    });
+})
+
 app.post('/setTimer', (req, res) => {
     var time = parseInt(req.body.time);
     fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
