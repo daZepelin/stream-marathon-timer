@@ -10,16 +10,20 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 app.get('/getTimer', (req, res) => {
-    fs.readFile(`${__dirname}/left_time.txt`, 'utf8', (err, data) => {
-        console.log(data);
-        res.end(data);
+    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
+        if (err) throw err;
+        let cache = JSON.parse(data);
+        res.end(cache.time.toString());
     });
 });
 
 app.post('/setTimer', (req, res) => {
     var time = parseInt(req.body.time);
-    fs.readFile(`${__dirname}/left_time.txt`, 'utf8', (err, data) => {
-        fs.writeFile(`${__dirname}/left_time.txt`, time.toString(), (err) => {
+    fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
+        if (err) throw err;
+        let cache = JSON.parse(data);
+        cache.time = time;
+        fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
             if (err) {
                 console.log(err);
             }
