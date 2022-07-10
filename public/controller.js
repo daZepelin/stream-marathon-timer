@@ -51,6 +51,13 @@ $('#set-timer-form').submit((e) => {
     console.log(inputVal);
 });
 
+$('#text-color-form').submit((e) => {
+    e.preventDefault();
+    var color1 = $('#color-1-input').val();
+    var color2 = $('#color-2-input').val();
+    $.post('http://localhost:3000/setColors', { colors: [color1, color2] });
+});
+
 $('#add-timer-form').submit((e) => {
     e.preventDefault();
     var inputVal = parseFloat($('#add-time-input').val());

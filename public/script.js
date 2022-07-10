@@ -43,5 +43,13 @@ timerSocket.on('refreshTimer', (e) => {
 })
 
 timerSocket.on('setPaused', (e) => {
-    paused = e
-})
+
+timerSocket.on('setColors', (e) => {
+    console.log(e);
+    $('#demo').css({
+        background: `-webkit-linear-gradient(${e[0]}, ${e[1]})`,
+        ['background-clip']: 'text',
+        ['-webkit-background-clip']: 'text',
+        ['-webkit-text-fill-color']: 'transparent'
+    });
+});
