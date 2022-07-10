@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.1...v0.1.2) (2022-07-10)
+
+
+### Features
+
+* add text color param ([8b21c47](https://github.com/daZepelin/subaton-timer-bot/commit/8b21c47106113db5eb4acd1eb195bc3fa975f4f2))
+* api parameters on controller ([65319e3](https://github.com/daZepelin/subaton-timer-bot/commit/65319e3dac0745a709c0ae87a7635a2789443c46))
+
 ### 0.1.1 (2022-07-10)
 
 
