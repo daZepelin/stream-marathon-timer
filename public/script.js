@@ -31,7 +31,6 @@ var x = setInterval(function () {
 
     // If the count down is over, write some text
     if (distance < 0) {
-        // clearInterval(x);
         document.getElementById('demo').innerHTML = 'PABAIGA';
     }
 }, 1000);
@@ -43,11 +42,6 @@ timerSocket.on('refreshTimer', (e) => {
 
 timerSocket.on('setPaused', (e) => {
     paused = e;
-});
-
-timerSocket.on('open', (e) => {
-    console.log('open', e)
-    // paused = e;
 });
 
 timerSocket.on('setColors', (e) => {

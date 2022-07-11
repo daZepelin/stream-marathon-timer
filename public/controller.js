@@ -3,19 +3,24 @@ const jwt = '';
 
 // STREAMLABS
 const socketToken = '';
-var timeMultiplier = 2.0;
+var timeMultiplier = 1.0;
 var countDownDate = new Date();
 var paused = false;
 
 $.get('http://localhost:3000/getCache', function (data) {
     var cache = JSON.parse(data);
     countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
-    $('#auth-token-input').val(cache.authToken)
-    $(`input[value="${cache.donatePlatform}"]`).prop('checked', true)
+    timeMultiplier =
+        cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
+            ? parseInt(cache.timeMultiplier)
+            : timeMultiplier;
+    $('#auth-token-input').val(cache.authToken);
+    $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
+    $('#set-modifier-input').val(timeMultiplier)
     if (cache.donatePlatform == 'SE') {
-        initElements(cache.authToken)
+        initElements(cache.authToken);
     } else if (cache.donatePlatform == 'SL') {
-        initLabs(cache.authToken)
+        initLabs(cache.authToken);
     }
 });
 
@@ -75,6 +80,15 @@ $('#authentification-form').submit((e) => {
         initElements(authToken);
     } else if (donatePlatform == 'SL') {
         initLabs(authToken);
+    }
+});
+
+$('#set-modifier-form').submit((e) => {
+    e.preventDefault();
+    var multiplier = parseFloat($('#set-modifier-input').val());
+    if (multiplier && !isNaN(multiplier)) {
+        timeMultiplier = multiplier;
+        $.post('http://localhost:3000/setCache', { timeMultiplier: timeMultiplier });
     }
 });
 
