@@ -1,7 +1,12 @@
 # subaton-timer-bot
 ## What is this?
-Subaton / Euroton timer for your stream! This will generate a timer web page wich will use StreamLabs or StreamElements API socket to add time from every donation or even SuperChat donations on Youtube.
-## Requires:
+Subaton / Euroton timer for your stream! This will generate a timer web page wich will use StreamLabs or StreamElements API socket to add time from every donation or even SuperChat donations on Youtube or stars on Facebook
+## Features
+- Support for stream labs and stream elements donation platforms;
+Creates html file wich you can add as browser source on your OBS;
+- Adds time for Youtube superchat and Facebook stars;
+- Stores remaining time in file;
+## Requires
 1. [NodeJS](https://nodejs.org/en/download/current/) (18 or higher);
 2. Stream Labs or Stream Elements as donation service;
 3. Good stream content to generate enough donations. 😋
@@ -24,3 +29,8 @@ npm start
     - For StreamLabs go to https://streamlabs.com/dashboard#/settings/api-settings and from *API Settings* copy the *Your Socket API Token*.
     - For StreamElements go to https://streamelements.com/dashboard/account/channels click on *Show secrets* and copy the *JWT Token*.
 8. Paste the auth code in the control panel *API Settings* and check your platform then click on *Submit*.
+## Starting
+After installation you only need to open the folder and powershell as you did in installation process and type in the following command:
+```
+npm start
+```
