@@ -10,6 +10,7 @@ var paused = false;
 $.get('http://localhost:3000/getCache', function (data) {
     var cache = JSON.parse(data);
     countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
+    paused = cache.paused
     timeMultiplier =
         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
             ? parseInt(cache.timeMultiplier)
@@ -37,6 +38,7 @@ document.getElementById('add-min').addEventListener('click', () => {
 document.getElementById('pause').addEventListener('click', () => {
     paused = !paused;
     $('#pause').text(paused ? 'Resume' : 'Pause');
+    $.post('http://localhost:3000/setCache', { paused: paused });
     $.post('http://localhost:3000/setPaused', { paused: paused });
 });
 
