@@ -3,60 +3,66 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            * {
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                font-weight: 600;
-            }
-            p {
-                text-align: center;
-                font-size: 20px;
-                margin-top: 0px;
-                color: red;
-            }
-            button {
-                color: red;
-            }
-            div {
-                color: red;
-            }
-            form {
-                margin-top: 50px;
-            }
-
-        </style>
+        <link rel="stylesheet" href="/controller.css" type="text/css" />
+        <link rel="icon" href="/favicon.png">
+        <title>Timer controller</title>
     </head>
     <body>
         <p id="demo"></p>
         <div id="browser"></div>
         <button id="add-min">Add minute</button>
         <button id="pause">Pause</button>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 100px;">
             <form id="set-timer-form">
-                <label for="set-time-input">Set time (minutes)</label><br>
-                <input step="0.1" id='set-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input>
+                <label class="input">
+                    <input class="input__field" step="0.1" id='set-time-input' name="time-input" type="number" placeholder=" "/>
+                    <span class="input__label">Set time (minutes)</span>
+                </label>
+                <!-- <label for="set-time-input">Set time (minutes)</label><br>
+                <input step="0.1" id='set-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input> -->
                 <input type="submit"></input>
             </form>
             <form id="add-timer-form">
-                <label for="add-time-input">Add time (minutes)</label><br>
-                <input step="0.1" id='add-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input>
+                <!-- <label for="add-time-input">Add time (minutes)</label><br> -->
+                <!-- <input step="0.1" id='add-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input> -->
+                <label class="input">
+                    <input class="input__field" step="0.1" id='add-time-input' name="time-input" type="number" placeholder=" "/>
+                    <span class="input__label">Add time (minutes)</span>
+                </label>
                 <input type="submit"></input>
             </form>
             <form id="text-color-form">
-                <label for="color-1-input">Text Color 1 HEX</label><br>
-                <input id='color-1-input' name="time-input" type="text" placeholder="#000"></input><br>
-                <label for="color-2-input">Text Color 2 HEX</label><br>
-                <input id='color-2-input' name="time-input" type="text" placeholder="#fff"></input>
+                <!-- <label for="color-1-input">Text Color 1 HEX</label><br>
+                <input id='color-1-input' name="time-input" type="text" placeholder="#000"></input><br> -->
+                <label class="input">
+                    <input class="input__field" step="0.1" id='color-1-input' name="time-input" type="text" placeholder=" " />
+                    <span class="input__label">Text Color 1 HEX</span>
+                </label>
+                <!-- <label for="color-2-input">Text Color 2 HEX</label><br>
+                <input id='color-2-input' name="time-input" type="text" placeholder="#fff"></input> -->
+                <label class="input">
+                    <input class="input__field" step="0.1" id='color-2-input' name="time-input" type="text" placeholder=" " />
+                    <span class="input__label">Text Color 2 HEX</span>
+                </label>
                 <input type="submit"></input>
             </form>
             <form id="set-modifier-form">
-                <label for="set-modifier-input">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</label><br>
-                <input step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder="Multiplier"></input>
+                <label class="input">
+                    <input class="input__field" step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder=" " />
+                    <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
+                </label>
+                
+                <!-- <label for="set-modifier-input">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</label><br>
+                <input step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder="Multiplier"></input> -->
                 <input type="submit"></input>
             </form>
             <form id="authentification-form">
-                <label for="auth-token-input">API settings</label><br>
-                <input id='auth-token-input' name="time-input" type="password" placeholder="Auth token"></input><br>
+                <label class="input">
+                    <input class="input__field" step="0.1" id='auth-token-input' name="time-input" type="password" placeholder=" " />
+                    <span class="input__label">Auth Key</span>
+                </label>
+                <!-- <label for="auth-token-input">API settings</label><br>
+                <input id='auth-token-input' name="time-input" type="password" placeholder="Auth token"></input><br> -->
                 <label for="donate-platform">Donate platform:</label><br>
                 <input value="SL" type="radio" name="donate-platform" checked>Stream Labs</input>
                 <input value="SE" type="radio" name="donate-platform">Stream Elements</input>
@@ -74,8 +80,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"
             type="text/javascript"
         ></script>
-        <script src="./stream_elements.js"></script>
-        <script src="./stream_labs.js"></script>
-        <script src="./controller.js"></script>
+        <script src="/stream_elements.js"></script>
+        <script src="/stream_labs.js"></script>
+        <script src="/controller.js"></script>
     </body>
 </html>
