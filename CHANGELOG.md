@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.5...v0.1.6) (2022-07-19)
+
+
+### Features
+
+* added support button ([de1ae37](https://github.com/daZepelin/subaton-timer-bot/commit/de1ae372d7fecd3bc88418762f552de5ae7dee2e))
+* start file ([406c2ed](https://github.com/daZepelin/subaton-timer-bot/commit/406c2ed5bb13e7224ea4a7ff79cb339808a705a6))
+
 ### [0.1.5](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.4...v0.1.5) (2022-07-11)
 
 ### [0.1.4](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.3...v0.1.4) (2022-07-11)
