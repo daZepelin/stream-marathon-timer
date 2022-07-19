@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://kit.fontawesome.com/f56eefbfd4.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/controller.css" type="text/css" />
@@ -18,13 +19,9 @@
                     <input class="input__field" step="0.1" id='set-time-input' name="time-input" type="number" placeholder=" "/>
                     <span class="input__label">Set time (minutes)</span>
                 </label>
-                <!-- <label for="set-time-input">Set time (minutes)</label><br>
-                <input step="0.1" id='set-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input> -->
                 <input type="submit"></input>
             </form>
             <form id="add-timer-form">
-                <!-- <label for="add-time-input">Add time (minutes)</label><br> -->
-                <!-- <input step="0.1" id='add-time-input' name="time-input" type="number" placeholder="Time (minutes)"></input> -->
                 <label class="input">
                     <input class="input__field" step="0.1" id='add-time-input' name="time-input" type="number" placeholder=" "/>
                     <span class="input__label">Add time (minutes)</span>
@@ -32,14 +29,10 @@
                 <input type="submit"></input>
             </form>
             <form id="text-color-form">
-                <!-- <label for="color-1-input">Text Color 1 HEX</label><br>
-                <input id='color-1-input' name="time-input" type="text" placeholder="#000"></input><br> -->
                 <label class="input">
                     <input class="input__field" step="0.1" id='color-1-input' name="time-input" type="text" placeholder=" " />
                     <span class="input__label">Text Color 1 HEX</span>
                 </label>
-                <!-- <label for="color-2-input">Text Color 2 HEX</label><br>
-                <input id='color-2-input' name="time-input" type="text" placeholder="#fff"></input> -->
                 <label class="input">
                     <input class="input__field" step="0.1" id='color-2-input' name="time-input" type="text" placeholder=" " />
                     <span class="input__label">Text Color 2 HEX</span>
@@ -52,8 +45,6 @@
                     <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
                 </label>
                 
-                <!-- <label for="set-modifier-input">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</label><br>
-                <input step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder="Multiplier"></input> -->
                 <input type="submit"></input>
             </form>
             <form id="authentification-form">
@@ -61,9 +52,7 @@
                     <input class="input__field" step="0.1" id='auth-token-input' name="time-input" type="password" placeholder=" " />
                     <span class="input__label">Auth Key</span>
                 </label>
-                <!-- <label for="auth-token-input">API settings</label><br>
-                <input id='auth-token-input' name="time-input" type="password" placeholder="Auth token"></input><br> -->
-                <label for="donate-platform">Donate platform:</label><br>
+                <label for="donate-platform">Donations platform:</label><br>
                 <input value="SL" type="radio" name="donate-platform" checked>Stream Labs</input>
                 <input value="SE" type="radio" name="donate-platform">Stream Elements</input>
                 <input type="submit"></input>
@@ -71,8 +60,10 @@
         </div>
         <div style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%)">
             <a href="https://www.paypal.com/donate/?hosted_button_id=VFG7MZTU6BGVN" target="_blank" rel="noopener noreferrer">
+                
                 <button>
-                    Support development
+                    Support development 
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
                 </button>
             </a>
         </div>
