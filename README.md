@@ -13,7 +13,7 @@ Creates html file wich you can add as browser source on your OBS;
 ## Setting up:
 1. Make sure you have NodeJS installed;
 2. Download and unpack Latest app [Release](https://github.com/daZepelin/subaton-timer-bot/releases);
-3. Open the folder and launch `start.bat` file to start the app;
+3. Open the folder and launch `start.bat` file to install required packages and start the app;
 4. Now by going to http://localhost:3000/controller you will find full control panel of your timer and http://localhost:3000/ will display only the timer which you can add as obs web source. 
 [Guide on adding browser source to OBS](https://www.blog.pulsoid.net/post/how-to-add-browser-source-in-obs-streamlabs-obs-twitch-studio-xsplit)
 5. Last thing left to do is authentificating with your donation platform API token.
