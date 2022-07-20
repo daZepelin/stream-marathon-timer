@@ -23,6 +23,7 @@ $.get('http://localhost:3000/getCache', function (data) {
     } else if (cache.donatePlatform == 'SL') {
         initLabs(cache.authToken);
     }
+    $('#pause').text(paused ? 'Resume' : 'Pause');
 });
 
 document.getElementById('add-min').addEventListener('click', () => {
