@@ -13,24 +13,12 @@ Creates html file wich you can add as browser source on your OBS;
 ## Setting up:
 1. Make sure you have NodeJS installed;
 2. Download and unpack Latest app [Release](https://github.com/daZepelin/subaton-timer-bot/releases);
-3. Open the folder and while holding down Shift right click to see *Open PowerShell window here* option and click on it;
-![An old rock in the desert](https://i.imgur.com/dL5WmRM.png "IMG1")
-4. In a PowerShell window enter the following:
-```
-npm i
-```
-5. After the process is done start the app by entering the following;
-```
-npm start
-```
-6. Now by going to http://localhost:3000/controller you will find full control panel of your timer and http://localhost:3000/ will display only the timer which you can add as obs web source. 
+3. Open the folder and launch `start.bat` file to start the app;
+4. Now by going to http://localhost:3000/controller you will find full control panel of your timer and http://localhost:3000/ will display only the timer which you can add as obs web source. 
 [Guide on adding browser source to OBS](https://www.blog.pulsoid.net/post/how-to-add-browser-source-in-obs-streamlabs-obs-twitch-studio-xsplit)
-7. Last thing left to do is authentificating with your donation platform API token.
+5. Last thing left to do is authentificating with your donation platform API token.
     - For StreamLabs go to https://streamlabs.com/dashboard#/settings/api-settings and from *API Settings* copy the *Your Socket API Token*.
     - For StreamElements go to https://streamelements.com/dashboard/account/channels click on *Show secrets* and copy the *JWT Token*.
-8. Paste the auth code in the control panel *API Settings* and check your platform then click on *Submit*.
+6. Paste the auth code in the control panel *API Settings* and check your platform then click on *Submit*.
 ## Starting
-After installation you only need to open the folder and powershell as you did in installation process and type in the following command:
-```
-npm start
-```
+Just launch the `start.bat` file the api key and the rest of the settings should be saved.
