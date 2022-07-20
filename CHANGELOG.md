@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.6...v0.1.7) (2022-07-20)
+
+
+### Bug Fixes
+
+* **controller:** pause button text on start ([01d463d](https://github.com/daZepelin/subaton-timer-bot/commit/01d463d3d236ab8918247e636b33cbedcbc05360))
+* start.bat for init ([af5eef0](https://github.com/daZepelin/subaton-timer-bot/commit/af5eef084e62b072417e3a85d5c407331fc067d0))
+
 ### [0.1.6](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.5...v0.1.6) (2022-07-19)
 
 
