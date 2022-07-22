@@ -3,9 +3,11 @@
 Subaton / Euroton timer for your stream! This will generate a timer web page wich will use StreamLabs or StreamElements API socket to add time from every donation or even SuperChat donations on Youtube or stars on Facebook
 ## Features
 - Support for stream labs and stream elements donation platforms;
-Creates html file wich you can add as browser source on your OBS;
+- Creates html file wich you can add as browser source on your OBS;
 - Adds time for Youtube superchat and Facebook stars;
 - Stores remaining time in file;
+- Control panel ui for all parameters:
+![Controller!](https://i.imgur.com/B0h3QVO.png "Controller")
 ## Requires
 1. [NodeJS](https://nodejs.org/en/download/current/) (18 or higher);
 2. Stream Labs or Stream Elements as donation service;
