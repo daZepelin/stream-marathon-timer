@@ -17,6 +17,18 @@ const initLabs = (authToken) => {
                 var distance = countDownDate.getTime() - now;
                 $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
             }
+        } else if (eventData.type === 'superchat') {
+            var currency = eventData.message[0].currency
+            if (currency == 'USD' || currency == 'EUR' || currency == 'GBP') {
+                countDownDate = new Date(
+                    countDownDate.getTime() + (eventData.message[0].amount / 1000000) * timeMultiplier * 60000
+                );
+
+                var now = new Date().getTime();
+
+                var distance = countDownDate.getTime() - now;
+                $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+            }
         } else if (eventData.type === 'stars' ) {
             countDownDate = new Date(
                 countDownDate.getTime() + eventData.message[0].amount * timeMultiplier * 600
