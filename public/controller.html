@@ -9,7 +9,7 @@
         <title>Timer controller</title>
     </head>
     <body>
-        <p id="demo"></p>
+        <p id="demo">Loading...</p>
         <div id="browser"></div>
         <button id="add-min">Add minute</button>
         <button id="pause">Pause</button>
@@ -41,17 +41,21 @@
                     <input class="input__field" step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder=" " />
                     <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
                 </label>
-                
                 <input type="submit"></input>
             </form>
             <form id="authentification-form">
                 <label class="input">
-                    <input class="input__field" step="0.1" id='auth-token-input' name="time-input" type="password" placeholder=" " />
-                    <span class="input__label">Auth Key</span>
+                    <input class="input__field" id='auth-token-input-se' name="time-input" type="password" placeholder=" " />
+                    <span class="input__label">Stream Elements JWT Token</span>
+                </label>
+                <label class="input">
+                    <input class="input__field" id='auth-token-input-sl' name="time-input" type="password" placeholder=" " />
+                    <span class="input__label">Auth Key Stream Labs</span>
                 </label>
                 <label for="donate-platform">Donations platform:</label><br>
                 <input value="SL" type="radio" name="donate-platform" checked>Stream Labs</input>
                 <input value="SE" type="radio" name="donate-platform">Stream Elements</input>
+                <input value="BOTH" type="radio" name="donate-platform">Both</input>
                 <input type="submit"></input>
             </form>
         </div>

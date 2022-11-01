@@ -46,29 +46,28 @@ timerSocket.on('refreshTimer', (e) => {
     var seconds = Math.floor((timeAdded % (1000 * 60)) / 1000);
 
     if (timeAdded > 30000) {
-        var formattedTimeAdded = '+ ' +
-        (days > 0 ? days + 'd ' : '') +
-        (hours ? hours + 'h ' : '') +
-        (minutes ? minutes + 'm ' : '') +
+        var formattedTimeAdded =
+            '+ ' +
+            (days > 0 ? days + 'd ' : '') +
+            (hours ? hours + 'h ' : '') +
+            (minutes ? minutes + 'm ' : '') +
             (seconds > 10 ? seconds + 's ' : '');
-            
+
         console.log(formattedTimeAdded);
         $('#time-added-container').text(formattedTimeAdded);
-        $('#time-added-container').css({left: $('#demo').outerWidth() + 50});
+        $('#time-added-container').css({ left: $('#demo').outerWidth() + 50 });
         $('#time-added-container').removeClass('time-added-bounce');
-        $('#demo').removeClass('time-added-zoom')
+        $('#demo').removeClass('time-added-zoom');
         setTimeout(() => {
-            
             $('#time-added-container').addClass('time-added-bounce');
-            $('#demo').addClass('time-added-zoom')
+            $('#demo').addClass('time-added-zoom');
         }, 100);
         if (timeAddedTimeout) {
-            clearTimeout(timeAddedTimeout)
+            clearTimeout(timeAddedTimeout);
         }
         timeAddedTimeout = setTimeout(() => {
-            // $('#time-added-container')
             $('#time-added-container').removeClass('time-added-bounce');
-            $('#demo').removeClass('time-added-zoom')
+            $('#demo').removeClass('time-added-zoom');
         }, 1750);
     }
     countDownDate = new Date(now + parseInt(e.time) * 1000);

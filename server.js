@@ -95,7 +95,7 @@ app.get('/controller', function (req, res) {
     res.sendFile('public/controller.html', { root: __dirname });
 });
 
-// io.listen(3001)
+// io.listen(3000)
 http.listen(3000, () => {
     console.log(`Socket.IO server running at http://localhost:${3000}/`);
 });

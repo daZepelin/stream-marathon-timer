@@ -15,7 +15,8 @@ $.get('http://localhost:3000/getCache', function (data) {
         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
             ? parseInt(cache.timeMultiplier)
             : timeMultiplier;
-    $('#auth-token-input').val(cache.authToken);
+    $('#auth-token-input-se').val(cache.authTokenSE);
+    $('#auth-token-input-sl').val(cache.authTokenSL);
     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
     $('#set-modifier-input').val(timeMultiplier)
     $('#text-style-css').val(cache.textStyle)
@@ -24,8 +25,13 @@ $.get('http://localhost:3000/getCache', function (data) {
         initElements(cache.authToken);
     } else if (cache.donatePlatform == 'SL') {
         initLabs(cache.authToken);
+    } else if (cache.donatePlatform == 'BOTH') {
+        initElements(cache.authToken);
+        initLabs(cache.authToken);
     }
     $('#pause').text(paused ? 'Resume' : 'Pause');
+
+
 });
 
 document.getElementById('add-min').addEventListener('click', () => {
@@ -72,34 +78,27 @@ $('#add-timer-form').submit((e) => {
     countDownDate = new Date(countDownDate.getTime() + inputVal * 60000);
     var distance = countDownDate.getTime() - now;
     $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
-    console.log(inputVal);
 });
-
-$('#text-style-css').on('input', (e) => {
-    console.log('change', e.target.value)
-    $('#text-style-preview').attr('style', e.target.value)
-})
 
 $('#authentification-form').submit((e) => {
     e.preventDefault();
     var donatePlatform = $('input[name="donate-platform"]:checked').val();
-    const authToken = $('#auth-token-input').val();
-    $.post('http://localhost:3000/setCache', { authToken: authToken, donatePlatform: donatePlatform });
+    const authTokenSE = $('#auth-token-input-se').val();
+    const authTokenSL = $('#auth-token-input-sl').val();
+    $.post('http://localhost:3000/setCache', { authTokenSE, authTokenSL, donatePlatform: donatePlatform });
 
     closeElements();
     closeLabs();
 
     if (donatePlatform == 'SE') {
-        initElements(authToken);
+        initElements(authTokenSE);
     } else if (donatePlatform == 'SL') {
-        initLabs(authToken);
+        initLabs(authTokenSL);
+    } else if (donatePlatform == 'BOTH') {
+        initElements(authTokenSE);
+        initLabs(authTokenSL);
     }
 });
-
-$('#text-style-css').on('input', (e) => {
-    console.log('change', e.target.value)
-    $('#text-style-preview').attr('style', e.target.value)
-})
 
 $('#set-modifier-form').submit((e) => {
     e.preventDefault();
@@ -143,4 +142,3 @@ setInterval(() => {
     $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
 }, 10000);
 
-console.log('elements', elements);
