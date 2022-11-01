@@ -100,11 +100,24 @@ $('#authentification-form').submit((e) => {
     }
 });
 
+$('input[name="time-multiplier"').change(e => {
+    $('#set-modifier-input').val($(e.target).val())
+})
+
+$('#set-modifier-input').change((e) => {
+    var multiplier = parseFloat($('#set-modifier-input').val());
+    if (multiplier && !isNaN(multiplier)) {
+        timeMultiplier = multiplier;
+        $(`input[name="time-multiplier"][value="${timeMultiplier}"]`).attr('checked', 'checked');
+    }
+});
+
 $('#set-modifier-form').submit((e) => {
     e.preventDefault();
     var multiplier = parseFloat($('#set-modifier-input').val());
     if (multiplier && !isNaN(multiplier)) {
         timeMultiplier = multiplier;
+        $("input[name=time-multiplier][value=" + timeMultiplier + "]").attr('checked', 'checked');
         $.post('http://localhost:3000/setCache', { timeMultiplier: timeMultiplier });
     }
 });

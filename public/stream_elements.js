@@ -19,7 +19,6 @@ const initElements = (authToken) => {
     });
 
     streamElementsSocket.on('event', (data) => {
-        // console.log('event', data);
         if (data.type == 'tip' || data.type == 'superchat') handleStreamElementsTip(data.data);
     });
 

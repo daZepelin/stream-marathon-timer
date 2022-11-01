@@ -41,6 +41,12 @@
                     <input class="input__field" step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder=" " />
                     <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
                 </label>
+                <label for="time-multiplier">Time multiplier</label><br>
+                <input value="0.2" type="radio" name="time-multiplier" >5€ = 1min</input><br>
+                <input value="0.5" type="radio" name="time-multiplier" >2€ = 1min</input><br>
+                <input value="1" type="radio" name="time-multiplier" checked>1€ = 1min</input><br>
+                <input value="2" type="radio" name="time-multiplier" >1€ = 2min</input><br>
+                <input value="5" type="radio" name="time-multiplier" >1€ = 5min</input><br>
                 <input type="submit"></input>
             </form>
             <form id="authentification-form">
@@ -50,7 +56,7 @@
                 </label>
                 <label class="input">
                     <input class="input__field" id='auth-token-input-sl' name="time-input" type="password" placeholder=" " />
-                    <span class="input__label">Auth Key Stream Labs</span>
+                    <span class="input__label">Stream Labs Socket API Token</span>
                 </label>
                 <label for="donate-platform">Donations platform:</label><br>
                 <input value="SL" type="radio" name="donate-platform" checked>Stream Labs</input>
