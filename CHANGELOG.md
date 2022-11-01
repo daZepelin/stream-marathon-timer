@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.9...v0.1.10) (2022-11-01)
+
+
+### Features
+
+* setting whole text style ([accfc83](https://github.com/daZepelin/subaton-timer-bot/commit/accfc83b08d87aaefcb8c5783f737d894d2edc7f))
+* start.bat will also start controller in browser ([cdbff22](https://github.com/daZepelin/subaton-timer-bot/commit/cdbff22447b58a0cf0281678b0732e56185a1965))
+
+
+### Bug Fixes
+
+* opening before starting ([7f2784c](https://github.com/daZepelin/subaton-timer-bot/commit/7f2784c4da1cc718f5ec5843da013435f2409a7b))
+
 ### [0.1.9](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.8...v0.1.9) (2022-09-30)
 
 ### [0.1.7](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.6...v0.1.7) (2022-07-20)

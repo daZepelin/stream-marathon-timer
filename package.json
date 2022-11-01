@@ -1,6 +1,6 @@
 {
   "name": "subaton-timer-bot",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Subaton / Euroton donation timer bot",
   "main": "server.js",
   "scripts": {
