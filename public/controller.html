@@ -28,16 +28,13 @@
                 </label>
                 <input type="submit"></input>
             </form>
-            <form id="text-color-form">
+            </form>
+            <form id="text-style-form" style="grid-row: 1/4; grid-column: 3/4;">
                 <label class="input">
-                    <input class="input__field" step="0.1" id='color-1-input' name="time-input" type="text" placeholder=" " />
-                    <span class="input__label">Text Color 1 HEX</span>
+                    <textarea style="height: 450px;" class="input__field" id='text-style-css' name="style-input" type="text" placeholder=" "></textarea>
+                    <span class="input__label">Style</span>
                 </label>
-                <label class="input">
-                    <input class="input__field" step="0.1" id='color-2-input' name="time-input" type="text" placeholder=" " />
-                    <span class="input__label">Text Color 2 HEX</span>
-                </label>
-                <input type="submit"></input>
+                <input type="submit"></input><div id="text-style-preview">Preview</div>
             </form>
             <form id="set-modifier-form">
                 <label class="input">

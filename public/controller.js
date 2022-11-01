@@ -18,6 +18,8 @@ $.get('http://localhost:3000/getCache', function (data) {
     $('#auth-token-input').val(cache.authToken);
     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
     $('#set-modifier-input').val(timeMultiplier)
+    $('#text-style-css').val(cache.textStyle)
+    $('#text-style-preview').attr('style', cache.textStyle)
     if (cache.donatePlatform == 'SE') {
         initElements(cache.authToken);
     } else if (cache.donatePlatform == 'SL') {
@@ -49,15 +51,18 @@ $('#set-timer-form').submit((e) => {
     if (isNaN(inputVal)) return;
     countDownDate = new Date(new Date().getTime() + inputVal * 1000 * 60);
     $.post('http://localhost:3000/setTimer', { time: inputVal * 60 });
-    console.log(inputVal);
 });
 
-$('#text-color-form').submit((e) => {
+$('#text-style-form').submit((e) => {
     e.preventDefault();
-    var color1 = $('#color-1-input').val();
-    var color2 = $('#color-2-input').val();
-    $.post('http://localhost:3000/setColors', { colors: [color1, color2] });
+    var textStyle = $('#text-style-css').val();
+    $.post('http://localhost:3000/setStyle', { textStyle });
 });
+
+$('#text-style-css').on('input', (e) => {
+    console.log('change', e.target.value)
+    $('#text-style-preview').attr('style', e.target.value)
+})
 
 $('#add-timer-form').submit((e) => {
     e.preventDefault();
@@ -69,6 +74,11 @@ $('#add-timer-form').submit((e) => {
     $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
     console.log(inputVal);
 });
+
+$('#text-style-css').on('input', (e) => {
+    console.log('change', e.target.value)
+    $('#text-style-preview').attr('style', e.target.value)
+})
 
 $('#authentification-form').submit((e) => {
     e.preventDefault();
@@ -85,6 +95,11 @@ $('#authentification-form').submit((e) => {
         initLabs(authToken);
     }
 });
+
+$('#text-style-css').on('input', (e) => {
+    console.log('change', e.target.value)
+    $('#text-style-preview').attr('style', e.target.value)
+})
 
 $('#set-modifier-form').submit((e) => {
     e.preventDefault();

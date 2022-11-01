@@ -63,25 +63,23 @@ io.on('connection', (socket) => {
     fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
         if (err) throw err;
         let cache = JSON.parse(data);
-        socket.emit('setColors', [cache.color1, cache.color2])
+        socket.emit('setStyle', cache.textStyle)
     })
 })
 
-app.post('/setColors', (req, res) => {
-    var colors = req.body.colors;
+app.post('/setStyle', (req, res) => {
+    var textStyle = req.body.textStyle;
     fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
         if (err) throw err;
         let cache = JSON.parse(data);
-        cache.color1 = colors[0] ?? cache.color1;
-        cache.color2 = colors[1] ?? cache.color2;
-        console.log(cache)
+        cache.textStyle = textStyle ?? cache.textStyle;
         fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
             if (err) {
                 console.log(err);
             }
             res.sendStatus(200);
         });
-        io.emit('setColors', [cache.color1, cache.color2]);
+        io.emit('setStyle', textStyle);
     });
 });
 
