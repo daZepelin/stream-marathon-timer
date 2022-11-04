@@ -1,10 +1,9 @@
 // Stream Labs
 var streamlabsSocket = null;
 
-const initLabs = (authToken) => {
+const initLabs = (authToken, skipChat) => {
     streamlabsSocket = io(`https://sockets.streamlabs.com?token=${authToken}`, { transports: ['websocket'] });
     streamlabsSocket.on('event', (eventData) => {
-        console.log(eventData)
         if (eventData.type === 'donation') {
             var currency = eventData.message[0]?.formatted_amount?.charAt(0);
             if (currency == '$' || currency == '€' || currency == '£') {
@@ -17,7 +16,7 @@ const initLabs = (authToken) => {
                 var distance = countDownDate.getTime() - now;
                 $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
             }
-        } else if (eventData.type === 'superchat') {
+        } else if (eventData.type === 'superchat' && !skipChat) {
             var currency = eventData.message[0].currency
             if (currency == 'USD' || currency == 'EUR' || currency == 'GBP') {
                 countDownDate = new Date(

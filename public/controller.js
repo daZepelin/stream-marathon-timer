@@ -27,7 +27,7 @@ $.get('http://localhost:3000/getCache', function (data) {
         initLabs(cache.authToken);
     } else if (cache.donatePlatform == 'BOTH') {
         initElements(cache.authToken);
-        initLabs(cache.authToken);
+        initLabs(cache.authToken, true);
     }
     $('#pause').text(paused ? 'Resume' : 'Pause');
 
@@ -96,7 +96,7 @@ $('#authentification-form').submit((e) => {
         initLabs(authTokenSL);
     } else if (donatePlatform == 'BOTH') {
         initElements(authTokenSE);
-        initLabs(authTokenSL);
+        initLabs(authTokenSL, true);
     }
 });
 
