@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.12](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.11...v0.1.12) (2022-11-04)
+
+
+### Features
+
+* add time container timeout ([656f7b2](https://github.com/daZepelin/subaton-timer-bot/commit/656f7b2fd2af6f93c55a58a0377fba11e6281c28))
+
+
+### Bug Fixes
+
+* superchat adding time twice ([bb4a21e](https://github.com/daZepelin/subaton-timer-bot/commit/bb4a21e8aef0eaaef245f5f82e2df16e1915386b))
+
 ### [0.1.11](https://github.com/daZepelin/subaton-timer-bot/compare/v0.1.10...v0.1.11) (2022-11-01)
 
 
