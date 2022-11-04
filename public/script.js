@@ -54,21 +54,23 @@ timerSocket.on('refreshTimer', (e) => {
             (seconds > 10 ? seconds + 's ' : '');
 
         console.log(formattedTimeAdded);
-        $('#time-added-container').text(formattedTimeAdded);
-        $('#time-added-container').css({ left: $('#demo').outerWidth() + 50 });
-        $('#time-added-container').removeClass('time-added-bounce');
-        $('#demo').removeClass('time-added-zoom');
         setTimeout(() => {
-            $('#time-added-container').addClass('time-added-bounce');
-            $('#demo').addClass('time-added-zoom');
-        }, 100);
-        if (timeAddedTimeout) {
-            clearTimeout(timeAddedTimeout);
-        }
-        timeAddedTimeout = setTimeout(() => {
+            $('#time-added-container').text(formattedTimeAdded);
+            $('#time-added-container').css({ left: $('#demo').outerWidth() + 50 });
             $('#time-added-container').removeClass('time-added-bounce');
             $('#demo').removeClass('time-added-zoom');
-        }, 1750);
+            setTimeout(() => {
+                $('#time-added-container').addClass('time-added-bounce');
+                $('#demo').addClass('time-added-zoom');
+            }, 100);
+            if (timeAddedTimeout) {
+                clearTimeout(timeAddedTimeout);
+            }
+            timeAddedTimeout = setTimeout(() => {
+                $('#time-added-container').removeClass('time-added-bounce');
+                $('#demo').removeClass('time-added-zoom');
+            }, 1750);
+        }, 1350);
     }
     countDownDate = new Date(now + parseInt(e.time) * 1000);
 });
