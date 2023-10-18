@@ -1,87 +1,11 @@
 var express = require('express');
 var app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-var fs = require('fs');
 const bodyParser = require('body-parser');
+const { exec } = require("child_process");
 
 app.use(bodyParser.urlencoded());
 
 app.use(bodyParser.json());
-
-app.get('/getTimer', (req, res) => {
-    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
-        if (err) throw err;
-        let cache = JSON.parse(data);
-        res.end(cache.time.toString());
-    });
-});
-
-app.get('/getCache', (req, res) => {
-    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
-        if (err) throw err;
-        let cache = JSON.parse(data);
-        res.end(JSON.stringify(cache));
-    });
-});
-
-app.post('/setCache', (req, res) => {
-    fs.readFile(`${__dirname}/cache.json`, (err, data) => {
-        if (err) throw err;
-        var cache = JSON.parse(data);
-        cache = {...cache, ...req.body}
-        fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
-            if (err) {
-                console.log(err)
-            }
-            res.sendStatus(200);
-        })
-    });
-})
-
-app.post('/setTimer', (req, res) => {
-    var time = parseInt(req.body.time);
-    fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
-        if (err) throw err;
-        let cache = JSON.parse(data);
-        cache.time = time;
-        fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
-            if (err) {
-                console.log(err);
-            }
-            res.sendStatus(200);
-            io.emit('refreshTimer', { time: time });
-        });
-    });
-});
-
-app.post('/setPaused', (req, res) => {
-    io.emit('setPaused', req.body.paused);
-});
-
-io.on('connection', (socket) => {
-    fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
-        if (err) throw err;
-        let cache = JSON.parse(data);
-        socket.emit('setStyle', cache.textStyle)
-    })
-})
-
-app.post('/setStyle', (req, res) => {
-    var textStyle = req.body.textStyle;
-    fs.readFile(`${__dirname}/cache.json`, 'utf8', (err, data) => {
-        if (err) throw err;
-        let cache = JSON.parse(data);
-        cache.textStyle = textStyle ?? cache.textStyle;
-        fs.writeFile(`${__dirname}/cache.json`, JSON.stringify(cache), (err) => {
-            if (err) {
-                console.log(err);
-            }
-            res.sendStatus(200);
-        });
-        io.emit('setStyle', textStyle);
-    });
-});
 
 app.use(
     express.static('public')
@@ -95,7 +19,30 @@ app.get('/controller', function (req, res) {
     res.sendFile('public/controller.html', { root: __dirname });
 });
 
-// io.listen(3000)
-http.listen(3000, () => {
-    console.log(`Socket.IO server running at http://localhost:${3000}/`);
+app.listen(3000, function () { 
+    console.log('Listening on port 3000!');
+
+    exec('start "" http://localhost:3000/controller', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`Error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`Command executed to open controller ${stdout}`);
 });
+});
+
+process.on('uncaughtException', UncaughtExceptionHandler);
+
+function UncaughtExceptionHandler(err)
+{
+    console.log("Uncaught Exception Encountered!!");
+    console.log("err: ", err);
+    console.log("Stack trace: ", err.stack);
+    setInterval(function(){}, 1000);
+}
+
+

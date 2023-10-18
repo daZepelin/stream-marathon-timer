@@ -7,14 +7,54 @@ var timeMultiplier = 1.0;
 var countDownDate = new Date();
 var paused = false;
 
-$.get('http://localhost:3000/getCache', function (data) {
-    var cache = JSON.parse(data);
-    countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
-    paused = cache.paused
+// $.get('http://localhost:3000/getCache', function (data) {
+//     var cache = JSON.parse(data);
+//     countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
+//     paused = cache.paused
+//     timeMultiplier =
+//         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
+//             ? parseInt(cache.timeMultiplier)
+//             : timeMultiplier;
+//     $('#auth-token-input-se').val(cache.authTokenSE);
+//     $('#auth-token-input-sl').val(cache.authTokenSL);
+//     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
+//     $('#set-modifier-input').val(timeMultiplier)
+//     $('#text-style-css').val(cache.textStyle)
+//     $('#text-style-preview').attr('style', cache.textStyle)
+//     if (cache.donatePlatform == 'SE') {
+//         initElements(cache.authToken);
+//     } else if (cache.donatePlatform == 'SL') {
+//         initLabs(cache.authToken);
+//     } else if (cache.donatePlatform == 'BOTH') {
+//         initElements(cache.authToken);
+//         initLabs(cache.authToken, true);
+//     }
+//     $('#pause').text(paused ? 'Resume' : 'Pause');
+
+
+// });
+
+$(() => {
+    let cache = {
+        time: localStorage.getItem('time'),
+        authTokenSE: localStorage.getItem('authTokenSE'),
+        authTokenSL: localStorage.getItem('authTokenSL'),
+        donatePlatform: localStorage.getItem('donatePlatform'),
+        paused: localStorage.getItem('paused'),
+        timeMultiplier: localStorage.getItem('timeMultiplier'),
+        textStyle: localStorage.getItem('textStyle'),
+    }
+
+    console.log(cache)
+
+    countDownDate = new Date(countDownDate.getTime() + (!isNaN(parseInt(cache.time)) ? parseInt(cache.time) : 0) * 1000);
     timeMultiplier =
         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
             ? parseInt(cache.timeMultiplier)
             : timeMultiplier;
+
+
+    console.log(cache.authTokenSE)
     $('#auth-token-input-se').val(cache.authTokenSE);
     $('#auth-token-input-sl').val(cache.authTokenSL);
     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
@@ -22,17 +62,15 @@ $.get('http://localhost:3000/getCache', function (data) {
     $('#text-style-css').val(cache.textStyle)
     $('#text-style-preview').attr('style', cache.textStyle)
     if (cache.donatePlatform == 'SE') {
-        initElements(cache.authToken);
+        initElements(cache.authTokenSE);
     } else if (cache.donatePlatform == 'SL') {
-        initLabs(cache.authToken);
+        initLabs(cache.authTokenSL);
     } else if (cache.donatePlatform == 'BOTH') {
-        initElements(cache.authToken);
-        initLabs(cache.authToken, true);
+        initElements(cache.authTokenSE);
+        initLabs(cache.authTokenSL, true);
     }
     $('#pause').text(paused ? 'Resume' : 'Pause');
-
-
-});
+})
 
 document.getElementById('add-min').addEventListener('click', () => {
     // Get today's date and time
@@ -41,14 +79,17 @@ document.getElementById('add-min').addEventListener('click', () => {
     countDownDate = new Date(countDownDate.getTime() + 1 * 60000);
     // Find the distance between now and the count down date
     var distance = countDownDate.getTime() - now;
-    $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+    setTimer({time: Math.floor(distance / 1000)})
 });
 
 document.getElementById('pause').addEventListener('click', () => {
     paused = !paused;
     $('#pause').text(paused ? 'Resume' : 'Pause');
-    $.post('http://localhost:3000/setCache', { paused: paused });
-    $.post('http://localhost:3000/setPaused', { paused: paused });
+    // $.post('http://localhost:3000/setCache', { paused: paused });
+    // $.post('http://localhost:3000/setPaused', { paused: paused });
+
+    localStorage.setItem('paused', paused)
+
 });
 
 $('#set-timer-form').submit((e) => {
@@ -56,13 +97,14 @@ $('#set-timer-form').submit((e) => {
     var inputVal = parseInt($('#set-time-input').val());
     if (isNaN(inputVal)) return;
     countDownDate = new Date(new Date().getTime() + inputVal * 1000 * 60);
-    $.post('http://localhost:3000/setTimer', { time: inputVal * 60 });
+    setTimer({time: inputVal * 60})
 });
 
 $('#text-style-form').submit((e) => {
     e.preventDefault();
     var textStyle = $('#text-style-css').val();
-    $.post('http://localhost:3000/setStyle', { textStyle });
+    // $.post('http://localhost:3000/setStyle', { textStyle });
+    localStorage.setItem('textStyle', textStyle)
 });
 
 $('#text-style-css').on('input', (e) => {
@@ -77,7 +119,7 @@ $('#add-timer-form').submit((e) => {
     if (isNaN(inputVal)) return;
     countDownDate = new Date(countDownDate.getTime() + inputVal * 60000);
     var distance = countDownDate.getTime() - now;
-    $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+    setTimer({time: Math.floor(distance / 1000)})
 });
 
 $('#authentification-form').submit((e) => {
@@ -85,7 +127,10 @@ $('#authentification-form').submit((e) => {
     var donatePlatform = $('input[name="donate-platform"]:checked').val();
     const authTokenSE = $('#auth-token-input-se').val();
     const authTokenSL = $('#auth-token-input-sl').val();
-    $.post('http://localhost:3000/setCache', { authTokenSE, authTokenSL, donatePlatform: donatePlatform });
+    localStorage.setItem('authTokenSE', authTokenSE)
+    localStorage.setItem('authTokenSL', authTokenSL)
+    localStorage.setItem('donatePlatform', donatePlatform)
+
 
     closeElements();
     closeLabs();
@@ -118,7 +163,8 @@ $('#set-modifier-form').submit((e) => {
     if (multiplier && !isNaN(multiplier)) {
         timeMultiplier = multiplier;
         $("input[name=time-multiplier][value=" + timeMultiplier + "]").attr('checked', 'checked');
-        $.post('http://localhost:3000/setCache', { timeMultiplier: timeMultiplier });
+        // $.post('http://localhost:3000/setCache', { timeMultiplier: timeMultiplier });
+        localStorage.setItem('timeMultiplier', timeMultiplier)
     }
 });
 
@@ -152,6 +198,11 @@ var x = setInterval(function () {
 setInterval(() => {
     var now = new Date().getTime();
     var distance = countDownDate.getTime() - now;
-    $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+    setTimer({time: Math.floor(distance / 1000)})
 }, 10000);
+
+function setTimer({time}) {
+    // $.post('http://localhost:3000/setTimer', { time });
+    localStorage.setItem('time', time)
+}
 

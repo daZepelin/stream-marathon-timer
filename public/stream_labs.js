@@ -3,6 +3,11 @@ var streamlabsSocket = null;
 
 const initLabs = (authToken, skipChat) => {
     streamlabsSocket = io(`https://sockets.streamlabs.com?token=${authToken}`, { transports: ['websocket'] });
+
+    streamlabsSocket.on('connect', () => {
+        console.log('Successfully connected to the websocket');
+    });
+    
     streamlabsSocket.on('event', (eventData) => {
         if (eventData.type === 'donation') {
             var currency = eventData.message[0]?.formatted_amount?.charAt(0);
@@ -14,7 +19,7 @@ const initLabs = (authToken, skipChat) => {
                 var now = new Date().getTime();
 
                 var distance = countDownDate.getTime() - now;
-                $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+                setTimer({time: Math.floor(distance / 1000)})
             }
         } else if (eventData.type === 'superchat' && !skipChat) {
             var currency = eventData.message[0].currency
@@ -26,7 +31,7 @@ const initLabs = (authToken, skipChat) => {
                 var now = new Date().getTime();
 
                 var distance = countDownDate.getTime() - now;
-                $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+                setTimer({time: Math.floor(distance / 1000)})
             }
         } else if (eventData.type === 'stars' ) {
             countDownDate = new Date(
@@ -36,10 +41,14 @@ const initLabs = (authToken, skipChat) => {
             var now = new Date().getTime();
 
             var distance = countDownDate.getTime() - now;
-            $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+            setTimer({time: Math.floor(distance / 1000)})
         }
     });
 };
+
+function setTimer({time}) {
+    localStorage.setItem('time', time)
+}
 
 closeLabs = () => {
     streamlabsSocket?.close();

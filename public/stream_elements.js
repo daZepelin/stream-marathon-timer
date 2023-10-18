@@ -32,12 +32,13 @@ const closeElements = () => {
 };
 
 const handleStreamElementsTip = (event, test) => {
-    if (test || event.currency == 'USD' || event.currency == 'EUR' || event.currency == 'GBP') {
+    console.log('handleStreamElementsTip', event)
+    if (test || event.currency == 'USD' || event.currency == 'EUR' || event.currency == 'GBP' || event.currency == null) {
         countDownDate = new Date(countDownDate.getTime() + event.amount * timeMultiplier * 60000);
 
         var now = new Date().getTime();
 
         var distance = countDownDate.getTime() - now;
-        $.post('http://localhost:3000/setTimer', { time: Math.floor(distance / 1000) });
+        localStorage.setItem('time', { time: Math.floor(distance / 1000) })
     }
 };

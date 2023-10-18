@@ -49,13 +49,13 @@
                 <input value="5" type="radio" name="time-multiplier" >1€ = 5min</input><br>
                 <input type="submit"></input>
             </form>
-            <form id="authentification-form">
+            <form id="authentification-form" autocomplete="off">
                 <label class="input">
-                    <input class="input__field" id='auth-token-input-se' name="time-input" type="password" placeholder=" " />
+                    <input autocomplete="false" class="input__field" id='auth-token-input-se' name="time-input" type="password" placeholder=" " />
                     <span class="input__label">Stream Elements JWT Token</span>
                 </label>
                 <label class="input">
-                    <input class="input__field" id='auth-token-input-sl' name="time-input" type="password" placeholder=" " />
+                    <input autocomplete="false" class="input__field" id='auth-token-input-sl' name="time-input" type="password" placeholder=" " />
                     <span class="input__label">Stream Labs Socket API Token</span>
                 </label>
                 <label for="donate-platform">Donations platform:</label><br>
