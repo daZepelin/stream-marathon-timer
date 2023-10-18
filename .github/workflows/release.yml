@@ -17,7 +17,7 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: npm install --global pkg
       - name: Build
-        run: pkg index.js --output subaton-timer --targets win
+        run: pkg server.js --output subaton-timer --targets win
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
