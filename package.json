@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon server.js",
-    "build": "pkg .",
+    "build": "pkg . --output subaton-timer --targets win",
     "test": "echo \"Error: no test specified\" && exit 1",
     "_postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
@@ -18,8 +18,7 @@
   },
   "pkg": {
     "scripts": [
-      "server.js",
-      "public/**/*.js"
+      "server.js"
     ],
     "assets": [
       "public/**/*"
