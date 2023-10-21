@@ -13,22 +13,83 @@
         <div id="browser"></div>
         <button id="add-min">Add minute</button>
         <button id="pause">Pause</button>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 100px;">
-            <form id="set-timer-form">
-                <label class="input">
-                    <input class="input__field" step="0.1" id='set-time-input' name="time-input" type="number" placeholder=" "/>
-                    <span class="input__label">Set time (minutes)</span>
-                </label>
-                <input type="submit"></input>
-            </form>
-            <form id="add-timer-form">
-                <label class="input">
-                    <input class="input__field" step="0.1" id='add-time-input' name="time-input" type="number" placeholder=" "/>
-                    <span class="input__label">Add time (minutes)</span>
-                </label>
-                <input type="submit"></input>
-            </form>
-            </form>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 50px;">
+            <div id="time-history">
+                <div id="time-history-title">Time history</div>
+                <div id="time-history-content">
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                    <div class="time-history-el">
+                        <div>
+                            <span>18min</span>
+                            <span>18€</span>
+                        </div>
+                        <span class="time-history-el-timestamp">12:00</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <form id="set-timer-form">
+                    <label class="input">
+                        <input class="input__field" step="0.1" id='set-time-input' name="time-input" type="number" placeholder=" "/>
+                        <span class="input__label">Set time (minutes)</span>
+                    </label>
+                    <input type="submit"></input>
+                </form>
+                <form id="add-timer-form">
+                    <label class="input">
+                        <input class="input__field" step="0.1" id='add-time-input' name="time-input" type="number" placeholder=" "/>
+                        <span class="input__label">Add time (minutes)</span>
+                    </label>
+                    <input type="submit"></input>
+                </form>
+                <form id="set-modifier-form">
+                    <label class="input">
+                        <input class="input__field" step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder=" " />
+                        <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
+                    </label>
+                    <label for="time-multiplier">Time multiplier</label><br>
+                    <input value="0.2" type="radio" name="time-multiplier" >5€ = 1min</input><br>
+                    <input value="0.5" type="radio" name="time-multiplier" >2€ = 1min</input><br>
+                    <input value="1" type="radio" name="time-multiplier" checked>1€ = 1min</input><br>
+                    <input value="2" type="radio" name="time-multiplier" >1€ = 2min</input><br>
+                    <input value="5" type="radio" name="time-multiplier" >1€ = 5min</input><br>
+                    <input type="submit"></input>
+                </form>
+            </div>
             <form id="text-style-form" style="grid-row: 1/4; grid-column: 3/4;">
                 <label class="input">
                     <textarea style="height: 450px;" class="input__field" id='text-style-css' name="style-input" type="text" placeholder=" "></textarea>
@@ -36,19 +97,7 @@
                 </label>
                 <input type="submit"></input><div id="text-style-preview">Preview</div>
             </form>
-            <form id="set-modifier-form">
-                <label class="input">
-                    <input class="input__field" step="0.1" id='set-modifier-input' name="time-input" type="number" placeholder=" " />
-                    <span class="input__label">Time multiplier e.g [2.0 - 1€ = 2min], [1.0 - 1€ = 1min], [0.5 - 2€ = 1min]</span>
-                </label>
-                <label for="time-multiplier">Time multiplier</label><br>
-                <input value="0.2" type="radio" name="time-multiplier" >5€ = 1min</input><br>
-                <input value="0.5" type="radio" name="time-multiplier" >2€ = 1min</input><br>
-                <input value="1" type="radio" name="time-multiplier" checked>1€ = 1min</input><br>
-                <input value="2" type="radio" name="time-multiplier" >1€ = 2min</input><br>
-                <input value="5" type="radio" name="time-multiplier" >1€ = 5min</input><br>
-                <input type="submit"></input>
-            </form>
+            
             <form id="authentification-form" autocomplete="off">
                 <label class="input">
                     <input autocomplete="false" class="input__field" id='auth-token-input-se' name="time-input" type="password" placeholder=" " />

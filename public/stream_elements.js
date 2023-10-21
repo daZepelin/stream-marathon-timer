@@ -32,13 +32,15 @@ const closeElements = () => {
 };
 
 const handleStreamElementsTip = (event, test) => {
-    console.log('handleStreamElementsTip', event)
     if (test || event.currency == 'USD' || event.currency == 'EUR' || event.currency == 'GBP' || event.currency == null) {
-        countDownDate = new Date(countDownDate.getTime() + event.amount * timeMultiplier * 60000);
+        let timeToAdd = event.amount * timeMultiplier
+        countDownDate = new Date(countDownDate.getTime() + timeToAdd * 60000);
 
         var now = new Date().getTime();
 
         var distance = countDownDate.getTime() - now;
         localStorage.setItem('time', { time: Math.floor(distance / 1000) })
+
+        addToHistory({minutes: timeToAdd, donate: event.amount + ' ' + event.currency, platform: 'SE'})
     }
 };

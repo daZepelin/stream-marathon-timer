@@ -1,3 +1,6 @@
 {
-    "ignore": ["cache.json"]
+    "ignore": ["cache.json"],
+    "env": {
+        "NODE_ENV": "development"
+    }
 }

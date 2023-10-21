@@ -7,33 +7,6 @@ var timeMultiplier = 1.0;
 var countDownDate = new Date();
 var paused = false;
 
-// $.get('http://localhost:3000/getCache', function (data) {
-//     var cache = JSON.parse(data);
-//     countDownDate = new Date(countDownDate.getTime() + parseInt(cache.time) * 1000);
-//     paused = cache.paused
-//     timeMultiplier =
-//         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
-//             ? parseInt(cache.timeMultiplier)
-//             : timeMultiplier;
-//     $('#auth-token-input-se').val(cache.authTokenSE);
-//     $('#auth-token-input-sl').val(cache.authTokenSL);
-//     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
-//     $('#set-modifier-input').val(timeMultiplier)
-//     $('#text-style-css').val(cache.textStyle)
-//     $('#text-style-preview').attr('style', cache.textStyle)
-//     if (cache.donatePlatform == 'SE') {
-//         initElements(cache.authToken);
-//     } else if (cache.donatePlatform == 'SL') {
-//         initLabs(cache.authToken);
-//     } else if (cache.donatePlatform == 'BOTH') {
-//         initElements(cache.authToken);
-//         initLabs(cache.authToken, true);
-//     }
-//     $('#pause').text(paused ? 'Resume' : 'Pause');
-
-
-// });
-
 $(() => {
     let cache = {
         time: localStorage.getItem('time'),
@@ -43,6 +16,7 @@ $(() => {
         paused: localStorage.getItem('paused'),
         timeMultiplier: localStorage.getItem('timeMultiplier'),
         textStyle: localStorage.getItem('textStyle'),
+        history: JSON.parse(localStorage.getItem('history'))
     }
 
     console.log(cache)
@@ -70,6 +44,8 @@ $(() => {
         initLabs(cache.authTokenSL, true);
     }
     $('#pause').text(paused ? 'Resume' : 'Pause');
+
+    setHistory({history: cache.history})
 })
 
 document.getElementById('add-min').addEventListener('click', () => {
@@ -85,8 +61,6 @@ document.getElementById('add-min').addEventListener('click', () => {
 document.getElementById('pause').addEventListener('click', () => {
     paused = !paused;
     $('#pause').text(paused ? 'Resume' : 'Pause');
-    // $.post('http://localhost:3000/setCache', { paused: paused });
-    // $.post('http://localhost:3000/setPaused', { paused: paused });
 
     localStorage.setItem('paused', paused)
 
@@ -103,7 +77,6 @@ $('#set-timer-form').submit((e) => {
 $('#text-style-form').submit((e) => {
     e.preventDefault();
     var textStyle = $('#text-style-css').val();
-    // $.post('http://localhost:3000/setStyle', { textStyle });
     localStorage.setItem('textStyle', textStyle)
 });
 
@@ -163,7 +136,6 @@ $('#set-modifier-form').submit((e) => {
     if (multiplier && !isNaN(multiplier)) {
         timeMultiplier = multiplier;
         $("input[name=time-multiplier][value=" + timeMultiplier + "]").attr('checked', 'checked');
-        // $.post('http://localhost:3000/setCache', { timeMultiplier: timeMultiplier });
         localStorage.setItem('timeMultiplier', timeMultiplier)
     }
 });
@@ -190,7 +162,6 @@ var x = setInterval(function () {
 
     // If the count down is over, write some text
     if (distance < 0) {
-        // clearInterval(x);
         document.getElementById('demo').innerHTML = 'PABAIGA';
     }
 }, 1000);
@@ -202,7 +173,44 @@ setInterval(() => {
 }, 10000);
 
 function setTimer({time}) {
-    // $.post('http://localhost:3000/setTimer', { time });
     localStorage.setItem('time', time)
+}
+
+function setHistory({history}) {
+    console.log('setHistory', history)
+    if (!history) return;
+    $('#time-history-content').empty()
+    history.forEach(element => {
+        $('#time-history-content').prepend(`
+        <div class="time-history-el">
+            <div>
+                <span>${element.minutes}min</span>
+                <span>${element.donate}</span>
+            </div>
+            <span class="time-history-el-timestamp">${element.timeFormatted}</span>
+        </div>`)
+    });
+}
+
+function addToHistory({donate, minutes}) {
+    var now = new Date();
+    var timeFormatted = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+    var history = JSON.parse(localStorage.getItem('history')) || [];
+    history.push({donate, minutes, timeFormatted})
+    if (history.length > 10) {
+        history = history.slice(history.length - 10, history.length)
+        $('#time-history-content').children().last().remove()
+    }
+    console.log(history)
+    localStorage.setItem('history', JSON.stringify(history))
+
+    $('#time-history-content').prepend(`
+    <div class="time-history-el">
+        <div>
+            <span>${minutes}min</span>
+            <span>${donate}</span>
+        </div>
+        <span class="time-history-el-timestamp">${timeFormatted}</span>
+    </div>`)
 }
 
