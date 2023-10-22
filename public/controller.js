@@ -19,8 +19,6 @@ $(() => {
         history: JSON.parse(localStorage.getItem('history'))
     }
 
-    console.log(cache)
-
     countDownDate = new Date(countDownDate.getTime() + (!isNaN(parseInt(cache.time)) ? parseInt(cache.time) : 0) * 1000);
     timeMultiplier =
         cache.timeMultiplier && !isNaN(parseInt(cache.timeMultiplier))
@@ -28,7 +26,6 @@ $(() => {
             : timeMultiplier;
 
 
-    console.log(cache.authTokenSE)
     $('#auth-token-input-se').val(cache.authTokenSE);
     $('#auth-token-input-sl').val(cache.authTokenSL);
     $(`input[value="${cache.donatePlatform}"]`).prop('checked', true);
