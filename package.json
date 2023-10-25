@@ -3,8 +3,8 @@
   "version": "0.2.6",
   "description": "Subaton / Euroton donation timer bot",
   "author": "daZepelin",
-  "main": "server.js",
   "license": "ISC",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
