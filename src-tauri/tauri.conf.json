@@ -2,12 +2,12 @@
   "build": {
     "beforeBuildCommand": "pnpm build",
     "beforeDevCommand": "pnpm dev",
-    "devPath": "http://localhost:1420",
+    "devPath": "http://localhost:1424",
     "distDir": "../dist",
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "subaton-timer-bot",
+    "productName": "subathon-timer-bot",
     "version": "0.1.0"
   },
   "tauri": {
@@ -28,7 +28,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "tauri-app-test",
+      "identifier": "subathon-timer-bot",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -43,8 +43,8 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": false,
-        "title": "Subaton Timer",
+        "resizable": true,
+        "title": "Subathon Timer",
         "height": 600,
         "width": 800
       }
