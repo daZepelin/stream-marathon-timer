@@ -1,0 +1,40 @@
+import '@mantine/core/styles.css';
+import { MantineProvider, createTheme } from '@mantine/core';
+import React, { useState } from 'react';
+import { SubathonTimeCtx, SubathonTimerStyleCtx } from './context/subathon-time';
+import useSubathonTime from './hooks/useSubathonTime';
+import useSubathonTimerStyle from './hooks/useSubathonTimerStyle';
+
+const theme = createTheme({
+  //   loader: 'oval',
+  // Added Segoe UI Variable Text (Win11) to https://mantine.dev/theming/typography/#system-fonts
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, Segoe UI Variable Text, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji',
+  // added source-code-pro and SFMono-Regular
+  fontFamilyMonospace:
+    'source-code-pro, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+  components: {
+    Checkbox: { styles: { input: { cursor: 'pointer' }, label: { cursor: 'pointer' } } },
+    TextInput: { styles: { label: { marginTop: '0.5rem' } } },
+    Select: { styles: { label: { marginTop: '0.5rem' } } },
+    Loader: { defaultProps: { size: 'xl' } },
+    Space: { defaultProps: { h: 'sm' } },
+    Anchor: { defaultProps: { target: '_blank' } },
+    Burger: { styles: { burger: { color: '--mantine-color-grey-6' } } },
+  },
+});
+
+export const Providers = ({ children }: { children: React.ReactNode }) => {
+  const { subathonTime, setSubathonTime } = useSubathonTime();
+  const { subathonTimerStyle, setSubathonTimerStyle } = useSubathonTimerStyle();
+
+  return (
+    <>
+      <MantineProvider defaultColorScheme='auto' theme={theme}>
+        <SubathonTimerStyleCtx.Provider value={{ subathonTimerStyle, setSubathonTimerStyle }}>
+          <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>{children}</SubathonTimeCtx.Provider>
+        </SubathonTimerStyleCtx.Provider>
+      </MantineProvider>
+    </>
+  );
+};

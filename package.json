@@ -1,7 +1,7 @@
 {
-  "name": "subaton-timer-bot",
+  "name": "subathon-timer-bot",
   "version": "0.2.6",
-  "description": "Subaton / Euroton donation timer bot",
+  "description": "Subathon / Euroton donation timer bot",
   "author": "daZepelin",
   "license": "ISC",
   "type": "module",
@@ -19,20 +19,29 @@
     "@mantine/code-highlight": "^7.1.5",
     "@mantine/core": "^7.1.5",
     "@mantine/dates": "^7.1.5",
+    "@mantine/ds": "^7.1.7",
     "@mantine/hooks": "^7.1.5",
     "@mantine/notifications": "^7.1.5",
     "@mantine/nprogress": "^7.1.5",
+    "@tabler/icons-react": "^2.39.0",
     "@tauri-apps/api": "^1.5.1",
     "@types/jest": "^29.5.6",
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.32",
     "@types/react-dom": "^18.2.14",
+    "@types/webfontloader": "^1.6.36",
+    "@uiw/react-textarea-code-editor": "^2.1.9",
     "body-parser": "^1.20.0",
     "dayjs": "^1.11.10",
+    "postcss": "^8.4.31",
+    "postcss-simple-vars": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.17.0",
+    "socket.io-client": "^4.7.2",
     "standard-version": "^9.5.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
@@ -41,6 +50,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "husky": "^8.0.1",
     "pinst": "^3.0.0",
+    "postcss-preset-mantine": "^1.9.0",
     "vite": "^4.5.0"
   }
 }

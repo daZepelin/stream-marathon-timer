@@ -17,11 +17,11 @@ jobs:
       - run: yarn --frozen-lockfile
       - run: npm install --global pkg
       - name: Build
-        run: pkg . --output subaton-timer --targets win
+        run: pkg . --output subathon-timer --targets win
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            subaton-timer.exe
+            subathon-timer.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
