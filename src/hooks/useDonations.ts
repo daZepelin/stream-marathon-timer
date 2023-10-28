@@ -15,7 +15,6 @@ export const useDonations = ({ streamLabsAuthKey, streamElementsJWT, newDonation
   const [streamElementsSocket, setStreamElementsSocket] = useState<Socket | null>(null);
 
   const onDonationAdd = (donation: IDonation) => {
-    console.log(donation);
     setDonations((prevDonations) => [...prevDonations, donation]);
   };
 

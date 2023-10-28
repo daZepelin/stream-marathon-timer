@@ -5,14 +5,13 @@ import { Navbar } from './navbar/Navbar';
 import { AppShell, AppShellNavbar, Container, SimpleGrid } from '@mantine/core';
 
 function Dashboard() {
-  const [input, setInput] = useState('');
   const [streamLabsAuthKey, setStreamLabsAuthKey] = useState('');
   const [streamElementsJWT, setStreamElementsJWT] = useState('');
 
   const { donations } = useDonations({ streamLabsAuthKey, streamElementsJWT, newDonation: (donation) => {} });
 
   return (
-    <AppShell navbar={{ width: 300, breakpoint: 'sm' }} padding='md'>
+    <AppShell navbar={{ width: 250, breakpoint: 'sm' }} padding='md'>
       <AppShell.Navbar withBorder>
         <Navbar />
       </AppShell.Navbar>

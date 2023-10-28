@@ -10,22 +10,26 @@ use dirs::data_local_dir;
 use std::fs;
 
 fn read_data_file(filename: &str) -> Result<String, std::io::Error> {
-    println!("Reading data file: {}, path: {}", filename, data_local_dir().unwrap().display());
+    println!(
+        "Reading data file: {}, path: {}",
+        filename,
+        data_local_dir().unwrap().display()
+    );
     if let Some(mut data_path) = data_local_dir() {
-        data_path.push(filename);  // Append the filename to the path
-        fs::read_to_string(data_path)  // Use standard Rust's fs module to read the file to a String
+        data_path.push(filename); // Append the filename to the path
+        fs::read_to_string(data_path) // Use standard Rust's fs module to read the file to a String
     } else {
-        Err(std::io::Error::new(std::io::ErrorKind::NotFound, "Data directory not found"))
+        Err(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            "Data directory not found",
+        ))
     }
 }
 
 #[get("/time")]
 async fn get_time() -> impl Responder {
     match read_data_file("subathon-timer-bot/subathon/time.txt") {
-        Ok(time) => {
-            println!("time: {}", time);
-            return HttpResponse::Ok().body(time)
-        },
+        Ok(time) => return HttpResponse::Ok().body(time),
         Err(_) => return HttpResponse::Ok().body("600"),
     }
 }
@@ -33,6 +37,14 @@ async fn get_time() -> impl Responder {
 #[get("/config")]
 async fn get_config() -> impl Responder {
     HttpResponse::Ok().body("cfg")
+}
+
+#[get("/timer_style")]
+async fn get_timer_style() -> impl Responder {
+    match read_data_file("subathon-timer-bot/subathon/style.json") {
+        Ok(time) => return HttpResponse::Ok().body(time),
+        Err(_) => return HttpResponse::Ok().body("600"),
+    }
 }
 
 fn main() {
@@ -46,7 +58,11 @@ fn main() {
                         .allowed_origin("http://localhost:1427")
                         .allowed_origin("https://tauri.localhost");
 
-                    App::new().wrap(cors).service(get_time).service(get_config)
+                    App::new()
+                        .wrap(cors)
+                        .service(get_time)
+                        .service(get_config)
+                        .service(get_timer_style)
                 })
                 .bind(("127.0.0.1", 1425))?
                 .run(),

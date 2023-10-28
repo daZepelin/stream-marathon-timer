@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BaseDirectory, createDir, writeTextFile } from '@tauri-apps/api/fs';
-import { appLocalDataDir } from '@tauri-apps/api/path';
+import { BaseDirectory, createDir, writeTextFile } from '@tauri-apps/plugin-fs';
 
 import { RUNNING_IN_TAURI } from '../services/utils';
 
@@ -10,8 +9,6 @@ const useSubathonTime = () => {
   const saveSubathonTime = async (time: number) => {
     if (!RUNNING_IN_TAURI) return;
 
-    const appLocalDataDirPath = await appLocalDataDir();
-    console.log('dir ', BaseDirectory.AppLocalData, appLocalDataDirPath);
     await createDir('subathon', {
       dir: BaseDirectory.AppLocalData,
       recursive: true,

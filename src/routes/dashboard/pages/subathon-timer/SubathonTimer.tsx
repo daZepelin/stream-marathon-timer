@@ -15,7 +15,7 @@ export const SubathonTimer = () => {
         <Paper
           withBorder
           shadow='sm'
-          p='xs'
+          px='xs'
           radius='lg'
           bg={theme.colors.dark[6]}
           style={{
@@ -26,10 +26,11 @@ export const SubathonTimer = () => {
             overflow: 'hidden',
           }}>
           <Title order={2}>Subathon Timer</Title>
-          <div style={{
-            height: '57px',
-            overflow: 'hidden',
-          }}>
+          <div
+            style={{
+              height: '57px',
+              overflow: 'hidden',
+            }}>
             <div
               style={{
                 lineHeight: '57px',

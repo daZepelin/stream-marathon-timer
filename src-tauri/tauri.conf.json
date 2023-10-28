@@ -10,43 +10,36 @@
     "productName": "subathon-timer-bot",
     "version": "0.1.0"
   },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "fs": {
-        "all": true,
-        "scope": ["$APP/*", "$DESKTOP/*", "$APPDATA/**/*", "$APPLOCALDATA/**/*"]
-      },
-      "path": {
-        "all": true
-      }
+  "plugins": {
+    "fs": {
+      "scope": ["$APP/*", "$DESKTOP/*", "$APPDATA/**/*", "$APPLOCALDATA/**/*"]
     },
+    "shell": {
+      "open": true
+    }
+  },
+  "tauri": {
     "bundle": {
       "active": true,
-      "targets": "all",
+      "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
       "identifier": "subathon-timer-bot",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ]
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
     },
     "security": {
-      "csp": null
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
     },
     "windows": [
       {
         "fullscreen": false,
+        "width": 970,
+        "height": 650,
         "resizable": true,
-        "title": "Subathon Timer",
-        "height": 600,
-        "width": 800
+        "title": "Subathon Timer"
       }
     ]
   }
