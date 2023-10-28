@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BaseDirectory, createDir, writeTextFile } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, createDir, writeTextFile } from '@tauri-apps/api/fs';
 
 import { RUNNING_IN_TAURI } from '../services/utils';
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { RUNNING_IN_TAURI } from '../services/utils';
-import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/plugin-fs';
+import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 
 const useSubathonTimerStyle = () => {
   const [style, setStyle] = useState({} as any);
-  let timeout: number | undefined = undefined;
+  const [timeoutHandle, setTimeoutHandle] = useState<number | null>(null);
 
   const saveSubathonTimerStyle = async (style: any) => {
     if (!RUNNING_IN_TAURI) return;
@@ -23,15 +23,21 @@ const useSubathonTimerStyle = () => {
         console.log('Failed to save subathon timer style');
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => {
+    if (timeoutHandle) {
+      clearTimeout(timeoutHandle);
+    }
+    let newTimeout = setTimeout(() => {
       saveSubathonTimerStyle(style);
+
     }, 3000);
+    setTimeoutHandle(newTimeout);
     return () => {
-      
+      if (timeoutHandle) {
+        clearTimeout(timeoutHandle);
+      }
     };
   }, [style]);
 
@@ -41,7 +47,6 @@ const useSubathonTimerStyle = () => {
         method: 'GET',
       });
       const data = await response.json();
-      console.log(data)
       setStyle(data);
     };
 
