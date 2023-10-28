@@ -37,10 +37,14 @@ async fn get_config() -> impl Responder {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_localhost::Builder::new(1427).build())
         .setup(|app| {
             tauri::async_runtime::spawn(
                 HttpServer::new(|| {
-                    let cors = Cors::default().allowed_origin("http://localhost:1424");
+                    let cors = Cors::default()
+                        .allowed_origin("http://localhost:1424")
+                        .allowed_origin("http://localhost:1427")
+                        .allowed_origin("https://tauri.localhost");
 
                     App::new().wrap(cors).service(get_time).service(get_config)
                 })
