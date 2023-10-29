@@ -6,6 +6,14 @@ use actix_cors::Cors;
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 // use tauri::api::path;
 use dirs::data_local_dir;
+use serde::{Deserialize, Serialize};
+use serde_json;
+
+#[derive(Serialize, Deserialize)]
+struct TimerData {
+    style: serde_json::Value,
+    config: serde_json::Value,
+}
 
 use std::fs;
 
@@ -39,12 +47,41 @@ async fn get_config() -> impl Responder {
     HttpResponse::Ok().body("cfg")
 }
 
-#[get("/timer_style")]
-async fn get_timer_style() -> impl Responder {
-    match read_data_file("subathon-timer-bot/subathon/style.json") {
-        Ok(time) => return HttpResponse::Ok().body(time),
-        Err(_) => return HttpResponse::Ok().body("600"),
+#[get("/timer_cfg")]
+async fn get_timer_cfg() -> impl Responder {
+
+    let style_file_result = read_data_file("subathon-timer-bot/subathon/style.json");
+
+    // Read the second file
+    let config_file_result = read_data_file("subathon-timer-bot/subathon/config.json");
+
+    // Combine the data from both files into a TimerData struct
+    let mut combined_data = TimerData {
+        style: serde_json::from_str("[]").expect("JSON was not well-formatted"),
+        config: serde_json::from_str("[]").expect("JSON was not well-formatted"),
+    };
+
+    // Update fields if files were successfully read
+    if let Ok(style) = style_file_result {
+        let json_style: serde_json::Value =
+            serde_json::from_str(&style).expect("JSON was not well-formatted");
+        combined_data.style = json_style;
     }
+
+    if let Ok(config) = config_file_result {
+        // combined_data.config = config;
+
+        let json_config: serde_json::Value =
+            serde_json::from_str(&config).expect("JSON was not well-formatted");
+        combined_data.config = json_config;
+    }
+
+    // Serialize the TimerData struct to JSON
+    let json_data = serde_json::to_string(&combined_data).unwrap();
+
+    HttpResponse::Ok()
+        .content_type("application/json")
+        .body(json_data)
 }
 
 fn main() {
@@ -62,7 +99,7 @@ fn main() {
                         .wrap(cors)
                         .service(get_time)
                         .service(get_config)
-                        .service(get_timer_style)
+                        .service(get_timer_cfg)
                 })
                 .bind(("127.0.0.1", 1425))?
                 .run(),
