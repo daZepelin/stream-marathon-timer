@@ -45,6 +45,13 @@ const useSubathonTime = () => {
     console.log(data);
   };
 
+  const addTime = (time: number) => {
+    setSubathonTime((prevState) => {
+      if (prevState === null) return null;
+      return prevState + time;
+    });
+  }
+
   useEffect(() => {
     fetchTime();
 
@@ -55,7 +62,7 @@ const useSubathonTime = () => {
     };
   }, []);
 
-  return { subathonTime, setSubathonTime };
+  return { subathonTime, setSubathonTime, addTime };
 };
 
 export default useSubathonTime;

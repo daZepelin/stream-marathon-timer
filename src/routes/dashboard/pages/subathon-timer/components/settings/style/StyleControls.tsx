@@ -1,5 +1,5 @@
 import React, { RefObject, useContext, useEffect, useState } from 'react';
-import { SubathonTimerStyleCtx } from '../../../../../../../context/subathon-time';
+import { SubathonTimerConfigCtx } from '../../../../../../../context/subathon-time';
 import {
   ActionIcon,
   Anchor,
@@ -20,7 +20,7 @@ import useFontImports from '../../../../../../../hooks/useFontImports';
 
 const StyleControls = () => {
   const theme = useMantineTheme();
-  const { subathonTimerStyle, setSubathonTimerStyle } = useContext(SubathonTimerStyleCtx);
+  const { subathonTimerStyle, setSubathonTimerStyle } = useContext(SubathonTimerConfigCtx);
   const [fontDialogOpen, { toggle: fontDialogToggle, close: fontDialogClose }] = useDisclosure(false);
   const { addFont, fonts } = useFontImports();
   const [fontInput, setFontInput] = useState('' as string);

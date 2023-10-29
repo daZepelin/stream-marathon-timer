@@ -1,9 +1,9 @@
 import '@mantine/core/styles.css';
 import { MantineProvider, createTheme } from '@mantine/core';
 import React, { useState } from 'react';
-import { SubathonTimeCtx, SubathonTimerStyleCtx } from './context/subathon-time';
+import { SubathonTimeCtx, SubathonTimerConfigCtx } from './context/subathon-time';
 import useSubathonTime from './hooks/useSubathonTime';
-import useSubathonTimerStyle from './hooks/useSubathonTimerStyle';
+import useSubathonTimerConfig from './hooks/useSubathonTimerConfig';
 
 const theme = createTheme({
   //   loader: 'oval',
@@ -25,8 +25,9 @@ const theme = createTheme({
 });
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
-  const { subathonTime, setSubathonTime } = useSubathonTime();
-  const { subathonTimerStyle, setSubathonTimerStyle } = useSubathonTimerStyle();
+  const { subathonTime, setSubathonTime, addTime } = useSubathonTime();
+  const { subathonTimerStyle, setSubathonTimerStyle, subathonTimerMultiplierData, setSubathonTimerMultiplierData } =
+    useSubathonTimerConfig();
 
   return (
     <>

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SubathonTimerStyleCtx } from '../../../../../../../context/subathon-time';
+import { SubathonTimerConfigCtx } from '../../../../../../../context/subathon-time';
 import { cssToJson, jsonToCss } from '../../../../../../../services/utils';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 
 function StyleCode({height}: {height: number}) {
   const [cssCode, setCssCode] = useState('' as string);
-  const { subathonTimerStyle, setSubathonTimerStyle } = useContext(SubathonTimerStyleCtx);
+  const { subathonTimerStyle, setSubathonTimerStyle } = useContext(SubathonTimerConfigCtx);
 
   const handleCssCodeInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCssCode(event.target.value);

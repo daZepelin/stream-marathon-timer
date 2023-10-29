@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { formatTime } from '../../services/utils';
-import { SubathonTimeCtx, SubathonTimerStyleCtx } from '../../context/subathon-time';
+import { SubathonTimeCtx, SubathonTimerConfigCtx } from '../../context/subathon-time';
 
 const SubathonTimerDisplay = () => {
   const { subathonTime } = useContext(SubathonTimeCtx);
-  const { subathonTimerStyle } = useContext(SubathonTimerStyleCtx);
+  const { subathonTimerStyle } = useContext(SubathonTimerConfigCtx);
 
   return (
     <div

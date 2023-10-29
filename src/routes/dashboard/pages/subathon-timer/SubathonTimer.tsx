@@ -3,11 +3,11 @@ import React, { useContext } from 'react';
 import Settings from './components/settings/Settings';
 import DonationLogs from './components/DonationLogs';
 import { formatTime } from '../../../../services/utils';
-import { SubathonTimeCtx, SubathonTimerStyleCtx } from '../../../../context/subathon-time';
+import { SubathonTimeCtx, SubathonTimerConfigCtx } from '../../../../context/subathon-time';
 
 export const SubathonTimer = () => {
   const { subathonTime } = useContext(SubathonTimeCtx);
-  const { subathonTimerStyle } = useContext(SubathonTimerStyleCtx);
+  const { subathonTimerStyle } = useContext(SubathonTimerConfigCtx);
   const theme = useMantineTheme();
   return (
     <Grid grow align='center'>
