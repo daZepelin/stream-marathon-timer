@@ -14,11 +14,12 @@ import { useEffect, useState } from 'react';
 import classes from './Timer.module.css';
 import useSubathonTime from '../../../../../../../hooks/useSubathonTime';
 import useSubathonTimerConfig from '../../../../../../../hooks/useSubathonTimerConfig';
+import TimerActiveSwitch from './TimerActiveSwitch';
 
 function Timer() {
   const theme = useMantineTheme();
   const { subathonTimerMultiplierData, setSubathonTimerMultiplierData } = useSubathonTimerConfig();
-  const { subathonTime, setSubathonTime } = useSubathonTime();
+  const { subathonTime, setSubathonTime, timerActive, setTimerActive } = useSubathonTime();
   const [timerMultData, setTimerMultData] = useState<{ minutes: number; amount: number }>({ minutes: 1, amount: 1 }); // [TODO
   const [timerValue, setTimerValue] = useState<number>(0);
   const [timerValueAdd, setTimerValueAdd] = useState<number>(0);
@@ -34,7 +35,10 @@ function Timer() {
   return (
     <div>
       <Flex py='xs' direction={'column'} gap='md' justify={'flex-start'}>
-        <Fieldset legend='Timer'>
+        <Fieldset legend='Timer' style={{ position: 'relative' }}>
+          <div style={{ position: 'absolute', right: 20, top: 10 }}>
+            <TimerActiveSwitch />
+          </div>
           <Flex align='flex-end' gap='md'>
             <NumberInput
               value={timerValue}

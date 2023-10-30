@@ -3,11 +3,15 @@ import { createContext } from 'react';
 export interface ISubathonTimeCtx {
   subathonTime: number | null;
   setSubathonTime: (time: number) => void;
+  timerActive: boolean;
+  setTimerActive: (active: boolean) => void;
 }
 
 export const SubathonTimeCtx = createContext<ISubathonTimeCtx>({
   subathonTime: 0,
   setSubathonTime: () => {},
+  timerActive: false,
+  setTimerActive: () => {},
 });
 
 export interface ISubathonTimerConfigCtx {

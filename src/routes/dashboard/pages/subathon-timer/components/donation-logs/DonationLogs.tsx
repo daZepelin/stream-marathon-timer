@@ -1,4 +1,5 @@
 import { useDonations } from '../../../../../../hooks/useDonations';
+import { HEADER_HEIGHT } from '../../../../../../services/utils';
 import DonationElement from './DonationElement';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -7,7 +8,7 @@ const DonationLogs = () => {
   return (
     <div
       style={{
-        height: 'calc(100vh - 110px)',
+        height: `calc(100vh - ${HEADER_HEIGHT}px)`,
         overflowY: 'auto',
       }}>
       <motion.div

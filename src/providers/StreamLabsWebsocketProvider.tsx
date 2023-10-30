@@ -9,7 +9,7 @@ import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
 
 function StreamLabsWebsocketProvider({ children }: { children: React.ReactNode }) {
   const [donations, setDonations] = useState<IDonation[]>([]);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [streamLabsSocket, setStreamLabsSocket] = useState<Socket | null>(null);
   const { streamLabsAuthKey } = useContext(AuthentificationCtx);
   const { subathonTimerMultiplierData } = useSubathonTimerConfig();
 
@@ -24,7 +24,8 @@ function StreamLabsWebsocketProvider({ children }: { children: React.ReactNode }
 
     ws.on('event', (data: any) => {
       let donation = parseStreamLabsEvent(data);
-      console.log(donation, subathonTimerMultiplierData);
+      if (!donation) return;
+      if (donation.amount <= 0) return;
       donation.minutesAdded =
         (donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount;
       setDonations((donations) => donations.filter((donation) => donation.id === donation.id));
@@ -32,8 +33,7 @@ function StreamLabsWebsocketProvider({ children }: { children: React.ReactNode }
         setDonations((donations) => [...donations, donation]);
       }
     });
-
-    setSocket(ws);
+    setStreamLabsSocket(ws);
 
     return () => {
       if (ws) ws.close();
@@ -41,7 +41,7 @@ function StreamLabsWebsocketProvider({ children }: { children: React.ReactNode }
   }, [streamLabsAuthKey, donations, subathonTimerMultiplierData]);
 
   return (
-    <StreamLabsWebSocketCtx.Provider value={{ streamLabsSocket: socket, donations }}>
+    <StreamLabsWebSocketCtx.Provider value={{ streamLabsSocket: streamLabsSocket, donations }}>
       {children}
     </StreamLabsWebSocketCtx.Provider>
   );

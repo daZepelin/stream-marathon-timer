@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SubathonTimerConfigCtx } from '../context/subathon-time';
 import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 import { RUNNING_IN_TAURI } from '../services/utils';
+import { useInterval } from '@mantine/hooks';
 
 function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [timeoutHandle, setTimeoutHandle] = useState<number | null>(null);
@@ -10,6 +11,22 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
     minutes: 1,
     amount: 1,
   });
+
+  const refreshInterval = useInterval(
+    () => {
+      fetchCfg();
+    },
+    3000,
+  );
+
+  const fetchCfg = async () => {
+    const response = await fetch('http://localhost:1425/timer_cfg', {
+      method: 'GET',
+    });
+    const data = await response.json();
+    setStyle(data.style);
+    setTimerMultiplierData(data.config);
+  };
 
   const saveSubathonTimerStyle = async () => {
     if (!RUNNING_IN_TAURI) return;
@@ -57,16 +74,16 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   }, [style, timerMultiplierData]);
 
   useEffect(() => {
-    const fetchCfg = async () => {
-      const response = await fetch('http://localhost:1425/timer_cfg', {
-        method: 'GET',
-      });
-      const data = await response.json();
-      setStyle(data.style);
-      setTimerMultiplierData(data.config);
-    };
+
+    if (!RUNNING_IN_TAURI)  {
+      refreshInterval.start();
+    }
 
     fetchCfg();
+
+    return () => {
+      refreshInterval.stop();
+    };
   }, []);
 
   return (

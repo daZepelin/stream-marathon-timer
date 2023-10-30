@@ -8,14 +8,15 @@ use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use dirs::data_local_dir;
 use serde::{Deserialize, Serialize};
 use serde_json;
+use std::fs;
+
+static mut IS_TIMER_ACTIVE: bool = false;
 
 #[derive(Serialize, Deserialize)]
 struct TimerData {
     style: serde_json::Value,
     config: serde_json::Value,
 }
-
-use std::fs;
 
 fn read_data_file(filename: &str) -> Result<String, std::io::Error> {
     println!(
@@ -54,7 +55,6 @@ async fn get_auth_keys() -> impl Responder {
 
 #[get("/timer_cfg")]
 async fn get_timer_cfg() -> impl Responder {
-
     let style_file_result = read_data_file("subathon-timer-bot/subathon/style.json");
 
     // Read the second file
@@ -89,10 +89,30 @@ async fn get_timer_cfg() -> impl Responder {
         .body(json_data)
 }
 
+#[get("/is_timer_active")]
+async fn get_active() -> HttpResponse {
+    unsafe {
+        println!("isTimerActive: {}", IS_TIMER_ACTIVE);
+        HttpResponse::Ok().json(serde_json::json!({ "isTimerActive": IS_TIMER_ACTIVE }))
+    }
+}
+
+#[tauri::command]
+fn set_timer_active(invoke_message: bool) {
+    unsafe {
+        IS_TIMER_ACTIVE = invoke_message;
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_localhost::Builder::new(1427).build())
+        .invoke_handler(tauri::generate_handler![set_timer_active])
         .setup(|app| {
+            // app.listen_global("set-timer-active", |event| {
+            //     println!("got set-timer-active with payload {:?}", event.payload());
+            //   });
+
             tauri::async_runtime::spawn(
                 HttpServer::new(|| {
                     let cors = Cors::default()
@@ -105,6 +125,7 @@ fn main() {
                         .service(get_time)
                         .service(get_auth_keys)
                         .service(get_timer_cfg)
+                        .service(get_active)
                 })
                 .bind(("127.0.0.1", 1425))?
                 .run(),

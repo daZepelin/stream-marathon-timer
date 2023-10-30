@@ -10,8 +10,7 @@ function DonationElement({ donation }: { donation: IDonation }) {
   const theme = useMantineTheme();
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 15 }}
       transition={{ y: { type: 'spring', stiffness: 300 } }}
       exit={{ opacity: 0 }}>
