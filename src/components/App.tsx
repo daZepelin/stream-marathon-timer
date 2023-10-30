@@ -2,10 +2,8 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from '../routes/router';
 import { useEffect } from 'react';
 import { useDonations } from '../hooks/useDonations';
-import useSubathonTime from '../hooks/useSubathonTime';
 
 const App = () => {
-  useSubathonTime()
   const { streamLabsSocket } = useDonations();
   const handleMessage = (event: MessageEvent) => {
     console.log(event);

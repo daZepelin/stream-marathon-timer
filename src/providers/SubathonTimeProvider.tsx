@@ -2,9 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 import { RUNNING_IN_TAURI } from '../services/utils';
 import { SubathonTimeCtx } from '../context/subathon-time';
+import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
+import { useDonations } from '../hooks/useDonations';
+import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
+import { useInterval } from '@mantine/hooks';
 
-function SubathonTimeProvider({children}: {children: React.ReactNode}) {
-  const [subathonTime, setSubathonTime] = useState<null | number>(null);
+function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
+  const [subathonTime, setSubathonTime] = useState<number>(100);
+  const { subathonTimerMultiplierData } = useSubathonTimerConfig();
+  const { streamLabsSocket } = useDonations();
+
+  const interval = useInterval(() => setSubathonTime((s) => s - 1), 1000);
+
+  useEffect(() => {
+    interval.start();
+    return interval.stop;
+  }, []);
+
+  const addTimeFromEvent = (event: any) => {
+    const donation = parseStreamLabsEvent(event);
+    let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+    // let newTime = subathonTime ?? 0 + timeToAdd;
+    console.log(donation, timeToAdd/60, subathonTimerMultiplierData)
+    setSubathonTime((prevTime) => {
+      return prevTime + timeToAdd;
+    });
+  };
+
+  useEffect(() => {
+    console.log('effect, streamLabsSocket', streamLabsSocket);
+    if (!streamLabsSocket) return;
+    streamLabsSocket.on('event', addTimeFromEvent);
+    return () => {
+      streamLabsSocket.off('event', addTimeFromEvent);
+    };
+  }, [streamLabsSocket, subathonTimerMultiplierData]);
 
   const saveSubathonTime = async (time: number) => {
     if (!RUNNING_IN_TAURI) return;
@@ -19,6 +51,7 @@ function SubathonTimeProvider({children}: {children: React.ReactNode}) {
       .then(() => {
         console.log('Successfully saved subathon time');
       })
+
       .catch((err) => {
         console.log('Failed to save subathon time');
         console.log(err);
@@ -26,13 +59,9 @@ function SubathonTimeProvider({children}: {children: React.ReactNode}) {
   };
 
   const timeTick = () => {
-    setSubathonTime((prevState) => {
-      if (prevState === null) return null;
-      if (prevState % 10 === 0) {
-        saveSubathonTime(prevState - 1);
-      }
-      return prevState - 1;
-    });
+    console.log('timeTick');
+    if (subathonTime === null) return;
+    setSubathonTime(prevTime => prevTime - 1);
   };
 
   const fetchTime = async () => {
@@ -45,16 +74,34 @@ function SubathonTimeProvider({children}: {children: React.ReactNode}) {
   };
 
   useEffect(() => {
-    fetchTime();
+    if (subathonTime === null) return;
+    if (subathonTime % 10 === 0) saveSubathonTime(subathonTime);
+    return () => {};
+  }, [subathonTime]);
 
-    let interval = setInterval(timeTick, 1000);
+  useEffect(() => {
+    fetchTime();
+    interval.start();
 
     return () => {
-      clearInterval(interval);
-    };
+      interval.stop();
+    }
+
+    // let interval = setInterval(timeTick, 1000);
+
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
-  return <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>{children}</SubathonTimeCtx.Provider>;
+  useInterval(timeTick, 1000);
+
+  return (
+    <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>
+      <div style={{ zIndex: 900 }}>{subathonTime}</div>
+      {children}
+    </SubathonTimeCtx.Provider>
+  );
 }
 
 export default SubathonTimeProvider;

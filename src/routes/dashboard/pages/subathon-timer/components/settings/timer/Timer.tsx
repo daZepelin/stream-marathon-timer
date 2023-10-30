@@ -9,30 +9,36 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import { IconCheck, IconClockEdit, IconClockPlus, IconPencil, IconPlus } from '@tabler/icons-react';
-import { useContext, useEffect, useState } from 'react';
+import { IconCheck, IconClockEdit, IconClockPlus, IconMinus, IconPencil, IconPlus } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 import classes from './Timer.module.css';
-import { SubathonTimeCtx, SubathonTimerConfigCtx } from '../../../../../../../context/subathon-time';
+import useSubathonTime from '../../../../../../../hooks/useSubathonTime';
+import useSubathonTimerConfig from '../../../../../../../hooks/useSubathonTimerConfig';
 
 function Timer() {
   const theme = useMantineTheme();
-  const { subathonTimerMultiplierData, setSubathonTimerMultiplierData } = useContext(SubathonTimerConfigCtx);
-  const { subathonTime, setSubathonTime, addTime } = useContext(SubathonTimeCtx);
+  const { subathonTimerMultiplierData, setSubathonTimerMultiplierData } = useSubathonTimerConfig();
+  const { subathonTime, setSubathonTime } = useSubathonTime();
   const [timerMultData, setTimerMultData] = useState<{ minutes: number; amount: number }>({ minutes: 1, amount: 1 }); // [TODO
-  const [setTimerValue, setTimerValueState] = useState<number>(0);
-  const [setTimerValueAdd, setTimerValueAddState] = useState<number>(0);
+  const [timerValue, setTimerValue] = useState<number>(0);
+  const [timerValueAdd, setTimerValueAdd] = useState<number>(0);
 
   useEffect(() => {
-    setTimerValueState(Math.floor((subathonTime ?? 0) / 60));
+    setTimerValue(Math.floor((subathonTime ?? 0) / 60));
   }, []);
+
+  useEffect(() => {
+    setTimerMultData(subathonTimerMultiplierData);
+  }, [subathonTimerMultiplierData]);
+
   return (
     <div>
       <Flex py='xs' direction={'column'} gap='md' justify={'flex-start'}>
         <Fieldset legend='Timer'>
           <Flex align='flex-end' gap='md'>
             <NumberInput
-              value={setTimerValue}
-              onChange={(value) => setTimerValueState(typeof value === 'number' ? value : 0)}
+              value={timerValue}
+              onChange={(value) => setTimerValue(typeof value === 'number' ? value : 0)}
               variant='filled'
               label='Set time'
               description='minutes'
@@ -44,7 +50,7 @@ function Timer() {
             />
             <Button
               onClick={() => {
-                setSubathonTime(setTimerValue * 60);
+                setSubathonTime(timerValue * 60);
               }}
               leftSection={<IconClockEdit />}>
               Apply
@@ -52,21 +58,20 @@ function Timer() {
           </Flex>
           <Flex align='flex-end' gap='md' pt='md'>
             <NumberInput
-              value={setTimerValueAdd}
-              onChange={(value) => setTimerValueAddState(typeof value === 'number' ? value : 0)}
+              value={timerValueAdd}
+              onChange={(value) => setTimerValueAdd(typeof value === 'number' ? value : 0)}
               variant='filled'
               label='Add time'
               description='minutes'
               placeholder='10'
               suffix='min'
-              leftSection={<IconPlus />}
+              leftSection={timerValueAdd >= 0 ? <IconPlus /> : <IconMinus />}
               rightSectionPointerEvents='auto'
-              allowNegative={false}
+              allowNegative={true}
             />
             <Button
               onClick={() => {
-                addTime(setTimerValueAdd * 60);
-                setTimerValueAddState(0);
+                setSubathonTime((subathonTime ?? 0) + timerValueAdd * 60);
               }}
               variant='default'
               leftSection={<IconClockPlus />}>
