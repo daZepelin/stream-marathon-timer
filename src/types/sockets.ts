@@ -13,5 +13,4 @@ export interface IDonation {
 
 export interface IStreamLabsSocketProps {
   authKey: string;
-  onDonationAdd: (donation: IDonation) => void;
 }

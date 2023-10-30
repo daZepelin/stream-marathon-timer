@@ -1,13 +1,13 @@
-import { Grid, Paper, SimpleGrid, Title, useMantineTheme } from '@mantine/core';
-import React, { useContext } from 'react';
+import { Grid, Paper, Title, useMantineTheme } from '@mantine/core';
 import Settings from './components/settings/Settings';
 import DonationLogs from './components/DonationLogs';
 import { formatTime } from '../../../../services/utils';
-import { SubathonTimeCtx, SubathonTimerConfigCtx } from '../../../../context/subathon-time';
+import useSubathonTime from '../../../../hooks/useSubathonTime';
+import useSubathonTimerConfig from '../../../../hooks/useSubathonTimerConfig';
 
 export const SubathonTimer = () => {
-  const { subathonTime } = useContext(SubathonTimeCtx);
-  const { subathonTimerStyle } = useContext(SubathonTimerConfigCtx);
+  const { subathonTime } = useSubathonTime();
+  const { subathonTimerStyle } = useSubathonTimerConfig();
   const theme = useMantineTheme();
   return (
     <Grid grow align='center'>
@@ -25,7 +25,14 @@ export const SubathonTimer = () => {
             justifyContent: 'space-between',
             overflow: 'hidden',
           }}>
-          <Title order={2}>Subathon Timer</Title>
+          <Title
+            order={2}
+            style={{
+              lineHeight: '57px',
+              overflow: 'hidden',
+            }}>
+            Subathon Timer
+          </Title>
           <div
             style={{
               height: '57px',

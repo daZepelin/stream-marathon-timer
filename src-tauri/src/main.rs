@@ -42,9 +42,14 @@ async fn get_time() -> impl Responder {
     }
 }
 
-#[get("/config")]
-async fn get_config() -> impl Responder {
-    HttpResponse::Ok().body("cfg")
+#[get("/auth_keys")]
+async fn get_auth_keys() -> impl Responder {
+    let auth_keys_file_result = read_data_file("subathon-timer-bot/auth/keys.json");
+
+    match auth_keys_file_result {
+        Ok(auth_keys) => return HttpResponse::Ok().body(auth_keys),
+        Err(_) => return HttpResponse::Ok().body("[]"),
+    }
 }
 
 #[get("/timer_cfg")]
@@ -98,7 +103,7 @@ fn main() {
                     App::new()
                         .wrap(cors)
                         .service(get_time)
-                        .service(get_config)
+                        .service(get_auth_keys)
                         .service(get_timer_cfg)
                 })
                 .bind(("127.0.0.1", 1425))?

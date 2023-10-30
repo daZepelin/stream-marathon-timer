@@ -1,9 +1,10 @@
 import '@mantine/core/styles.css';
 import { MantineProvider, createTheme } from '@mantine/core';
 import React, { useState } from 'react';
-import { SubathonTimeCtx, SubathonTimerConfigCtx } from './context/subathon-time';
-import useSubathonTime from './hooks/useSubathonTime';
-import useSubathonTimerConfig from './hooks/useSubathonTimerConfig';
+import StreamLabsWebsocketProvider from './providers/StreamLabsWebsocketProvider';
+import SubathonTimeProvider from './providers/SubathonTimeProvider';
+import SubathonConfigProvider from './providers/SubathonConfigProvider';
+import AuthentificationProvider from './providers/AuthentificationProvider';
 
 const theme = createTheme({
   //   loader: 'oval',
@@ -25,16 +26,18 @@ const theme = createTheme({
 });
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
-  const { subathonTime, setSubathonTime, addTime } = useSubathonTime();
-  const { subathonTimerStyle, setSubathonTimerStyle, subathonTimerMultiplierData, setSubathonTimerMultiplierData } =
-    useSubathonTimerConfig();
+
 
   return (
     <>
       <MantineProvider defaultColorScheme='auto' theme={theme}>
-        <SubathonTimerStyleCtx.Provider value={{ subathonTimerStyle, setSubathonTimerStyle }}>
-          <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>{children}</SubathonTimeCtx.Provider>
-        </SubathonTimerStyleCtx.Provider>
+        <AuthentificationProvider>
+          <SubathonConfigProvider>
+            <StreamLabsWebsocketProvider>
+              <SubathonTimeProvider>{children}</SubathonTimeProvider>
+            </StreamLabsWebsocketProvider>
+          </SubathonConfigProvider>
+        </AuthentificationProvider>
       </MantineProvider>
     </>
   );

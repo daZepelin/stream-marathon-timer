@@ -1,68 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BaseDirectory, createDir, writeTextFile } from '@tauri-apps/api/fs';
 
 import { RUNNING_IN_TAURI } from '../services/utils';
+import { useDonations } from './useDonations';
+import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
+import { SubathonTimeCtx } from '../context/subathon-time';
+import useSubathonTimerConfig from './useSubathonTimerConfig';
 
 const useSubathonTime = () => {
-  const [subathonTime, setSubathonTime] = useState<null | number>(null);
+  const { subathonTimerMultiplierData } = useSubathonTimerConfig();
+  const { subathonTime, setSubathonTime } = useContext(SubathonTimeCtx);
+  const { streamLabsSocket } = useDonations();
 
-  const saveSubathonTime = async (time: number) => {
-    if (!RUNNING_IN_TAURI) return;
-
-    await createDir('subathon', {
-      dir: BaseDirectory.AppLocalData,
-      recursive: true,
-    });
-    writeTextFile('subathon/time.txt', time.toString(), {
-      dir: BaseDirectory.AppLocalData,
-    })
-      .then(() => {
-        console.log('Successfully saved subathon time');
-      })
-      .catch((err) => {
-        console.log('Failed to save subathon time');
-        console.log(err);
-      });
+  const addTimeFromEvent = (event: any) => {
+    console.log(subathonTimerMultiplierData, subathonTime, subathonTimerMultiplierData.amount)
+    const donation = parseStreamLabsEvent(event);
+    let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+    let newTime = subathonTime ?? 0 + timeToAdd;
+    setSubathonTime(newTime);
+    console.log(newTime, timeToAdd)
+    console.log('addTimeFromEvent', donation);
   };
-
-  const timeTick = () => {
-    setSubathonTime((prevState) => {
-      if (prevState === null) return null;
-      if (prevState % 10 === 0) {
-        saveSubathonTime(prevState - 1);
-      }
-      return prevState - 1;
-    });
-  };
-
-  const fetchTime = async () => {
-    const response = await fetch('http://localhost:1425/time', {
-      method: 'GET',
-    });
-    const data = await response.json();
-
-    setSubathonTime(parseInt(data));
-    console.log(data);
-  };
-
-  const addTime = (time: number) => {
-    setSubathonTime((prevState) => {
-      if (prevState === null) return null;
-      return prevState + time;
-    });
-  }
 
   useEffect(() => {
-    fetchTime();
-
-    let interval = setInterval(timeTick, 1000);
-
+    console.log('effect, streamLabsSocket', streamLabsSocket);
+    if (!streamLabsSocket) return;
+    streamLabsSocket.on('event', addTimeFromEvent);
     return () => {
-      clearInterval(interval);
+      streamLabsSocket.off('event', addTimeFromEvent);
     };
-  }, []);
+  }, [streamLabsSocket]);
 
-  return { subathonTime, setSubathonTime, addTime };
+  return { subathonTime, setSubathonTime };
 };
 
 export default useSubathonTime;

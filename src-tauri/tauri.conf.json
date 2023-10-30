@@ -17,6 +17,9 @@
   },
   "tauri": {
     "allowlist": {
+      "shell": {
+        "open": true
+      },
       "http": {
         "all": true
       },

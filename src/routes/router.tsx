@@ -2,6 +2,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import { SubathonTimer } from './dashboard/pages/subathon-timer/SubathonTimer';
 import SubathonTimerDisplay from './subathon-timer/SubathonTimerDisplay';
+import AuthentificationPanel from './dashboard/pages/authentification/AuthentificationPanel';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,11 @@ export const router = createBrowserRouter([
       {
         path: 'subathon-timer',
         element: <SubathonTimer />,
+        action: async () => {},
+      },
+      {
+        path: 'authentification',
+        element: <AuthentificationPanel />,
         action: async () => {},
       },
       {

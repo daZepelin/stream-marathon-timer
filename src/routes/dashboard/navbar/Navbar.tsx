@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Group, Code } from '@mantine/core';
-import { IconPokerChip, IconHourglass, IconRefresh, IconX } from '@tabler/icons-react';
+import { IconPokerChip, IconHourglass, IconRefresh, IconX, IconPasswordFingerprint } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
 import classes from './Navbar.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const data = [
   // { link: '/dashboard/subathon-timer', label: 'Dashboard', icon: IconLayoutCollage },
   { link: '/dashboard/subathon-timer', label: 'Subathon', icon: IconHourglass },
+  { link: '/dashboard/authentification', label: 'Authentification', icon: IconPasswordFingerprint },
   { link: '/dashboard/lucky-wheel', label: 'Lucky wheel', icon: IconPokerChip, disabled: true },
 ];
 
