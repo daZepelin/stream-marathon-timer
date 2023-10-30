@@ -8,7 +8,8 @@ import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
 import { useInterval } from '@mantine/hooks';
 
 function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
-  const [subathonTime, setSubathonTime] = useState<number>(100);
+  // let [saveTimeoutHandle, setSaveTimeoutHandle] = useState<number | null>(null);
+  const [subathonTime, setSubathonTime] = useState<number>(98);
   const { subathonTimerMultiplierData } = useSubathonTimerConfig();
   const { streamLabsSocket } = useDonations();
 
@@ -22,15 +23,12 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const addTimeFromEvent = (event: any) => {
     const donation = parseStreamLabsEvent(event);
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
-    // let newTime = subathonTime ?? 0 + timeToAdd;
-    console.log(donation, timeToAdd/60, subathonTimerMultiplierData)
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;
     });
   };
 
   useEffect(() => {
-    console.log('effect, streamLabsSocket', streamLabsSocket);
     if (!streamLabsSocket) return;
     streamLabsSocket.on('event', addTimeFromEvent);
     return () => {
@@ -51,7 +49,6 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
       .then(() => {
         console.log('Successfully saved subathon time');
       })
-
       .catch((err) => {
         console.log('Failed to save subathon time');
         console.log(err);
@@ -59,9 +56,8 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const timeTick = () => {
-    console.log('timeTick');
     if (subathonTime === null) return;
-    setSubathonTime(prevTime => prevTime - 1);
+    setSubathonTime((prevTime) => prevTime - 1);
   };
 
   const fetchTime = async () => {
@@ -69,6 +65,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
       method: 'GET',
     });
     const data = await response.json();
+    console.log('received', data)
 
     setSubathonTime(parseInt(data));
   };
@@ -77,6 +74,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     if (subathonTime === null) return;
     if (subathonTime % 10 === 0) saveSubathonTime(subathonTime);
     return () => {};
+
   }, [subathonTime]);
 
   useEffect(() => {
@@ -85,7 +83,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       interval.stop();
-    }
+    };
 
     // let interval = setInterval(timeTick, 1000);
 
@@ -96,12 +94,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
 
   useInterval(timeTick, 1000);
 
-  return (
-    <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>
-      <div style={{ zIndex: 900 }}>{subathonTime}</div>
-      {children}
-    </SubathonTimeCtx.Provider>
-  );
+  return <SubathonTimeCtx.Provider value={{ subathonTime, setSubathonTime }}>{children}</SubathonTimeCtx.Provider>;
 }
 
 export default SubathonTimeProvider;

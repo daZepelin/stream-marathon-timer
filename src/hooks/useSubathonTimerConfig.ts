@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { SubathonTimerConfigCtx } from '../context/subathon-time';
 
 const useSubathonTimerConfig = () => {

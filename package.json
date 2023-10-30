@@ -33,6 +33,7 @@
     "@uiw/react-textarea-code-editor": "^2.1.9",
     "body-parser": "^1.20.2",
     "dayjs": "^1.11.10",
+    "framer-motion": "^10.16.4",
     "http": "0.0.1-security",
     "postcss": "^8.4.31",
     "postcss-simple-vars": "^7.0.1",

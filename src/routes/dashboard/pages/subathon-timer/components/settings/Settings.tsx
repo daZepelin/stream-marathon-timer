@@ -7,7 +7,7 @@ const Settings = () => {
   const theme = useMantineTheme();
   const iconStyle = { width: rem(16), height: rem(16) };
   return (
-    <Paper withBorder shadow='sm' p='xs' radius='lg' bg={theme.colors.dark[7]}>
+    <Paper withBorder shadow='sm' p='xs' radius='lg' bg={theme.colors.dark[7]} style={{ height: 'calc(100vh - 110px)', overflowY: 'auto' }}>
       <Tabs defaultValue='controls'>
         <Tabs.List>
           <Tabs.Tab value={'controls'} leftSection={<IconClockFilled style={iconStyle} />}>

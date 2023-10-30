@@ -1,6 +1,4 @@
-import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
-import { useContext, useEffect, useState } from 'react';
-import { RUNNING_IN_TAURI } from '../services/utils';
+import { useContext } from 'react';
 import { AuthentificationCtx } from '../context/authentification';
 
 function useAuthentification() {

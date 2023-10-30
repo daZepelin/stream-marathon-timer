@@ -7,8 +7,8 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [timeoutHandle, setTimeoutHandle] = useState<number | null>(null);
   const [style, setStyle] = useState({} as any);
   const [timerMultiplierData, setTimerMultiplierData] = useState<{ minutes: number; amount: number }>({
-    minutes: 0,
-    amount: 0,
+    minutes: 1,
+    amount: 1,
   });
 
   const saveSubathonTimerStyle = async () => {

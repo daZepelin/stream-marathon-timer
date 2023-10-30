@@ -18,6 +18,28 @@ export const formatTime = (time: number | null): string => {
   return days + hours + minutes + seconds;
 };
 
+export const formatDate = (date: Date): string => {
+  // if date is recent add how long ago it was, otherwise return full exact date
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const diffInDays = diff / (1000 * 3600 * 24);
+
+  if (diffInDays < 1) {
+    const diffInHours = diff / (1000 * 3600);
+    if (diffInHours < 1) {
+      const diffInMinutes = diff / (1000 * 60);
+      if (diffInMinutes < 1) {
+        const diffInSeconds = diff / 1000;
+        return `${Math.floor(diffInSeconds)}s ago`;
+      }
+      return `${Math.floor(diffInMinutes)}m ago`;
+    }
+    return `${Math.floor(diffInHours)}h ago`;
+  }
+
+  return date.toLocaleString();
+}
+
 export const cssToJson = (css: string): { [key: string]: string } => {
   css = css.trim();
   const json: { [key: string]: string } = {};

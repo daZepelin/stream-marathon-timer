@@ -1,0 +1,8 @@
+.dateAgo {
+    font-size: medium;
+}
+
+.dateFormated {
+  font-size: small;
+  color: rgba(255, 255, 255, 0.35);
+}

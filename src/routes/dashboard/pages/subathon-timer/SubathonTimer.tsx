@@ -1,16 +1,16 @@
 import { Grid, Paper, Title, useMantineTheme } from '@mantine/core';
 import Settings from './components/settings/Settings';
-import DonationLogs from './components/DonationLogs';
 import { formatTime } from '../../../../services/utils';
 import useSubathonTime from '../../../../hooks/useSubathonTime';
 import useSubathonTimerConfig from '../../../../hooks/useSubathonTimerConfig';
+import DonationLogs from './components/donation-logs/DonationLogs';
 
 export const SubathonTimer = () => {
   const { subathonTime } = useSubathonTime();
   const { subathonTimerStyle } = useSubathonTimerConfig();
   const theme = useMantineTheme();
   return (
-    <Grid grow align='center'>
+    <Grid grow align='flex-start'>
       <Grid.Col span={12}>
         <Paper
           withBorder
@@ -52,7 +52,7 @@ export const SubathonTimer = () => {
       <Grid.Col span={6}>
         <Settings />
       </Grid.Col>
-      <Grid.Col span={6}>
+      <Grid.Col span={6} >
         <DonationLogs />
       </Grid.Col>
     </Grid>

@@ -2,6 +2,7 @@ export type DonationPlatform = 'SE' | 'SL';
 export type DonationType = 'superchat' | 'donation' | 'stars';
 
 export interface IDonation {
+  id: string;
   amount: number;
   currency: string;
   username: string;
@@ -9,6 +10,8 @@ export interface IDonation {
   date: Date;
   platform: DonationPlatform;
   donationType: DonationType;
+  displayed?: boolean;
+  minutesAdded?: number;
 }
 
 export interface IStreamLabsSocketProps {
