@@ -1,8 +1,8 @@
 name: pnpm Example Workflow
 on:
   push:
-  tags:
-    - 'v*.*.*'
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 jobs:
   build:
