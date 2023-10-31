@@ -63,9 +63,6 @@ export const connectStreamLabsSocket = ({ authKey }: IStreamLabsSocketProps): So
       console.log('Disconnected from StreamLabs');
     });
 
-    newSocket.onAny((event, ...args) => {
-      console.log(event, args);
-    });
     newSocket.on('event', () => {
       console.log('test2');
     });
@@ -74,8 +71,4 @@ export const connectStreamLabsSocket = ({ authKey }: IStreamLabsSocketProps): So
   }
 
   return;
-
-  // useEffect(() => {
-
-  // }, [authKey]);
 };
