@@ -1,6 +1,6 @@
 name: 'publish'
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
   publish-tauri:
@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
