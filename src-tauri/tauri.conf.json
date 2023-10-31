@@ -7,8 +7,8 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "subathon-timer-bot",
-    "version": "0.3.0-beta.2"
+    "productName": "Subathon Timer",
+    "version": "0.3.0.2"
   },
   "plugins": {
     "shell": {
