@@ -2,6 +2,8 @@ name: 'publish'
 
 on: 
   push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   create-release:
@@ -27,8 +29,8 @@ jobs:
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: `app-v${process.env.PACKAGE_VERSION}`,
-              name: `Desktop App v${process.env.PACKAGE_VERSION}`,
+              tag_name: `subathon-v${process.env.PACKAGE_VERSION}`,
+              name: `Subathon Timer v${process.env.PACKAGE_VERSION}`,
               body: 'Take a look at the assets to download and install this app.',
               draft: true,
               prerelease: false
@@ -91,3 +93,5 @@ jobs:
               draft: false,
               prerelease: false
             })
+          files: |
+            src-tauri/target/release/subathon-timer-bot.exe
