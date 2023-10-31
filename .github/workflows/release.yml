@@ -1,6 +1,7 @@
 name: 'publish'
 on:
-    push:
+  push:
+  workflow_dispatch:
 jobs:
   publish-tauri:
     permissions:
@@ -39,4 +40,4 @@ jobs:
           releaseDraft: true
           prerelease: false
           files: |
-              src-tauri/target/release/subathon-timer-bot.exe
+            src-tauri/target/release/subathon-timer-bot.exe
