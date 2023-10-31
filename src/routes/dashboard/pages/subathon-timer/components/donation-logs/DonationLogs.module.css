@@ -1,5 +1,11 @@
+.username {
+  font-size: medium;
+  font-weight: bold;
+}
+
 .dateAgo {
-    font-size: medium;
+    font-size: small;
+    color: rgba(255, 255, 255, 0.55)
 }
 
 .dateFormated {

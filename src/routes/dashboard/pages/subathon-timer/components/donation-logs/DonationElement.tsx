@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
 import { IDonation } from '../../../../../../types/sockets';
 import { Flex, Paper, useMantineTheme } from '@mantine/core';
 import { formatDate, formatTime } from '../../../../../../services/utils';
 import { motion } from 'framer-motion';
 import classes from './DonationLogs.module.css';
-import useSubathonTimerConfig from '../../../../../../hooks/useSubathonTimerConfig';
 
 function DonationElement({ donation }: { donation: IDonation }) {
   const theme = useMantineTheme();
@@ -17,16 +15,19 @@ function DonationElement({ donation }: { donation: IDonation }) {
       <Paper withBorder p='sm' bg={theme.colors.dark[6]} radius='md'>
         <Flex direction={'row'} justify={'space-between'}>
           <div>
-            <div className={classes.dateAgo}>{formatDate(donation.date)}</div>
+            <Flex direction={'row'} gap='xs' align='flex-end'>
+              <div className={classes.username}>{donation.username}</div>
+              <div className={classes.dateAgo}>{formatDate(donation.date)}</div>
+            </Flex>
             <div className={classes.dateFormated}>{donation.date.toLocaleString()}</div>
           </div>
-          <div>
+          <Flex direction={'column'} align='flex-end'>
             <div>
               {donation.amount}
-              {donation.currency}
+              {donation.currency ?? '€'}
             </div>
             <div>{donation.minutesAdded}min</div>
-          </div>
+          </Flex>
         </Flex>
       </Paper>
     </motion.div>

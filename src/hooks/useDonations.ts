@@ -1,8 +1,8 @@
-import { useContext} from 'react';
+import { useContext } from 'react';
 import { StreamLabsWebSocketCtx } from '../context/websockets';
 
 export const useDonations = () => {
-  const {streamLabsSocket, donations} = useContext(StreamLabsWebSocketCtx);
+  const { streamLabsSocket, streamElementsSocket, donations, socketStatuses } = useContext(StreamLabsWebSocketCtx);
 
-  return { streamLabsSocket, donations };
+  return { streamLabsSocket, streamElementsSocket, donations, socketStatuses };
 };

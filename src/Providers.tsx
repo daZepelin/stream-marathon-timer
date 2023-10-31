@@ -1,7 +1,7 @@
 import '@mantine/core/styles.css';
 import { MantineProvider, createTheme } from '@mantine/core';
 import React, { useState } from 'react';
-import StreamLabsWebsocketProvider from './providers/StreamLabsWebsocketProvider';
+import WebsocketProvider from './providers/WebsocketProvider';
 import SubathonTimeProvider from './providers/SubathonTimeProvider';
 import SubathonConfigProvider from './providers/SubathonConfigProvider';
 import AuthentificationProvider from './providers/AuthentificationProvider';
@@ -33,9 +33,9 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       <MantineProvider defaultColorScheme='auto' theme={theme}>
         <AuthentificationProvider>
           <SubathonConfigProvider>
-            <StreamLabsWebsocketProvider>
+            <WebsocketProvider>
               <SubathonTimeProvider>{children}</SubathonTimeProvider>
-            </StreamLabsWebsocketProvider>
+            </WebsocketProvider>
           </SubathonConfigProvider>
         </AuthentificationProvider>
       </MantineProvider>

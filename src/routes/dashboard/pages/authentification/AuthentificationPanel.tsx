@@ -17,9 +17,10 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import React, { useContext, useEffect, useState } from 'react';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconPlugConnected, IconPlugConnectedX } from '@tabler/icons-react';
 import { AuthentificationCtx } from '../../../../context/authentification';
-import { open } from '@tauri-apps/api/shell';
+import { useDonations } from '../../../../hooks/useDonations';
+import { useInterval } from '@mantine/hooks';
 
 const STREAM_LABS_DASHBOARD_URL = 'https://streamlabs.com/dashboard#/settings/api-settings';
 const STREAM_ELEMENTS_DASHBOARD_URL = 'https://streamelements.com/dashboard/account/channels';
@@ -63,18 +64,26 @@ const SEGMENTED_CONTROL_DATA = [
 ];
 
 function AuthentificationPanel() {
+  const theme = useMantineTheme();
   const { streamLabsAuthKey, setStreamLabsAuthKey, streamElementsJWT, setStreamElementsJWT, platform, setPlatform } =
     useContext(AuthentificationCtx);
   const [streamLabsAuthKeyInput, setStreamLabsAuthKeyInput] = useState<string>('');
   const [streamElementsJWTInput, setStreamElementsJWTInput] = useState<string>('');
-  //   const [platform, setplatform] = useState<string>('streamLabs');
+  const { socketStatuses } = useDonations();
+  // const [streamLabsConnected, setStreamLabsConnected] = useState<boolean>(false);
+  // const [streamElementsConnected, setStreamElementsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     setStreamLabsAuthKeyInput(streamLabsAuthKey);
     setStreamElementsJWTInput(streamElementsJWT);
   }, [streamLabsAuthKey, streamElementsJWT]);
 
-  const theme = useMantineTheme();
+  // useEffect(() => {
+  //   console.log('changed socket', streamLabsSocket?.connected, streamElementsSocket?.connected);
+  //   setStreamLabsConnected(streamLabsSocket?.connected || false);
+  //   setStreamElementsConnected(streamElementsSocket?.connected || false);
+  // }, [streamLabsSocket, streamElementsSocket]);
+
   return (
     <div>
       <Paper
@@ -122,6 +131,14 @@ function AuthentificationPanel() {
             <Button onClick={() => setStreamLabsAuthKey(streamLabsAuthKeyInput)} leftSection={<IconCheck />}>
               Apply
             </Button>
+            <Flex gap='sm' align='center'>
+              Status:
+              {socketStatuses.streamLabs == 'connected' ? (
+                <IconPlugConnected color={theme.colors.green[3]} />
+              ) : (
+                <IconPlugConnectedX color={theme.colors.red[5]} />
+              )}
+            </Flex>
           </Flex>
           <div
             style={{
@@ -152,6 +169,20 @@ function AuthentificationPanel() {
             <Button onClick={() => setStreamElementsJWT(streamElementsJWTInput)} leftSection={<IconCheck />}>
               Apply
             </Button>
+            <Flex gap='sm' align='center'>
+              Status:
+              {socketStatuses.streamElements == 'connected' ? (
+                <IconPlugConnectedX color={theme.colors.yellow[3]} />
+              ) : (
+                <>
+                  {socketStatuses.streamElements == 'authenticated' ? (
+                    <IconPlugConnected color={theme.colors.green[3]} />
+                  ) : (
+                    <IconPlugConnectedX color={theme.colors.red[5]} />
+                  )}
+                </>
+              )}
+            </Flex>
           </Flex>
           <div
             style={{
