@@ -4,7 +4,7 @@ import { RUNNING_IN_TAURI } from '../services/utils';
 import { SubathonTimeCtx } from '../context/subathon-time';
 import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
 import { useDonations } from '../hooks/useDonations';
-import { parseStreamLabsEvent } from '../services/sockets/tempstreamLabs';
+import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
 import { useInterval } from '@mantine/hooks';
 import { invoke } from '@tauri-apps/api/tauri'
 

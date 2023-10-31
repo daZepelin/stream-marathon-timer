@@ -5,8 +5,8 @@ import { AuthentificationCtx } from '../context/authentification';
 import { RUNNING_IN_TAURI } from '../services/utils';
 import { IDonation } from '../types/sockets';
 import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
-import { connectStreamLabsSocket, parseStreamLabsEvent } from '../services/sockets/tempstreamLabs';
-import { connectStreamElementsSocket, parseStreamElementsEvent } from '../services/sockets/tempstreamElements';
+import { connectStreamLabsSocket, parseStreamLabsEvent } from '../services/sockets/streamLabs';
+import { connectStreamElementsSocket, parseStreamElementsEvent } from '../services/sockets/streamElements';
 
 function StreamLabsWebsocketProvider({ children }: { children: React.ReactNode }) {
   const [donations, setDonations] = useState<IDonation[]>([]);
