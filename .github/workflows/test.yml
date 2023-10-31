@@ -1,6 +1,9 @@
 name: pnpm Example Workflow
 on:
   push:
+  tags:
+    - 'v*.*.*'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -17,5 +20,25 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
+    - name: Install Rust (Stable)
+      run:
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
     - name: Install dependencies
       run: pnpm install
+    - name: Build tauri application
+      run: pnpm tauri build
+    with:
+      # tauri-action replaces \_\_VERSION\_\_ with the app version
+      tagName: ${{ github.ref_name }}
+      releaseName: "Release App v__VERSION__"
+      releaseBody: |
+        ${{steps.build_changelog.outputs.changelog}}
+        See the assets to download this version and install.
+      releaseDraft: true
+      prerelease: false
+      files: |
+            src-tauri/target/release/subathon-timer-bot.exe
