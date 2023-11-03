@@ -4,7 +4,7 @@ export const HEADER_HEIGHT = 120
 
 export const formatTime = (time: number | null): string => {
   if (time === null) return 'BYBIS';
-  if (time < 0) return 'Koniec';
+  if (time < 0) return 'Euroton ended. Get a LIFE now!';
 
   let days: string | number = Math.floor(time / (60 * 60 * 24));
   let hours: string | number = Math.floor((time % (60 * 60 * 24)) / (60 * 60));

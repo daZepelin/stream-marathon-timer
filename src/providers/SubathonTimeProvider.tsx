@@ -43,6 +43,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const addTimeFromStreamLabsEvent = (event: any) => {
     const donation = parseStreamLabsEvent(event);
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+    if (isNaN(timeToAdd)) return;
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;
     });
@@ -52,6 +53,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     let donationData = { ...event.data, id: event._id };
     let donation = parseStreamElementsEvent(donationData, event.type);
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+    if (isNaN(timeToAdd)) return;
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;
     });

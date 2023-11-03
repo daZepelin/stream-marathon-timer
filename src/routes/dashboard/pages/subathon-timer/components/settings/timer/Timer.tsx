@@ -29,7 +29,10 @@ function Timer() {
   }, []);
 
   useEffect(() => {
-    setTimerMultData(subathonTimerMultiplierData);
+    setTimerMultData({
+      minutes: subathonTimerMultiplierData.minutes ?? 1,
+      amount: subathonTimerMultiplierData.amount ?? 1,
+    });
   }, [subathonTimerMultiplierData]);
 
   return (
@@ -107,7 +110,7 @@ function Timer() {
                   onChange={(value) =>
                     setTimerMultData({
                       ...timerMultData,
-                      minutes: typeof value === 'number' ? value : 0,
+                      minutes: typeof value === 'number' ? value : 1,
                     })
                   }
                   className={classes.paragraphInput}
@@ -122,7 +125,7 @@ function Timer() {
                   onChange={(value) =>
                     setTimerMultData({
                       ...timerMultData,
-                      amount: typeof value === 'number' ? value : 0,
+                      amount: typeof value === 'number' ? value : 1,
                     })
                   }
                   className={classes.paragraphInput}
@@ -136,7 +139,6 @@ function Timer() {
             </Paper>
             <Button
               onClick={() => {
-                console.log('timerMultData', timerMultData);
                 setSubathonTimerMultiplierData(timerMultData);
               }}
               leftSection={<IconCheck />}>

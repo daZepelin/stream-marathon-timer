@@ -7,7 +7,6 @@ import { IDonation } from '../types/sockets';
 import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
 import { connectStreamLabsSocket, parseStreamLabsEvent } from '../services/sockets/streamLabs';
 import { connectStreamElementsSocket, parseStreamElementsEvent } from '../services/sockets/streamElements';
-import { useInterval } from '@mantine/hooks';
 
 function WebsocketProvider({ children }: { children: React.ReactNode }) {
   const [donations, setDonations] = useState<IDonation[]>([]);
