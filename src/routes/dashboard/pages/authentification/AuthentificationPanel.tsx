@@ -20,7 +20,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IconCheck, IconPlugConnected, IconPlugConnectedX } from '@tabler/icons-react';
 import { AuthentificationCtx } from '../../../../context/authentification';
 import { useDonations } from '../../../../hooks/useDonations';
-import { useInterval } from '@mantine/hooks';
 
 const STREAM_LABS_DASHBOARD_URL = 'https://streamlabs.com/dashboard#/settings/api-settings';
 const STREAM_ELEMENTS_DASHBOARD_URL = 'https://streamelements.com/dashboard/account/channels';

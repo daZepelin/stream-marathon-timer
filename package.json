@@ -44,7 +44,8 @@
     "socket.io-client": "^4.7.2",
     "standard-version": "^9.5.0",
     "typescript": "^5.2.2",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "worker-timers": "^7.0.77"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",

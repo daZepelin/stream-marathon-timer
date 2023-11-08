@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 import { RUNNING_IN_TAURI } from '../services/utils';
 import { SubathonTimeCtx } from '../context/subathon-time';
 import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
 import { useDonations } from '../hooks/useDonations';
 import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
-import { useInterval } from '@mantine/hooks';
+// import { useInterval } from '@mantine/hooks';
+import useWorkerInterval from '../hooks/useWorkerInterval';
 import { invoke } from '@tauri-apps/api/tauri';
 import { parseStreamElementsEvent } from '../services/sockets/streamElements';
 
@@ -15,28 +16,32 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const { subathonTimerMultiplierData } = useSubathonTimerConfig();
   const { streamLabsSocket, streamElementsSocket } = useDonations();
 
-  const interval = useInterval(() => {
+  const handleTick = useCallback(() => {
     if (!RUNNING_IN_TAURI) {
       fetchIsActive();
     }
     if (!active) return;
     setSubathonTime((s) => s - 1);
-  }, 1000);
+  }, [active])
 
-  const refreshInterval = useInterval(() => {
+  const handleRefreshTick = useCallback(() => {
+    if (RUNNING_IN_TAURI) return;
     fetchTime();
-  }, 3000);
+  }, [])
+
+  var clearRefreshInterval = useWorkerInterval(handleRefreshTick, 3000);
+
+  const clearInterval = useWorkerInterval(handleTick, 1000);
 
   useEffect(() => {
     if (!RUNNING_IN_TAURI) {
-      refreshInterval.start();
     } else {
       invoke('set_timer_active', { invokeMessage: active });
     }
-    interval.start();
     return () => {
-      interval.stop();
-      refreshInterval.stop();
+      clearInterval();
+      clearRefreshInterval();
+
     };
   }, [active]);
 
@@ -57,7 +62,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;
     });
-  }
+  };
 
   useEffect(() => {
     if (!streamLabsSocket) return;
@@ -121,10 +126,10 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     fetchTime();
-    interval.start();
 
     return () => {
-      interval.stop();
+      clearInterval();
+      clearRefreshInterval();
     };
   }, []);
 

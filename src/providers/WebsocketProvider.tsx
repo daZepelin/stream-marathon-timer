@@ -21,12 +21,6 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
 
   const isSuitablePlatform = (pl: string) => platform === 'both' || platform === pl;
 
-  // const interval = useInterval(() => {
-  //   console.log('changed socket', streamLabsSocket?.connected, streamElementsSocket?.connected);
-  //   // setStreamElementsConnected(streamElementsSocket?.connected || false);
-  //   // setStreamLabsConnected(streamLabsSocket?.connected || false);
-  // }, 2000);
-
   useEffect(() => {
     if (!RUNNING_IN_TAURI) return;
     if (streamLabsAuthKey && isSuitablePlatform('streamLabs')) {

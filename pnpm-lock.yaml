@@ -92,6 +92,9 @@ dependencies:
   webfontloader:
     specifier: ^1.6.28
     version: 1.6.28
+  worker-timers:
+    specifier: ^7.0.77
+    version: 7.0.77
 
 devDependencies:
   '@commitlint/cli':
@@ -2117,6 +2120,14 @@ packages:
       merge2: 1.4.1
       micromatch: 4.0.5
     dev: true
+
+  /fast-unique-numbers@8.0.10:
+    resolution: {integrity: sha512-NUIqIhFYSwexP73lH76CLFkqNk9wHP00mUuqo4CMdhW+ETEGaIb6meriqdXRClwOQcTx2Qj4Ctw9Axo8cSwSqw==}
+    engines: {node: '>=16.1.0'}
+    dependencies:
+      '@babel/runtime': 7.23.2
+      tslib: 2.6.2
+    dev: false
 
   /fastq@1.15.0:
     resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==}
@@ -4199,6 +4210,31 @@ packages:
 
   /wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
+    dev: false
+
+  /worker-timers-broker@6.0.97:
+    resolution: {integrity: sha512-XMDYxk9IKwg1KyyWJtGwFmxvQkFLE1gzHFN1ajpN+CZlGnmsbw6pLp3qpzXhaPkmaHIcCXLfRihbIRshMdgT1A==}
+    dependencies:
+      '@babel/runtime': 7.23.2
+      fast-unique-numbers: 8.0.10
+      tslib: 2.6.2
+      worker-timers-worker: 7.0.61
+    dev: false
+
+  /worker-timers-worker@7.0.61:
+    resolution: {integrity: sha512-0ZzfJxMWefUleDZBZ+vbztW/WJ68HuMLkaBwY4VB2BHkICAZn8A5+Ziss1jBfkmEHg+lzBsOCqwK6sMbzgC5+A==}
+    dependencies:
+      '@babel/runtime': 7.23.2
+      tslib: 2.6.2
+    dev: false
+
+  /worker-timers@7.0.77:
+    resolution: {integrity: sha512-5YxBL1dElAtppzSyqtR1CY5qzLnjlVRWBPDXfVko1q4SlPQvgRekM167RMpz8mIh9LNlOiesQJotsgICRMVL8A==}
+    dependencies:
+      '@babel/runtime': 7.23.2
+      tslib: 2.6.2
+      worker-timers-broker: 6.0.97
+      worker-timers-worker: 7.0.61
     dev: false
 
   /wrap-ansi@7.0.0:
