@@ -2,6 +2,7 @@ var streamElementsSocket = io('https://realtime.streamelements.com', {
     transports: ['websocket'],
 });
 
+
 const initElements = (authToken) => {
     streamElementsSocket = io('https://realtime.streamelements.com', {
         transports: ['websocket'],
