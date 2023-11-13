@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Group, Code, Image } from '@mantine/core';
 import { IconPokerChip, IconHourglass, IconRefresh, IconX, IconPasswordFingerprint } from '@tabler/icons-react';
-import { MantineLogo } from '@mantine/ds';
 import classes from './Navbar.module.css';
 import { useNavigate } from 'react-router-dom';
 import TimerActiveSwitch from '../pages/subathon-timer/components/settings/timer/TimerActiveSwitch';
