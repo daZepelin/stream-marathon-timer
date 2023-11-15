@@ -57,6 +57,13 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - name: Extract Version from package.json
+        run: echo "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')" >> $GITHUB_ENV
+
+      - name: Update Tauri Config Version
+        uses: sergeysova/jq-action@v2
+        run: |
+          jq '.build.version = env.PACKAGE_VERSION' tauri.config.json > temp.json && mv temp.json tauri.config.json
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
