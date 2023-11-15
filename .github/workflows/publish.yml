@@ -58,8 +58,7 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - name: Extract Version from package.json
-        run: echo "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')" >> $GITHUB_ENV
-
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: Update Tauri Config Version
         uses: sergeysova/jq-action@v2
         run: |
