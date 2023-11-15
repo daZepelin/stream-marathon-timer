@@ -102,7 +102,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+            var changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
             // Extract the latest version changelog
             const versions = changelog.match(/^## \[.*?\]/gm);
             if (versions.length >= 2) {
