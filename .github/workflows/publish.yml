@@ -63,9 +63,9 @@ jobs:
       - name: Update Tauri Config Version
         run: |
           $version = $env:PACKAGE_VERSION
-          $config = Get-Content tauri.config.json -Raw | ConvertFrom-Json
-          $config.build.version = $version
-          $config | ConvertTo-Json | Set-Content tauri.config.json
+          $config = Get-Content ./src-tauri/tauri.config.json -Raw | ConvertFrom-Json
+          $config.package.version = $version
+          $config | ConvertTo-Json | Set-Content ./src-tauri/tauri.config.json
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
