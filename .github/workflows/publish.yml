@@ -59,8 +59,9 @@ jobs:
           cache: 'pnpm'
       - name: Extract Version from package.json
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: Update Tauri Config Version
+      - name: Install jq
         uses: sergeysova/jq-action@v2
+      - name: Update Tauri Config Version
         run: |
           jq '.build.version = env.PACKAGE_VERSION' tauri.config.json > temp.json && mv temp.json tauri.config.json
       - name: install Rust stable
