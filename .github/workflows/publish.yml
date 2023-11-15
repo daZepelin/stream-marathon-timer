@@ -103,13 +103,15 @@ jobs:
           script: |
             const fs = require('fs');
             const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.release_id,
-              body: changelog,
-              draft: false,
-              prerelease: false
-            })
+            // Extract the latest version changelog
+            const versions = changelog.match(/^## \[.*?\]/gm);
+            if (versions.length >= 2) {
+              const start = changelog.indexOf(versions[0]);
+              const end = changelog.indexOf(versions[1]);
+              changelog = changelog.substring(start, end);
+            } else if (versions.length === 1) {
+              const start = changelog.indexOf(versions[0]);
+              changelog = changelog.substring(start);
+            }
           files: |
             ./src-tauri/target/release/subathon-timer-bot.exe
