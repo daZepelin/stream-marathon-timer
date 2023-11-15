@@ -91,6 +91,15 @@ jobs:
     needs: [create-release, build-tauri]
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Read CHANGELOG.md
+        id: changelog
+        run: |
+          changelog_content=$(cat CHANGELOG.md)
+          echo "CHANGELOG=$changelog_content" >> $GITHUB_ENV
+
       - name: publish release
         id: publish-release
         uses: actions/github-script@v6
@@ -98,12 +107,14 @@ jobs:
           release_id: ${{ needs.create-release.outputs.release_id }}
         with:
           script: |
+            const changelog = process.env.CHANGELOG;
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: process.env.release_id,
+              body: changelog,
               draft: false,
               prerelease: false
             })
           files: |
-            src-tauri/target/release/subathon-timer-bot.exe
+            ./src-tauri/target/release/subathon-timer-bot.exe
