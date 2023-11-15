@@ -94,12 +94,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Read CHANGELOG.md
-        id: changelog
-        run: |
-          changelog_content=$(cat CHANGELOG.md)
-          echo "CHANGELOG=$changelog_content" >> $GITHUB_ENV
-
       - name: publish release
         id: publish-release
         uses: actions/github-script@v6
@@ -107,7 +101,8 @@ jobs:
           release_id: ${{ needs.create-release.outputs.release_id }}
         with:
           script: |
-            const changelog = process.env.CHANGELOG;
+            const fs = require('fs');
+            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
