@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navbar } from './navbar/Navbar';
-import { AppShell, AppShellNavbar, Container, SimpleGrid } from '@mantine/core';
-import useSubathonTimerConfig from '../../hooks/useSubathonTimerConfig';
+import { AppShell } from '@mantine/core';
 
 function Dashboard() {
   

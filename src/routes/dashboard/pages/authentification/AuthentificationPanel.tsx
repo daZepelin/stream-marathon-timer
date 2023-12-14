@@ -69,19 +69,11 @@ function AuthentificationPanel() {
   const [streamLabsAuthKeyInput, setStreamLabsAuthKeyInput] = useState<string>('');
   const [streamElementsJWTInput, setStreamElementsJWTInput] = useState<string>('');
   const { socketStatuses } = useDonations();
-  // const [streamLabsConnected, setStreamLabsConnected] = useState<boolean>(false);
-  // const [streamElementsConnected, setStreamElementsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     setStreamLabsAuthKeyInput(streamLabsAuthKey);
     setStreamElementsJWTInput(streamElementsJWT);
   }, [streamLabsAuthKey, streamElementsJWT]);
-
-  // useEffect(() => {
-  //   console.log('changed socket', streamLabsSocket?.connected, streamElementsSocket?.connected);
-  //   setStreamLabsConnected(streamLabsSocket?.connected || false);
-  //   setStreamElementsConnected(streamElementsSocket?.connected || false);
-  // }, [streamLabsSocket, streamElementsSocket]);
 
   return (
     <div>

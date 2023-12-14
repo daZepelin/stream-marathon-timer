@@ -13,7 +13,7 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
   const [streamLabsSocket, setStreamLabsSocket] = useState<Socket | null>(null);
   const [streamElementsSocket, setStreamElementsSocket] = useState<Socket | null>(null);
   const { streamLabsAuthKey, streamElementsJWT, platform } = useContext(AuthentificationCtx);
-  const { subathonTimerMultiplierData } = useSubathonTimerConfig();
+  const { subathonTimerMultiplierData, specialMultiplier } = useSubathonTimerConfig();
   const [socketStatuses, setSocketStatuses] = useState<{ streamLabs: string; streamElements: string }>({
     streamLabs: 'disconnected',
     streamElements: 'disconnected',
@@ -40,6 +40,12 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
         if (donation.amount <= 0) return;
         donation.minutesAdded =
           (donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount;
+
+        let message = donation.message?.toLowerCase();
+        if (specialMultiplier.active && specialMultiplier.word.some((w) => message?.includes(w.toLowerCase()))) {
+          donation.minutesAdded *= specialMultiplier.multiplier;
+        }
+
         setDonations((donations) => donations.filter((donation) => donation.id === donation.id));
         if (donation) {
           setDonations((donations) => [...donations, donation]);
@@ -64,6 +70,12 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
           if (donation.amount <= 0) return;
           donation.minutesAdded =
             (donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount;
+
+          let message = donation.message?.toLowerCase();
+          if (specialMultiplier.active && specialMultiplier.word.some((w) => message?.includes(w.toLowerCase()))) {
+            donation.minutesAdded *= specialMultiplier.multiplier;
+          }
+
           setDonations((donations) => donations.filter((donation) => donation.id === donation.id));
           if (donation) {
             setDonations((donations) => [...donations, donation]);
@@ -86,11 +98,6 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
       wsSE.on('unauthorized', () => {
         setSocketStatuses((statuses) => ({ ...statuses, streamElements: 'unauthorized' }));
       });
-      // wsSE.on('event:test', (data: any) => {
-      //   if (data.listener == 'tip-latest' || data.listener == 'superchat-latest') {
-      //     let donation = parseStreamElementsEvent(data.event, data.listener, true);
-      //   }
-      // })
       setStreamElementsSocket(wsSE);
     }
 
@@ -99,13 +106,6 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
       if (wsSE) wsSE.close();
     };
   }, [streamLabsAuthKey, streamElementsJWT, donations, subathonTimerMultiplierData, platform]);
-
-  // useEffect(() => {
-  //   interval.start();
-  //   return () => {
-  //     interval.stop();
-  //   };
-  // }, []);
 
   return (
     <StreamLabsWebSocketCtx.Provider value={{ streamLabsSocket, streamElementsSocket, donations, socketStatuses }}>

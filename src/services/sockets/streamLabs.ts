@@ -5,10 +5,10 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
   if (eventData.type === 'donation') {
     return {
       id: eventData.event_id,
-      amount: eventData.message[0].amount,
+      amount: parseFloat(eventData.message[0].amount),
       currency: eventData.message[0]?.formatted_amount?.charAt(0),
       username: eventData.message[0].name,
-      // message: eventData.message[0].message,
+      message: eventData.message[0].message,
       date: new Date(),
       platform: 'SL',
       donationType: eventData.type,
@@ -16,10 +16,10 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
   } else if (eventData.type === 'superchat') {
     return {
       id: eventData.event_id,
-      amount: eventData.message[0].amount,
+      amount: parseFloat(eventData.message[0].amount),
       currency: eventData.message[0].currency,
       username: eventData.message[0].from,
-      // message: eventData.message[0].message,
+      message: eventData.message[0].comment,
       date: new Date(),
       platform: 'SL',
       donationType: eventData.type,
@@ -30,7 +30,7 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
       amount: Math.floor(eventData.message[0].amount / 100),
       currency: eventData.message[0].currency,
       username: eventData.message[0].name,
-      // message: eventData.message[0].message,
+      message: eventData.message[0].message,
       date: new Date(),
       platform: 'SL',
       donationType: eventData.type,
@@ -42,7 +42,7 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
     amount: 0,
     currency: '',
     username: '',
-    // message: '',
+    message: '',
     date: new Date(),
     platform: 'SL',
     donationType: 'donation',

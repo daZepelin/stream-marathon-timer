@@ -3,6 +3,7 @@ import { SubathonTimerConfigCtx } from '../context/subathon-time';
 import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 import { RUNNING_IN_TAURI } from '../services/utils';
 import { useInterval } from '@mantine/hooks';
+import { ISpecialMultiplier } from '../types/config';
 
 function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [timeoutHandle, setTimeoutHandle] = useState<number | null>(null);
@@ -10,6 +11,11 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [timerMultiplierData, setTimerMultiplierData] = useState<{ minutes: number; amount: number }>({
     minutes: 1,
     amount: 1,
+  });
+  const [specialMultiplier, setSpecialMultiplier] = useState<ISpecialMultiplier>({
+    active: false,
+    multiplier: 1,
+    word: '',
   });
 
   const refreshInterval = useInterval(
@@ -26,6 +32,7 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
     const data = await response.json();
     setStyle(data.style);
     setTimerMultiplierData(data.config);
+    setSpecialMultiplier(data.special_multiplier);
   };
 
   const saveSubathonTimerStyle = async () => {
@@ -56,6 +63,17 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
         console.log('Failed to save subathon timer multiplier data');
         console.log(err);
       });
+
+    writeTextFile('subathon/special_multiplier.json', JSON.stringify(specialMultiplier), {
+      dir: BaseDirectory.AppLocalData,
+    })
+      .then(() => {
+        console.log('Successfully saved subathon special multiplier data');
+      })
+      .catch((err) => {
+        console.log('Failed to save subathon special multiplier data');
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -71,7 +89,7 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
         clearTimeout(timeoutHandle);
       }
     };
-  }, [style, timerMultiplierData]);
+  }, [style, timerMultiplierData, specialMultiplier]);
 
   useEffect(() => {
 
@@ -93,6 +111,8 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
         setSubathonTimerStyle: setStyle,
         subathonTimerMultiplierData: timerMultiplierData,
         setSubathonTimerMultiplierData: setTimerMultiplierData,
+        specialMultiplier: specialMultiplier,
+        setSpecialMultiplier: setSpecialMultiplier,
       }}>
       {children}
     </SubathonTimerConfigCtx.Provider>

@@ -17,6 +17,7 @@ export const parseStreamElementsEvent = (event: any, type?: string, isTest?: boo
       date: new Date(),
       platform: 'SE',
       donationType: (type as DonationType) ?? 'donation',
+      message: event.message,
     };
   }
 
@@ -28,6 +29,7 @@ export const parseStreamElementsEvent = (event: any, type?: string, isTest?: boo
     date: new Date(),
     platform: 'SE',
     donationType: (type as DonationType) ?? 'donation',
+    message: '',
   };
 };
 

@@ -24,7 +24,6 @@ const SubathonTimerDisplay = () => {
 
   useEffect(() => {
     if (typeof subathonTimerStyle['font-family'] === 'string' && subathonTimerStyle['font-family'].length > 0) {
-      console.log('laoding', subathonTimerStyle['font-family'].replaceAll("'", ''));
       WebFont.load({
         google: {
           families: [subathonTimerStyle['font-family'].replaceAll("'", '')],

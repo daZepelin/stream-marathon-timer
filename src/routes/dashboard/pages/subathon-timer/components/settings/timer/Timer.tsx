@@ -7,6 +7,7 @@ import {
   Paper,
   Space,
   Text,
+  TextInput,
   useMantineTheme,
 } from '@mantine/core';
 import { IconCheck, IconClockEdit, IconClockPlus, IconMinus, IconPencil, IconPlus } from '@tabler/icons-react';
@@ -15,14 +16,22 @@ import classes from './Timer.module.css';
 import useSubathonTime from '../../../../../../../hooks/useSubathonTime';
 import useSubathonTimerConfig from '../../../../../../../hooks/useSubathonTimerConfig';
 import TimerActiveSwitch from './TimerActiveSwitch';
+import SpecialMultiplierActiveSwitch from './SpecialMultiplierActiveSwitch';
+import { ISpecialMultiplier } from '../../../../../../../types/config';
 
 function Timer() {
   const theme = useMantineTheme();
-  const { subathonTimerMultiplierData, setSubathonTimerMultiplierData } = useSubathonTimerConfig();
-  const { subathonTime, setSubathonTime, timerActive, setTimerActive } = useSubathonTime();
-  const [timerMultData, setTimerMultData] = useState<{ minutes: number; amount: number }>({ minutes: 1, amount: 1 }); // [TODO
+  const { specialMultiplier, setSpecialMultiplier, subathonTimerMultiplierData, setSubathonTimerMultiplierData } =
+    useSubathonTimerConfig();
+  const { subathonTime, setSubathonTime } = useSubathonTime();
+  const [timerMultData, setTimerMultData] = useState<{ minutes: number; amount: number }>({ minutes: 1, amount: 1 });
   const [timerValue, setTimerValue] = useState<number>(0);
   const [timerValueAdd, setTimerValueAdd] = useState<number>(0);
+  const [specialMultiplierInput, setSpecialMultiplierInput] = useState<ISpecialMultiplier>({
+    multiplier: 1,
+    word: [],
+    active: false,
+  });
 
   useEffect(() => {
     setTimerValue(Math.floor((subathonTime ?? 0) / 60));
@@ -34,6 +43,10 @@ function Timer() {
       amount: subathonTimerMultiplierData.amount ?? 1,
     });
   }, [subathonTimerMultiplierData]);
+
+  useEffect(() => {
+    setSpecialMultiplierInput(specialMultiplier);
+  }, [specialMultiplier]);
 
   return (
     <div>
@@ -141,6 +154,52 @@ function Timer() {
               onClick={() => {
                 setSubathonTimerMultiplierData(timerMultData);
               }}
+              leftSection={<IconCheck />}>
+              Apply
+            </Button>
+          </Flex>
+        </Fieldset>
+        <Fieldset legend='Special Multiplier' style={{ position: 'relative' }}>
+          <div style={{ position: 'absolute', right: 20, top: 10 }}>
+            <SpecialMultiplierActiveSwitch />
+          </div>
+          <Flex align='flex-end' gap='md' pt='md'>
+            <Flex direction={'column'}>
+              <TextInput
+                value={specialMultiplierInput?.word}
+                onChange={(e) => {
+                  setSpecialMultiplierInput({
+                    ...specialMultiplier,
+                    word: e.currentTarget.value.replace(/\s/g, '').split(','),
+                  });
+                }}
+                variant='filled'
+                label='Includes word'
+                description='If donation message includes...'
+                placeholder='GIVEAWAY, TEST...'
+              />
+
+              <NumberInput
+                value={specialMultiplierInput?.multiplier}
+                onChange={(value) =>{
+                  setSpecialMultiplierInput({
+                    ...specialMultiplier,
+                    multiplier: typeof value === 'number' ? value : 1.0,
+                  })}
+                }
+                variant='filled'
+                label='Multiplier'
+                description='...multiply the timer by'
+                placeholder='0.5'
+                rightSectionPointerEvents='auto'
+                allowNegative={false}
+              />
+            </Flex>
+            <Button
+              onClick={() => {
+                setSpecialMultiplier(specialMultiplierInput);
+              }}
+              variant='default'
               leftSection={<IconCheck />}>
               Apply
             </Button>
