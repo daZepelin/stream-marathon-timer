@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.21](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.20...v0.3.21) (2023-12-14)
+
+
+### Features
+
+* special multiplier by message ([f4dc9fc](https://github.com/daZepelin/subaton-timer-bot/commit/f4dc9fcd4012769fab3be1bb51059305f2c1b89b))
+
+### [0.3.20](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.19...v0.3.20) (2023-11-15)
+
+### [0.3.19](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.18...v0.3.19) (2023-11-15)
+
+### [0.3.18](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.17...v0.3.18) (2023-11-15)
+
+### [0.3.17](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.16...v0.3.17) (2023-11-15)
+
+### [0.3.16](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.15...v0.3.16) (2023-11-15)
+
+### [0.3.15](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.14...v0.3.15) (2023-11-15)
+
+### [0.3.14](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.13...v0.3.14) (2023-11-15)
+
+### [0.3.13](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.11...v0.3.13) (2023-11-15)
+
+### [0.3.12](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.11...v0.3.12) (2023-11-15)
+
+### [0.3.11](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.10...v0.3.11) (2023-11-15)
+
+### [0.3.10](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.9...v0.3.10) (2023-11-15)
+
+### [0.3.9](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.8...v0.3.9) (2023-11-15)
+
+### [0.3.8](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.7...v0.3.8) (2023-11-15)
+
+### [0.3.7](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.6...v0.3.7) (2023-11-15)
+
+### [0.3.6](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.5...v0.3.6) (2023-11-15)
+
 ### [0.3.5](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.4...v0.3.5) (2023-11-10)
 
 ### [0.3.3](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.2...v0.3.3) (2023-11-08)

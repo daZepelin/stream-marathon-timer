@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { ISpecialMultiplier } from '../types/config';
 
 export interface ISubathonTimeCtx {
   subathonTime: number | null;
@@ -19,6 +20,8 @@ export interface ISubathonTimerConfigCtx {
   setSubathonTimerStyle: (style: { [key: string]: string | number }) => void;
   subathonTimerMultiplierData: { minutes: number; amount: number };
   setSubathonTimerMultiplierData: (data: { minutes: number; amount: number }) => void;
+  specialMultiplier: ISpecialMultiplier;
+  setSpecialMultiplier: (data: ISpecialMultiplier) => void;
 }
 
 export const SubathonTimerConfigCtx = createContext<ISubathonTimerConfigCtx>({
@@ -26,4 +29,6 @@ export const SubathonTimerConfigCtx = createContext<ISubathonTimerConfigCtx>({
   setSubathonTimerStyle: () => {},
   subathonTimerMultiplierData: { minutes: 1, amount: 1 },
   setSubathonTimerMultiplierData: () => {},
+  specialMultiplier: { word: [], multiplier: 0.5, active: false },
+  setSpecialMultiplier: () => {},
 });

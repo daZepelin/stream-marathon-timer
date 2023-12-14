@@ -13,7 +13,7 @@ import { parseStreamElementsEvent } from '../services/sockets/streamElements';
 function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const [subathonTime, setSubathonTime] = useState<number>(-1);
   const [active, setActive] = useState<boolean>(false);
-  const { subathonTimerMultiplierData } = useSubathonTimerConfig();
+  const { subathonTimerMultiplierData, specialMultiplier } = useSubathonTimerConfig();
   const { streamLabsSocket, streamElementsSocket } = useDonations();
 
   const handleTick = useCallback(() => {
@@ -22,12 +22,12 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     }
     if (!active) return;
     setSubathonTime((s) => s - 1);
-  }, [active])
+  }, [active]);
 
   const handleRefreshTick = useCallback(() => {
     if (RUNNING_IN_TAURI) return;
     fetchTime();
-  }, [])
+  }, []);
 
   var clearRefreshInterval = useWorkerInterval(handleRefreshTick, 3000);
 
@@ -41,13 +41,18 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     return () => {
       clearInterval();
       clearRefreshInterval();
-
     };
   }, [active]);
 
   const addTimeFromStreamLabsEvent = (event: any) => {
     const donation = parseStreamLabsEvent(event);
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+
+    let message = donation.message?.toLowerCase();
+    if (specialMultiplier.active && specialMultiplier.word.some((w) => message?.includes(w.toLowerCase()))) {
+      timeToAdd *= specialMultiplier.multiplier;
+    }
+
     if (isNaN(timeToAdd)) return;
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;
@@ -58,6 +63,12 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     let donationData = { ...event.data, id: event._id };
     let donation = parseStreamElementsEvent(donationData, event.type);
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
+
+    let message = donation.message?.toLowerCase();
+    if (specialMultiplier.active && specialMultiplier.word.some((w) => message?.includes(w.toLowerCase()))) {
+      timeToAdd *= specialMultiplier.multiplier;
+    }
+
     if (isNaN(timeToAdd)) return;
     setSubathonTime((prevTime) => {
       return prevTime + timeToAdd;

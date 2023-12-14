@@ -10,21 +10,11 @@ function StyleCode({height}: {height: number}) {
   const handleCssCodeInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCssCode(event.target.value);
     setSubathonTimerStyle(cssToJson(event.target.value));
-    console.log(cssToJson(event.target.value));
   };
 
   useEffect(() => {
     setCssCode(jsonToCss(subathonTimerStyle));
   }, [subathonTimerStyle]);
-
-  useEffect(() => {
-    
-    console.log(';height', height)
-    return () => {
-      
-    }
-  }, [height])
-  
   
   return (
     <CodeEditor

@@ -1,6 +1,6 @@
 {
   "name": "subathon-timer-bot",
-  "version": "0.3.5",
+  "version": "0.3.21",
   "description": "Subathon / Euroton donation timer bot",
   "author": "daZepelin",
   "license": "ISC",
@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "_postinstall": "husky install",
+    "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
     "release": "standard-version"

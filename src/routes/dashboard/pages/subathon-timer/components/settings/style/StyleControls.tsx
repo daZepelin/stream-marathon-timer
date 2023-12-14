@@ -25,9 +25,6 @@ const StyleControls = () => {
   const { addFont, fonts } = useFontImports();
   const [fontInput, setFontInput] = useState('' as string);
 
-  useEffect(() => {
-    console.log(subathonTimerStyle);
-  }, [subathonTimerStyle]);
   return (
     <div>
       <Fieldset legend='Timer style'>

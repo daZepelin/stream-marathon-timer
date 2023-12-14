@@ -16,6 +16,7 @@ static mut IS_TIMER_ACTIVE: bool = false;
 struct TimerData {
     style: serde_json::Value,
     config: serde_json::Value,
+    special_multiplier: serde_json::Value,
 }
 
 fn read_data_file(filename: &str) -> Result<String, std::io::Error> {
@@ -59,11 +60,15 @@ async fn get_timer_cfg() -> impl Responder {
 
     // Read the second file
     let config_file_result = read_data_file("subathon-timer-bot/subathon/config.json");
+    
+    let special_multiplier_file_result = read_data_file("subathon-timer-bot/subathon/special_multiplier.json");
+
 
     // Combine the data from both files into a TimerData struct
     let mut combined_data = TimerData {
         style: serde_json::from_str("[]").expect("JSON was not well-formatted"),
         config: serde_json::from_str("[]").expect("JSON was not well-formatted"),
+        special_multiplier: serde_json::from_str("[]").expect("JSON was not well-formatted"),
     };
 
     // Update fields if files were successfully read
@@ -79,6 +84,12 @@ async fn get_timer_cfg() -> impl Responder {
         let json_config: serde_json::Value =
             serde_json::from_str(&config).expect("JSON was not well-formatted");
         combined_data.config = json_config;
+    }
+
+    if let Ok(special_multiplier) = special_multiplier_file_result {
+        let json_special_multiplier: serde_json::Value =
+            serde_json::from_str(&special_multiplier).expect("JSON was not well-formatted");
+        combined_data.special_multiplier = json_special_multiplier;
     }
 
     // Serialize the TimerData struct to JSON

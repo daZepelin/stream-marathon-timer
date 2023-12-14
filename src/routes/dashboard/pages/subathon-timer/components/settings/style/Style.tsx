@@ -8,10 +8,6 @@ import { Flex } from '@mantine/core';
 const Style = () => {
   const [segment, setSegment] = useState<'controls' | 'code'>('controls');
   const { ref, height } = useElementSize();
-
-  useEffect(() => {
-    console.log('styleControlsHeight', height);
-  }, [height])
   
   return (
     <div>

@@ -57,6 +57,18 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
+      - name: Extract Version from package.json
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Print Extracted Version
+        run: echo "Extracted version $env:PACKAGE_VERSION"
+      - name: Update Tauri Config Version
+        run: |
+          $version = $env:PACKAGE_VERSION
+          $config = Get-Content ./src-tauri/tauri.conf.json -Raw | ConvertFrom-Json
+          $config.package.version = $version
+          $config | ConvertTo-Json -Depth 100 | Set-Content ./src-tauri/tauri.conf.json
+      - name: Print Updated Tauri Config
+        run: cat ./src-tauri/tauri.conf.json
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
@@ -79,6 +91,9 @@ jobs:
     needs: [create-release, build-tauri]
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: publish release
         id: publish-release
         uses: actions/github-script@v6
@@ -86,12 +101,17 @@ jobs:
           release_id: ${{ needs.create-release.outputs.release_id }}
         with:
           script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.release_id,
-              draft: false,
-              prerelease: false
-            })
+            const fs = require('fs');
+            var changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+            // Extract the latest version changelog
+            const versions = changelog.match(/^## \[.*?\]/gm);
+            if (versions.length >= 2) {
+              const start = changelog.indexOf(versions[0]);
+              const end = changelog.indexOf(versions[1]);
+              changelog = changelog.substring(start, end);
+            } else if (versions.length === 1) {
+              const start = changelog.indexOf(versions[0]);
+              changelog = changelog.substring(start);
+            }
           files: |
-            src-tauri/target/release/subathon-timer-bot.exe
+            ./src-tauri/target/release/subathon-timer-bot.exe
