@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.22](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.21...v0.3.22) (2023-12-14)
+
+
+### Bug Fixes
+
+* word type ([2d40ba2](https://github.com/daZepelin/subaton-timer-bot/commit/2d40ba24602018a2a9b2a3f2f8b63a47c685d18e))
+
 ### [0.3.21](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.20...v0.3.21) (2023-12-14)
 
 

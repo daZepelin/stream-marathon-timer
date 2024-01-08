@@ -15,7 +15,7 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [specialMultiplier, setSpecialMultiplier] = useState<ISpecialMultiplier>({
     active: false,
     multiplier: 1,
-    word: '',
+    word: [],
   });
 
   const refreshInterval = useInterval(
