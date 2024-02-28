@@ -4,6 +4,7 @@ import { formatDate, formatTime } from '../../../../../../services/utils';
 import { motion } from 'framer-motion';
 import classes from './DonationLogs.module.css';
 import useSubathonTimerConfig from '../../../../../../hooks/useSubathonTimerConfig';
+import { useMemo } from 'react';
 
 type Props = {
   donation: {
@@ -16,7 +17,8 @@ const HighlightMessage: React.FC<Props> = ({ donation, highlightStrings }) => {
   const theme = useMantineTheme();
 
   const highlightMatch = (message: string, stringsArray: string[]): JSX.Element => {
-    let matchedString = stringsArray.find((str) => message.toLowerCase().includes(str.toLowerCase()));
+    if (!stringsArray) return <span>{message.length > 30 ? message.substring(0, 30) + '...' : message}</span>;
+    let matchedString = useMemo(() => stringsArray.find((str) => message.toLowerCase().includes(str.toLowerCase())), [message, stringsArray]);
 
     if (matchedString) {
       let parts = message.split(new RegExp(`(${matchedString})`, 'gi'));
