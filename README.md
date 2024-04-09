@@ -1,6 +1,6 @@
-# subathon-timer-bot
+# Stream marathon timer
 ## What is this?
-Subathon / Euroton timer for your stream! This will generate a timer web page wich will use StreamLabs or StreamElements API socket to add time from every donation or even SuperChat donations on Youtube or stars on Facebook
+Subathon / Euroton timer for your live stream! This will generate a timer web page wich will use StreamLabs or StreamElements API socket to add time from every donation or even SuperChat donations on Youtube or stars on Facebook
 ## Features
 - Support for Stream Labs and Stream Elements donation platforms;
 - Creates browser source for OBS;
