@@ -5,6 +5,7 @@ import WebsocketProvider from './providers/WebsocketProvider';
 import SubathonTimeProvider from './providers/SubathonTimeProvider';
 import SubathonConfigProvider from './providers/SubathonConfigProvider';
 import AuthentificationProvider from './providers/AuthentificationProvider';
+import LogsProvider from './providers/LogsProvider';
 
 const theme = createTheme({
   //   loader: 'oval',
@@ -32,7 +33,9 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
         <AuthentificationProvider>
           <SubathonConfigProvider>
             <WebsocketProvider>
-              <SubathonTimeProvider>{children}</SubathonTimeProvider>
+              <SubathonTimeProvider>
+                <LogsProvider>{children}</LogsProvider>
+              </SubathonTimeProvider>
             </WebsocketProvider>
           </SubathonConfigProvider>
         </AuthentificationProvider>

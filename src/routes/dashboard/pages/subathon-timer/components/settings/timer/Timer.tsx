@@ -69,6 +69,7 @@ function Timer() {
               allowNegative={false}
             />
             <Button
+              miw='120px'
               onClick={() => {
                 setSubathonTime(timerValue * 60);
               }}
@@ -90,6 +91,7 @@ function Timer() {
               allowNegative={true}
             />
             <Button
+              miw='120px'
               onClick={() => {
                 setSubathonTime((subathonTime ?? 0) + timerValueAdd * 60);
               }}
@@ -181,12 +183,12 @@ function Timer() {
 
               <NumberInput
                 value={specialMultiplierInput?.multiplier}
-                onChange={(value) =>{
+                onChange={(value) => {
                   setSpecialMultiplierInput({
                     ...specialMultiplier,
                     multiplier: typeof value === 'number' ? value : 1.0,
-                  })}
-                }
+                  });
+                }}
                 variant='filled'
                 label='Multiplier'
                 description='...multiply the timer by'
@@ -196,6 +198,7 @@ function Timer() {
               />
             </Flex>
             <Button
+              miw='120px'
               onClick={() => {
                 setSpecialMultiplier(specialMultiplierInput);
               }}

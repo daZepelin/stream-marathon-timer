@@ -20,6 +20,9 @@
       "shell": {
         "open": true
       },
+      "path": {
+        "all": true
+      },
       "http": {
         "all": true
       },
@@ -42,13 +45,13 @@
     },
     "security": {
       "csp": "default-src 'self' blob: data: filesystem: ws: wss: http: https: tauri:; img-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline';"
-
     },
     "windows": [
       {
         "fullscreen": false,
         "width": 970,
         "height": 650,
+        "maxWidth": 970,
         "resizable": true,
         "title": "Subathon Timer"
       }

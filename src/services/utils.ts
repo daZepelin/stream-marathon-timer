@@ -1,6 +1,6 @@
 //@ts-ignore
 export const RUNNING_IN_TAURI = window.__TAURI__ !== undefined;
-export const HEADER_HEIGHT = 120
+export const HEADER_HEIGHT = 120;
 
 export const formatTime = (time: number | null): string => {
   if (time === null) return 'BYBIS';
@@ -39,7 +39,7 @@ export const formatDate = (date: Date): string => {
   }
 
   return date.toLocaleString();
-}
+};
 
 export const cssToJson = (css: string): { [key: string]: string } => {
   css = css.trim();

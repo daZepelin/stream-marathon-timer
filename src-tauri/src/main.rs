@@ -46,8 +46,8 @@ fn write_log(log_type: LogType, content: &str) -> Result<(), std::io::Error> {
     };
 
     match log_type {
-        LogType::Labs => path.push("subathon-timer-bot/logs_labs.txt"),
-        LogType::Elements => path.push("subathon-timer-bot/logs_elements.txt"),
+        LogType::Labs => path.push("subathon-timer-bot/logs/logs_labs.txt"),
+        LogType::Elements => path.push("subathon-timer-bot/logs/logs_elements.txt"),
     }
 
     ensure_parent_dir(&path)?;

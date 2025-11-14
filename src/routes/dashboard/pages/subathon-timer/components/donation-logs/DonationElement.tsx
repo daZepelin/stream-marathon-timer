@@ -69,7 +69,7 @@ function DonationElement({ donation }: { donation: IDonation }) {
           </div>
           <Flex direction={'column'} align='flex-end'>
             <div>
-              {donation.amount}
+              {donation.amount.toFixed(2)}
               {donation.currency ?? '€'}
             </div>
             <div>{donation.minutesAdded}min</div>
