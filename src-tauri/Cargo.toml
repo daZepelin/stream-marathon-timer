@@ -23,6 +23,7 @@ actix-cors = "0.6.4"
 actix-web = "4"
 tokio = { version = "1", features = ["full"] }
 dirs = "5.0.1"
+chrono = "0.4"
 
 [dependencies.tauri-plugin-localhost]
 git = "https://github.com/tauri-apps/tauri-plugin-localhost"
