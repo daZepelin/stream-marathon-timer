@@ -3,9 +3,17 @@ import { IDonation, IStreamLabsSocketProps } from '../../types/sockets';
 
 export const parseStreamLabsEvent = (eventData: any): IDonation => {
   if (eventData.type === 'donation') {
+    let amount;
+    if (typeof eventData.message[0].amount === 'string') {
+      amount = parseFloat(eventData.message[0].amount.replace(/[^0-9.-]+/g, ''));
+    } else if (typeof eventData.message[0].amount === 'number') {
+      amount = eventData.message[0].amount;
+    } else {
+      amount = 0;
+    }
     return {
       id: eventData.event_id,
-      amount: parseFloat(eventData.message[0].amount),
+      amount,
       currency: eventData.message[0]?.formatted_amount?.charAt(0),
       username: eventData.message[0].name,
       message: eventData.message[0].message,
@@ -14,11 +22,19 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
       donationType: eventData.type,
     };
   } else if (eventData.type === 'superchat') {
+    let amount;
+    if (typeof eventData.message[0].amount === 'string') {
+      amount = parseFloat(eventData.message[0].amount.replace(/[^0-9.-]+/g, ''));
+    } else if (typeof eventData.message[0].amount === 'number') {
+      amount = eventData.message[0].amount / 1000000;
+    } else {
+      amount = 0;
+    }
     return {
       id: eventData.event_id,
-      amount: parseFloat(eventData.message[0].amount),
+      amount,
       currency: eventData.message[0].currency,
-      username: eventData.message[0].from,
+      username: eventData.message[0].name,
       message: eventData.message[0].comment,
       date: new Date(),
       platform: 'SL',
@@ -27,7 +43,7 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
   } else if (eventData.type === 'stars') {
     return {
       id: eventData.event_id,
-      amount: Math.floor(eventData.message[0].amount / 100),
+      amount: Math.floor(eventData.message[0].amount / 1000),
       currency: eventData.message[0].currency,
       username: eventData.message[0].name,
       message: eventData.message[0].message,
@@ -46,7 +62,7 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
     date: new Date(),
     platform: 'SL',
     donationType: 'donation',
-  }
+  };
 };
 
 export const connectStreamLabsSocket = ({ authKey }: IStreamLabsSocketProps): Socket | undefined => {
