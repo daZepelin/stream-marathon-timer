@@ -37,8 +37,7 @@ export function Navbar() {
         event.preventDefault();
         setActive(item.link);
         navigate(item.link);
-      }}
-      >
+      }}>
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
     </a>
@@ -52,18 +51,6 @@ export function Navbar() {
           <Code fw={700}>v{APP_VERSION}</Code>
         </Group>
         {links}
-      </div>
-
-      <div className={classes.footer}>
-        <a href='#' className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconRefresh className={classes.linkIcon} stroke={1.5} />
-          <span>Refresh</span>
-        </a>
-
-        <a href='#' className={classes.link} onClick={(event) => event.preventDefault()}>
-          <IconX className={classes.linkIcon} stroke={1.5} />
-          <span>Close</span>
-        </a>
       </div>
     </nav>
   );
