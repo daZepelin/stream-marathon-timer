@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.24](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.23...v0.3.24) (2025-11-14)
+
+
+### Features
+
+* logging ([66aa388](https://github.com/daZepelin/subaton-timer-bot/commit/66aa38899313b04626d7029823974ca35a086f6f))
+
+
+### Bug Fixes
+
+* dependencies ([cc63274](https://github.com/daZepelin/subaton-timer-bot/commit/cc632740216cb4feadbec68bfb9ce92e00afd388))
+* labs amount rounding ([ae9f950](https://github.com/daZepelin/subaton-timer-bot/commit/ae9f95048386601369710eb03c21efa4c6bb66e1))
+* ui dark mode ([6b0de28](https://github.com/daZepelin/subaton-timer-bot/commit/6b0de286673359c23f84b0aebeec7938e1ad260d))
+
 ### [0.3.23](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.22...v0.3.23) (2024-02-28)
 
 
