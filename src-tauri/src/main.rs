@@ -3,12 +3,13 @@
 #![allow(unused_variables)]
 
 use actix_cors::Cors;
-use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder, web};
 use dirs::data_local_dir;
 use serde::{Deserialize, Serialize};
 use serde_json::{self, Value};
 use std::fs;
 use std::path::PathBuf;
+use chrono::Local;
 
 static mut IS_TIMER_ACTIVE: bool = false;
 
@@ -32,7 +33,7 @@ fn ensure_parent_dir(path: &PathBuf) -> Result<(), std::io::Error> {
     Ok(())
 }
 
-/// Write a log entry to the chosen log file
+/// Write a timestamped log entry to the selected file
 fn write_log(log_type: LogType, content: &str) -> Result<(), std::io::Error> {
     let mut path = match data_local_dir() {
         Some(dir) => dir,
@@ -51,18 +52,20 @@ fn write_log(log_type: LogType, content: &str) -> Result<(), std::io::Error> {
 
     ensure_parent_dir(&path)?;
 
+    let timestamp = Local::now().format("[%Y-%m-%d %H:%M:%S]").to_string();
+
     use std::io::Write;
     let mut file = fs::OpenOptions::new()
         .create(true)
         .append(true)
         .open(&path)?;
 
-    writeln!(file, "{}", content)?;
+    writeln!(file, "{} {}", timestamp, content)?;
 
     Ok(())
 }
 
-/// Read a file to string safely
+/// Read a file safely
 fn read_data_file(filename: &str) -> Result<String, std::io::Error> {
     let mut path = match data_local_dir() {
         Some(dir) => dir,
@@ -79,11 +82,10 @@ fn read_data_file(filename: &str) -> Result<String, std::io::Error> {
     println!("Reading data file: {}", path.display());
 
     ensure_parent_dir(&path)?;
-
     fs::read_to_string(path)
 }
 
-/// Safe JSON reader with fallback
+/// Safe JSON read fallback
 fn read_json_or_default(path: &str, fallback: Value) -> Value {
     match read_data_file(path) {
         Ok(content) => serde_json::from_str::<Value>(&content).unwrap_or(fallback),
@@ -130,8 +132,33 @@ async fn get_timer_cfg() -> impl Responder {
 #[get("/is_timer_active")]
 async fn get_active() -> HttpResponse {
     unsafe {
-        println!("isTimerActive: {}", IS_TIMER_ACTIVE);
         HttpResponse::Ok().json(serde_json::json!({ "isTimerActive": IS_TIMER_ACTIVE }))
+    }
+}
+
+/// Query params for /log endpoint
+#[derive(Deserialize)]
+struct LogQuery {
+    r#type: String,
+    msg: String,
+}
+
+/// /log?type=labs&msg=Hello
+#[get("/log")]
+async fn api_log(query: web::Query<LogQuery>) -> impl Responder {
+    let log_type = match query.r#type.to_lowercase().as_str() {
+        "labs" => LogType::Labs,
+        "elements" => LogType::Elements,
+        _ => {
+            return HttpResponse::BadRequest().body("Invalid log type. Use 'labs' or 'elements'.");
+        }
+    };
+
+    let result = write_log(log_type, &query.msg);
+
+    match result {
+        Ok(_) => HttpResponse::Ok().body("Logged"),
+        Err(_) => HttpResponse::InternalServerError().body("Failed to write log"),
     }
 }
 
@@ -160,6 +187,7 @@ fn main() {
                         .service(get_auth_keys)
                         .service(get_timer_cfg)
                         .service(get_active)
+                        .service(api_log)
                 })
                 .bind(("127.0.0.1", 1425))?
                 .run(),

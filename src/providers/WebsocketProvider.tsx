@@ -7,6 +7,7 @@ import { IDonation } from '../types/sockets';
 import useSubathonTimerConfig from '../hooks/useSubathonTimerConfig';
 import { connectStreamLabsSocket, parseStreamLabsEvent } from '../services/sockets/streamLabs';
 import { connectStreamElementsSocket, parseStreamElementsEvent } from '../services/sockets/streamElements';
+import {sendLog} from '../services/logs'
 
 function WebsocketProvider({ children }: { children: React.ReactNode }) {
   const [donations, setDonations] = useState<IDonation[]>([]);
@@ -35,6 +36,7 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
 
     if (wsSL) {
       wsSL.on('event', (data: any) => {
+        sendLog('labs', JSON.stringify(data))
         let donation = parseStreamLabsEvent(data);
         if (!donation) return;
         if (donation.amount <= 0) return;
@@ -63,6 +65,7 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
 
     if (wsSE) {
       wsSE.on('event', (data: any) => {
+        sendLog('elements', JSON.stringify(data))
         if (data.type == 'tip' || data.type == 'superchat') {
           let donationData = { ...data.data, id: data._id };
           let donation = parseStreamElementsEvent(donationData, data.type);
