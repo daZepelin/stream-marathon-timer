@@ -23,8 +23,10 @@ export const parseStreamLabsEvent = (eventData: any): IDonation => {
     };
   } else if (eventData.type === 'superchat') {
     let amount;
+    // Superchat real amount is in string
     if (typeof eventData.message[0].amount === 'string') {
-      amount = parseFloat(eventData.message[0].amount.replace(/[^0-9.-]+/g, ''));
+      amount = parseInt(eventData.message[0].amount.replace(/[^0-9.-]+/g, '')) / 1000000;
+    /// Superchat test amount is in number
     } else if (typeof eventData.message[0].amount === 'number') {
       amount = eventData.message[0].amount / 1000000;
     } else {
