@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.26](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.25...v0.3.26) (2025-11-15)
+
+
+### Bug Fixes
+
+* superchat amount parsing for labs non test event ([450f311](https://github.com/daZepelin/subaton-timer-bot/commit/450f31115dc174857b4b9561c19454465402ec75))
+
 ### [0.3.25](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.24...v0.3.25) (2025-11-14)
 
 ### [0.3.24](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.23...v0.3.24) (2025-11-14)
