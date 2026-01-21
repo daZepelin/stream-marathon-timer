@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.27](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.26...v0.3.27) (2026-01-21)
+
+
+### Features
+
+* enhance donation handling with new toggles and timer configuration ([38959f1](https://github.com/daZepelin/subaton-timer-bot/commit/38959f16cecd3f697c0cfda0e2fca80bc20fbc33))
+
 ### [0.3.26](https://github.com/daZepelin/subaton-timer-bot/compare/v0.3.25...v0.3.26) (2025-11-15)
 
 
