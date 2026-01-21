@@ -1,5 +1,5 @@
 export type DonationPlatform = 'SE' | 'SL';
-export type DonationType = 'superchat' | 'donation' | 'stars';
+export type DonationType = 'superchat' | 'donation' | 'stars' | 'tip';
 
 export interface IDonation {
   id: string;

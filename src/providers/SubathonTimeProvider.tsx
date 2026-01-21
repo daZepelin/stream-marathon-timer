@@ -9,6 +9,7 @@ import { parseStreamLabsEvent } from '../services/sockets/streamLabs';
 import useWorkerInterval from '../hooks/useWorkerInterval';
 import { invoke } from '@tauri-apps/api/tauri';
 import { parseStreamElementsEvent } from '../services/sockets/streamElements';
+import { DEFAULT_DONATION_SOURCE_TOGGLES } from '../types/config';
 
 function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const [subathonTime, setSubathonTime] = useState<number>(-1);
@@ -46,6 +47,21 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
 
   const addTimeFromStreamLabsEvent = (event: any) => {
     const donation = parseStreamLabsEvent(event);
+
+    const toggles = {
+      streamLabs: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamLabs,
+        ...(subathonTimerMultiplierData.donationSourceToggles?.streamLabs ?? {}),
+      },
+      streamElements: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamElements,
+        ...(subathonTimerMultiplierData.donationSourceToggles?.streamElements ?? {}),
+      },
+    };
+
+    const isEnabled = (toggles.streamLabs as any)?.[donation.donationType] !== false;
+    if (!isEnabled) return;
+
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
 
     let message = donation.message?.toLowerCase();
@@ -62,6 +78,21 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
   const addTimeFromStreamElementsEvent = (event: any) => {
     let donationData = { ...event.data, id: event._id };
     let donation = parseStreamElementsEvent(donationData, event.type);
+
+    const toggles = {
+      streamLabs: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamLabs,
+        ...(subathonTimerMultiplierData.donationSourceToggles?.streamLabs ?? {}),
+      },
+      streamElements: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamElements,
+        ...(subathonTimerMultiplierData.donationSourceToggles?.streamElements ?? {}),
+      },
+    };
+
+    const isEnabled = (toggles.streamElements as any)?.[donation.donationType] !== false;
+    if (!isEnabled) return;
+
     let timeToAdd = ((donation.amount * subathonTimerMultiplierData.minutes) / subathonTimerMultiplierData.amount) * 60;
 
     let message = donation.message?.toLowerCase();
@@ -81,7 +112,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     return () => {
       streamLabsSocket.off('event', addTimeFromStreamLabsEvent);
     };
-  }, [streamLabsSocket, subathonTimerMultiplierData]);
+  }, [streamLabsSocket, subathonTimerMultiplierData, specialMultiplier]);
 
   useEffect(() => {
     if (!streamElementsSocket) return;
@@ -89,7 +120,7 @@ function SubathonTimeProvider({ children }: { children: React.ReactNode }) {
     return () => {
       streamElementsSocket.off('event', addTimeFromStreamElementsEvent);
     };
-  }, [streamElementsSocket, subathonTimerMultiplierData]);
+  }, [streamElementsSocket, subathonTimerMultiplierData, specialMultiplier]);
 
   const saveSubathonTime = async (time: number) => {
     if (time <= 0) return;

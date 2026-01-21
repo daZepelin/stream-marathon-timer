@@ -3,20 +3,39 @@ import { SubathonTimerConfigCtx } from '../context/subathon-time';
 import { createDir, BaseDirectory, writeTextFile } from '@tauri-apps/api/fs';
 import { RUNNING_IN_TAURI } from '../services/utils';
 import { useInterval } from '@mantine/hooks';
-import { ISpecialMultiplier } from '../types/config';
+import { DEFAULT_DONATION_SOURCE_TOGGLES, DEFAULT_TIMER_CONFIG, IDonationSourceToggles, ISpecialMultiplier, ISubathonTimerConfig } from '../types/config';
 
 function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
   const [timeoutHandle, setTimeoutHandle] = useState<number | null>(null);
   const [style, setStyle] = useState({} as any);
-  const [timerMultiplierData, setTimerMultiplierData] = useState<{ minutes: number; amount: number }>({
-    minutes: 1,
-    amount: 1,
-  });
+  const [timerMultiplierData, setTimerMultiplierData] = useState<ISubathonTimerConfig>(DEFAULT_TIMER_CONFIG);
   const [specialMultiplier, setSpecialMultiplier] = useState<ISpecialMultiplier>({
     active: false,
     multiplier: 1,
     word: [],
   });
+
+  const mergeDonationToggles = (incoming?: Partial<IDonationSourceToggles>): IDonationSourceToggles => {
+    return {
+      streamLabs: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamLabs,
+        ...(incoming?.streamLabs ?? {}),
+      },
+      streamElements: {
+        ...DEFAULT_DONATION_SOURCE_TOGGLES.streamElements,
+        ...(incoming?.streamElements ?? {}),
+      },
+    };
+  };
+
+  const mergeTimerConfig = (incoming: Partial<ISubathonTimerConfig> | undefined): ISubathonTimerConfig => {
+    if (!incoming) return DEFAULT_TIMER_CONFIG;
+    return {
+      ...DEFAULT_TIMER_CONFIG,
+      ...incoming,
+      donationSourceToggles: mergeDonationToggles(incoming.donationSourceToggles),
+    };
+  };
 
   const refreshInterval = useInterval(
     () => {
@@ -31,7 +50,7 @@ function SubathonConfigProvider({ children }: { children: React.ReactNode }) {
     });
     const data = await response.json();
     setStyle(data.style);
-    setTimerMultiplierData(data.config);
+    setTimerMultiplierData(mergeTimerConfig(data.config));
     setSpecialMultiplier(data.special_multiplier);
   };
 

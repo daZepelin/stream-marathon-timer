@@ -14,7 +14,7 @@ function WebsocketProvider({ children }: { children: React.ReactNode }) {
   const [streamLabsSocket, setStreamLabsSocket] = useState<Socket | null>(null);
   const [streamElementsSocket, setStreamElementsSocket] = useState<Socket | null>(null);
   const { streamLabsAuthKey, streamElementsJWT, platform } = useContext(AuthentificationCtx);
-  const { subathonTimerMultiplierData, specialMultiplier } = useSubathonTimerConfig();
+  const { subathonTimerMultiplierData, specialMultiplier, } = useSubathonTimerConfig();
   const [socketStatuses, setSocketStatuses] = useState<{ streamLabs: string; streamElements: string }>({
     streamLabs: 'disconnected',
     streamElements: 'disconnected',

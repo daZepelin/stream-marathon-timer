@@ -2,10 +2,12 @@ import {
   Button,
   Fieldset,
   Flex,
+  Group,
   InputDescription,
   NumberInput,
   Paper,
   Space,
+  Switch,
   Text,
   TextInput,
   useMantineTheme,
@@ -17,7 +19,7 @@ import useSubathonTime from '../../../../../../../hooks/useSubathonTime';
 import useSubathonTimerConfig from '../../../../../../../hooks/useSubathonTimerConfig';
 import TimerActiveSwitch from './TimerActiveSwitch';
 import SpecialMultiplierActiveSwitch from './SpecialMultiplierActiveSwitch';
-import { ISpecialMultiplier } from '../../../../../../../types/config';
+import { DEFAULT_DONATION_SOURCE_TOGGLES, IDonationSourceToggles, ISpecialMultiplier } from '../../../../../../../types/config';
 
 function Timer() {
   const theme = useMantineTheme();
@@ -43,6 +45,34 @@ function Timer() {
       amount: subathonTimerMultiplierData.amount ?? 1,
     });
   }, [subathonTimerMultiplierData]);
+
+  const mergedDonationToggles: IDonationSourceToggles = {
+    streamLabs: {
+      ...DEFAULT_DONATION_SOURCE_TOGGLES.streamLabs,
+      ...(subathonTimerMultiplierData.donationSourceToggles?.streamLabs ?? {}),
+    },
+    streamElements: {
+      ...DEFAULT_DONATION_SOURCE_TOGGLES.streamElements,
+      ...(subathonTimerMultiplierData.donationSourceToggles?.streamElements ?? {}),
+    },
+  };
+
+  const setToggle = (
+    platform: keyof IDonationSourceToggles,
+    key: string,
+    value: boolean,
+  ) => {
+    setSubathonTimerMultiplierData({
+      ...subathonTimerMultiplierData,
+      donationSourceToggles: {
+        ...mergedDonationToggles,
+        [platform]: {
+          ...(mergedDonationToggles as any)[platform],
+          [key]: value,
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     setSpecialMultiplierInput(specialMultiplier);
@@ -154,12 +184,60 @@ function Timer() {
             </Paper>
             <Button
               onClick={() => {
-                setSubathonTimerMultiplierData(timerMultData);
+                setSubathonTimerMultiplierData({
+                  ...subathonTimerMultiplierData,
+                  ...timerMultData,
+                });
               }}
               leftSection={<IconCheck />}>
               Apply
             </Button>
           </Flex>
+        </Fieldset>
+
+        <Fieldset legend='Donation Sources'>
+          <InputDescription>
+            Disable a donation type on a platform to avoid double-counting when you listen to both StreamLabs and StreamElements.
+          </InputDescription>
+          <Space h='xs' />
+          <Group align='flex-start' grow>
+            <Paper shadow='sm' bg={theme.colors.dark[5]} radius='sm' p='xs'>
+              <Text fw={600} mb='xs'>StreamLabs</Text>
+              <Flex direction='column' gap='xs'>
+                <Switch
+                  checked={mergedDonationToggles.streamLabs.donation}
+                  onChange={(e) => setToggle('streamLabs', 'donation', e.currentTarget.checked)}
+                  label='Donations'
+                />
+                <Switch
+                  checked={mergedDonationToggles.streamLabs.superchat}
+                  onChange={(e) => setToggle('streamLabs', 'superchat', e.currentTarget.checked)}
+                  label='YouTube SuperChat'
+                />
+                <Switch
+                  checked={mergedDonationToggles.streamLabs.stars}
+                  onChange={(e) => setToggle('streamLabs', 'stars', e.currentTarget.checked)}
+                  label='Facebook Stars'
+                />
+              </Flex>
+            </Paper>
+
+            <Paper shadow='sm' bg={theme.colors.dark[5]} radius='sm' p='xs'>
+              <Text fw={600} mb='xs'>StreamElements</Text>
+              <Flex direction='column' gap='xs'>
+                <Switch
+                  checked={mergedDonationToggles.streamElements.tip}
+                  onChange={(e) => setToggle('streamElements', 'tip', e.currentTarget.checked)}
+                  label='Tips'
+                />
+                <Switch
+                  checked={mergedDonationToggles.streamElements.superchat}
+                  onChange={(e) => setToggle('streamElements', 'superchat', e.currentTarget.checked)}
+                  label='YouTube SuperChat'
+                />
+              </Flex>
+            </Paper>
+          </Group>
         </Fieldset>
         <Fieldset legend='Special Multiplier' style={{ position: 'relative' }}>
           <div style={{ position: 'absolute', right: 20, top: 10 }}>
