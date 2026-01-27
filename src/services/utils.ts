@@ -1,6 +1,6 @@
 //@ts-ignore
 export const RUNNING_IN_TAURI = window.__TAURI__ !== undefined;
-export const HEADER_HEIGHT = 120;
+export const HEADER_HEIGHT = 160;
 
 export const formatTime = (time: number | null): string => {
   if (time === null) return 'BYBIS';

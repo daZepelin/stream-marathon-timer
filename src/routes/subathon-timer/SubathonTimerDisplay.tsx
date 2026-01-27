@@ -40,11 +40,46 @@ const SubathonTimerDisplay = () => {
         gap: 10,
         width: '100%',
         textAlign: 'left',
+        alignItems: 'center',
+        background: 'rgba(0, 0, 0, 0.35)',
+        padding: '16px 22px',
+        borderRadius: 18,
+        border: '1px solid rgba(255, 255, 255, 0.15)',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.35)',
+        backdropFilter: 'blur(8px)',
         ...subathonTimerStyle,
-        textShadow: ` ${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-color']} ${subathonTimerStyle['font-border-color']} 0 0`,
+        color: (subathonTimerStyle['-webkit-text-fill-color'] as string) || undefined,
+        WebkitTextFillColor: (subathonTimerStyle['-webkit-text-fill-color'] as string) || undefined,
+        WebkitTextStrokeColor: (subathonTimerStyle['-webkit-text-stroke-color'] as string) || undefined,
+        WebkitTextStrokeWidth: subathonTimerStyle['-webkit-text-stroke-width']
+          ? `${subathonTimerStyle['-webkit-text-stroke-width']}px`
+          : undefined,
+        textShadow: ` ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+          subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+        },  ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+          subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+        },  ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+          subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+        },  ${subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'} ${
+          subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+        } 0 0`,
       }}>
-      <div>{formatTime(subathonTime)}</div>
-      {timerActive}
+      <div
+        style={{
+          paddingRight: '12px',
+          borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+        }}>
+        {formatTime(subathonTime)}
+      </div>
+      <span
+        style={{
+          fontSize: '0.35em',
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          opacity: 0.6,
+        }}>
+        {timerActive ? 'Live' : 'Paused'}
+      </span>
       <AnimatePresence>
         {additionDisplayed && (
           <motion.div

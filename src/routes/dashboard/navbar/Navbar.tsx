@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Group, Code, Image, Switch, rem, useMantineTheme, InputLabel } from '@mantine/core';
+import { Group, Code, Image, Switch, rem, useMantineTheme, InputLabel, Stack, Text } from '@mantine/core';
 import { IconPokerChip, IconHourglass, IconPasswordFingerprint } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -103,8 +103,18 @@ export function Navbar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Group className={classes.header} justify='space-between'>
-          <Image src='https://i.imgur.com/UGhEPZ1.png' h='xl' />
+        <Group className={classes.header} justify='space-between' align='flex-start'>
+          <Group gap='xs'>
+            <Image src='https://i.imgur.com/UGhEPZ1.png' h='xl' />
+            <Stack gap={0}>
+              <Text fw={700} size='sm'>
+                Stream Marathon
+              </Text>
+              <Text c='dimmed' size='xs'>
+                Timer Control
+              </Text>
+            </Stack>
+          </Group>
           <Code fw={700}>v{APP_VERSION}</Code>
         </Group>
         {links}
@@ -115,6 +125,7 @@ export function Navbar() {
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
+          paddingTop: '10px',
         }}
         onClick={(e) => {
           e.stopPropagation();

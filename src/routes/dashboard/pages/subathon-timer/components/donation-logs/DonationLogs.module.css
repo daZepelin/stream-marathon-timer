@@ -4,11 +4,16 @@
 }
 
 .dateAgo {
-    font-size: small;
-    color: rgba(255, 255, 255, 0.55)
+  font-size: small;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .dateFormated {
   font-size: small;
   color: rgba(255, 255, 255, 0.35);
+}
+
+.minutesAdded {
+  font-size: small;
+  color: rgba(255, 255, 255, 0.6);
 }
