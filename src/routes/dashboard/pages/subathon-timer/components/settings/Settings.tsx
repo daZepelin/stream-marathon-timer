@@ -1,4 +1,4 @@
-import { Paper, Tabs, rem, useMantineTheme } from '@mantine/core';
+import { Group, Paper, Tabs, Text, Title, rem, useMantineTheme } from '@mantine/core';
 import { IconClockFilled, IconEyeCode } from '@tabler/icons-react';
 import Style from './style/Style';
 import Timer from './timer/Timer';
@@ -11,11 +11,20 @@ const Settings = () => {
     <Paper
       withBorder
       shadow='sm'
-      p='xs'
+      p='md'
+      radius='lg'
       bg={theme.colors.dark[7]}
       style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)`, overflowY: 'auto' }}>
-      <Tabs defaultValue='controls'>
-        <Tabs.List>
+      <Group justify='space-between' mb='md'>
+        <div>
+          <Title order={4}>Settings</Title>
+          <Text size='xs' c='dimmed'>
+            Tune timer behavior and style.
+          </Text>
+        </div>
+      </Group>
+      <Tabs defaultValue='controls' variant='pills' radius='md'>
+        <Tabs.List grow>
           <Tabs.Tab value={'controls'} leftSection={<IconClockFilled style={iconStyle} />}>
             Timer
           </Tabs.Tab>

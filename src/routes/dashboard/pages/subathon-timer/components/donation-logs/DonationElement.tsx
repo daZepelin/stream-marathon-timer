@@ -57,8 +57,8 @@ function DonationElement({ donation }: { donation: IDonation }) {
       animate={{ opacity: 1, y: 15 }}
       transition={{ y: { type: 'spring', stiffness: 300 } }}
       exit={{ opacity: 0 }}>
-      <Paper withBorder p='sm' bg={theme.colors.dark[6]} radius='md'>
-        <Flex direction={'row'} justify={'space-between'}>
+      <Paper withBorder p='sm' bg={theme.colors.dark[6]} radius='md' shadow='xs'>
+        <Flex direction={'row'} justify={'space-between'} gap='md'>
           <div>
             <Flex direction={'row'} gap='xs' align='flex-end'>
               <div className={classes.username}>{donation.username}</div>
@@ -67,13 +67,13 @@ function DonationElement({ donation }: { donation: IDonation }) {
             <div className={classes.dateFormated}>{donation.date.toLocaleString()}</div>
             <HighlightMessage donation={donation} highlightStrings={specialMultiplier.word} />
           </div>
-          <Flex direction={'column'} align='flex-end'>
-            <div>
-              {donation.amount.toFixed(2)}
-              {donation.currency ?? '€'}
-            </div>
-            <div>{donation.minutesAdded}min</div>
-          </Flex>
+            <Flex direction={'column'} align='flex-end'>
+              <div>
+                {donation.amount.toFixed(2)}
+                {donation.currency ?? '€'}
+              </div>
+              <div className={classes.minutesAdded}>{donation.minutesAdded}min</div>
+            </Flex>
         </Flex>
       </Paper>
     </motion.div>

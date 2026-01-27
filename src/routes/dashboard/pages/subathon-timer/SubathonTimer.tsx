@@ -1,4 +1,4 @@
-import { ActionIcon, CopyButton, Grid, Input, Paper, Title, Tooltip, rem, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Badge, CopyButton, Grid, Group, Input, Paper, Text, Title, Tooltip, rem, useMantineTheme } from '@mantine/core';
 import Settings from './components/settings/Settings';
 import { formatTime } from '../../../../services/utils';
 import useSubathonTime from '../../../../hooks/useSubathonTime';
@@ -34,29 +34,34 @@ export const SubathonTimer = () => {
         <Paper
           withBorder
           shadow='sm'
-          px='xs'
+          px='lg'
+          py='md'
           radius='lg'
           bg={theme.colors.dark[6]}
           style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'flex-start',
-            overflow: 'hidden',
-            gap: 10,
+            justifyContent: 'space-between',
+            gap: 20,
+            position: 'relative',
           }}>
-          <Title
-            order={2}
-            style={{
-              lineHeight: '57px',
-              overflow: 'hidden',
-            }}>
-            Subathon Timer
-          </Title>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          
+          <Group align='center' gap='lg'>
+            <div>
+              <Title order={2}>Subathon Timer</Title>
+              <Text size='sm' c='dimmed'>
+                Control the overlay and preview styling changes instantly.
+              </Text>
+            </div>
+            <Badge color='blue' variant='light' radius='sm'>
+              Live Preview
+            </Badge>
+          </Group>
+          <Group align='center' gap='lg'>
             <Input.Wrapper size='xs' description='OBS source link'>
               <Input
-                size='xs'
+                size='sm'
                 rightSectionPointerEvents='all'
                 value={'http://localhost:1427/subathon-timer'}
                 rightSection={
@@ -72,25 +77,40 @@ export const SubathonTimer = () => {
                 }
               />
             </Input.Wrapper>
-          </div>
-          <div
-            style={{
-              height: '57px',
-              overflow: 'hidden',
-              position: 'absolute',
-              right: 30,
-            }}>
-            <div
+            <Paper
+              radius='md'
+              px='md'
+              py={6}
+              bg={theme.colors.dark[7]}
               style={{
-                lineHeight: '57px',
-                ...(displayStyle ? subathonTimerStyle : {}),
-                textShadow: displayStyle
-                  ? `${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-width']}px 0 0 ${subathonTimerStyle['font-border-color']},  ${subathonTimerStyle['font-border-color']} ${subathonTimerStyle['font-border-color']} 0 0`
-                  : '',
+                minWidth: 180,
+                textAlign: 'center',
               }}>
-              {formatTime(subathonTime)}
-            </div>
-          </div>
+              <div
+                style={{
+                  ...(displayStyle ? subathonTimerStyle : {}),
+                  color: (subathonTimerStyle['-webkit-text-fill-color'] as string) || undefined,
+                  WebkitTextFillColor: (subathonTimerStyle['-webkit-text-fill-color'] as string) || undefined,
+                  WebkitTextStrokeColor: (subathonTimerStyle['-webkit-text-stroke-color'] as string) || undefined,
+                  WebkitTextStrokeWidth: subathonTimerStyle['-webkit-text-stroke-width']
+                    ? `${subathonTimerStyle['-webkit-text-stroke-width']}px`
+                    : undefined,
+                  textShadow: displayStyle
+                    ? ` ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+                        subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+                      },  ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+                        subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+                      },  ${subathonTimerStyle['-webkit-text-stroke-width'] ?? 0}px 0 0 ${
+                        subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+                      },  ${subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'} ${
+                        subathonTimerStyle['-webkit-text-stroke-color'] ?? 'transparent'
+                      } 0 0`
+                    : '',
+                }}>
+                {formatTime(subathonTime)}
+              </div>
+            </Paper>
+          </Group>
         </Paper>
       </Grid.Col>
       <Grid.Col span={6}>
