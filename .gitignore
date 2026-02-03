@@ -2,5 +2,7 @@ node_modules
 package-lock.json
 **/*.exe
 dist
+server/data
+test-admin-api.sh
 
 **/*.lock
