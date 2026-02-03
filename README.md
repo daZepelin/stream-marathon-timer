@@ -17,6 +17,25 @@ Subathon / Euroton timer for your live stream! This will generate a timer web pa
 ## Requires
 1. Stream Labs or Stream Elements as donation service;
 2. Good stream content to generate enough donations. 😋
+
+## Admin API
+The application now includes admin API endpoints for managing accounts and global settings. These endpoints are secured with an admin secret key and are intended to be accessed only by the admin dashboard application.
+
+For detailed API documentation, see [ADMIN_API.md](./ADMIN_API.md).
+
+**Key Features:**
+- Secure admin authentication using `X-Admin-Secret` header
+- Account management (list, create, update)
+- Global settings management (dashboard header text, etc.)
+- SQLite database for persistent storage
+
+**Admin Endpoints:**
+- `GET /admin/accounts` - List all registered accounts with time left
+- `POST /admin/accounts` - Create a new account
+- `PUT /admin/accounts/:id` - Update account settings
+- `GET /admin/settings` - Get global service settings
+- `PUT /admin/settings` - Update global service settings
+
 ## Setting up:
 1. Download an executable from latest release [Release](https://github.com/daZepelin/subaton-timer-bot/releases);
 2. Install the application (yes, it will throw a warning about unreliable source);
