@@ -64,6 +64,9 @@ async function readJsonFile(filePath, defaultValue = {}) {
 }
 
 async function writeJsonFile(filePath, data) {
+    // Ensure data directory exists
+    const dir = path.dirname(filePath);
+    await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
@@ -106,10 +109,23 @@ app.patch('/api/admin/accounts/:id/settings', adminAuthMiddleware, async (req, r
             return res.status(404).json({ error: 'Account not found' });
         }
         
+        // Validate and whitelist allowed settings properties
+        const allowedSettings = ['timerEnabled', 'donationPlatform', 'timePerDollar'];
+        const newSettings = {};
+        for (const key of allowedSettings) {
+            if (key in req.body) {
+                newSettings[key] = req.body[key];
+            }
+        }
+        
+        if (Object.keys(newSettings).length === 0) {
+            return res.status(400).json({ error: 'No valid settings provided' });
+        }
+        
         // Update account settings
         accounts[accountIndex].settings = {
             ...accounts[accountIndex].settings,
-            ...req.body
+            ...newSettings
         };
         
         await writeJsonFile(ACCOUNTS_FILE, accounts);
@@ -135,9 +151,27 @@ app.get('/api/admin/settings', adminAuthMiddleware, async (req, res) => {
 app.patch('/api/admin/settings', adminAuthMiddleware, async (req, res) => {
     try {
         const currentSettings = await readJsonFile(SETTINGS_FILE, { maintenanceMode: false });
+        
+        // Validate and whitelist allowed global settings properties
+        const allowedSettings = ['maintenanceMode'];
+        const newSettings = {};
+        for (const key of allowedSettings) {
+            if (key in req.body) {
+                // Validate maintenanceMode is boolean
+                if (key === 'maintenanceMode' && typeof req.body[key] !== 'boolean') {
+                    return res.status(400).json({ error: 'maintenanceMode must be a boolean' });
+                }
+                newSettings[key] = req.body[key];
+            }
+        }
+        
+        if (Object.keys(newSettings).length === 0) {
+            return res.status(400).json({ error: 'No valid settings provided' });
+        }
+        
         const updatedSettings = {
             ...currentSettings,
-            ...req.body
+            ...newSettings
         };
         
         await writeJsonFile(SETTINGS_FILE, updatedSettings);
