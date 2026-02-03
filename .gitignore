@@ -4,3 +4,9 @@ package-lock.json
 dist
 
 **/*.lock
+
+# Environment variables
+.env
+
+# Data storage
+data/*.json

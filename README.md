@@ -24,3 +24,60 @@ Subathon / Euroton timer for your live stream! This will generate a timer web pa
 4. Add browser source with the url: `http://localhost:1427/subathon-timer`
 [Guide on adding browser source to OBS](https://www.blog.pulsoid.net/post/how-to-add-browser-source-in-obs-streamlabs-obs-twitch-studio-xsplit)
 5. Go to Authentification tab and paste your token(-s).
+
+## Admin System Setup
+
+### Backend Configuration (for deployment)
+
+The backend includes admin API endpoints for managing accounts and global settings.
+
+#### Required Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+```bash
+# Admin authentication token for backend API endpoints
+ADMIN_TOKEN=your-secure-admin-token-here
+
+# CORS allowed origins (comma-separated)
+# For development: http://localhost:3001
+# For production: https://your-admin-subdomain.example.com
+CORS_ORIGINS=http://localhost:3001
+
+# Server port (default: 3000)
+PORT=3000
+```
+
+#### Admin API Endpoints
+
+All admin endpoints require Bearer token authentication via the `Authorization` header:
+
+```
+Authorization: Bearer YOUR_ADMIN_TOKEN
+```
+
+**Available endpoints:**
+- `GET /api/admin/accounts` - List all registered accounts
+- `GET /api/admin/accounts/:id` - Get specific account details
+- `PATCH /api/admin/accounts/:id/settings` - Update account settings
+- `GET /api/admin/settings` - Get global service settings
+- `PATCH /api/admin/settings` - Update global service settings
+- `GET /api/health` - Health check endpoint (no auth required)
+
+#### Data Storage
+
+The backend stores data in JSON files under the `data/` directory:
+- `accounts.json` - List of registered accounts and their settings
+- `settings.json` - Global service settings (e.g., maintenanceMode)
+
+#### Deployment on Render
+
+1. Set environment variables in Render dashboard:
+   - `ADMIN_TOKEN` - Generate a secure random token
+   - `CORS_ORIGINS` - Your admin dashboard URL
+   - `PORT` - (optional, defaults to 3000)
+
+2. The admin dashboard should be deployed separately as a subdomain (e.g., `admin.yourdomain.com`)
+
+3. Ensure the admin dashboard's `BACKEND_API_URL` points to this backend service
+
